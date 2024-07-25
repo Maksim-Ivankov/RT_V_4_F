@@ -30,9 +30,10 @@ class Sign_in(ft.UserControl):
                                 ft.Container(ft.Text('Оставаться в системе',color=c_blue,),margin = ft.margin.only(left=-15),on_click=vsisteme)
                                 
                             ]
-                        ),margin = ft.margin.only(left=28,top=-5,bottom=-5)
+                        ),margin = ft.margin.only(left=28,top=-12,bottom=-20)
                         # alignment=ft.alignment.center,
                     ),
+                    ft.Container(ft.Text('Восстановить пароль',color=c_blue,size=12),margin = ft.margin.only(left=66,bottom=-2),on_click=vsisteme),
                     ft.Container(ft.ElevatedButton(text="Войти",bgcolor=c_blue,color=c_white,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0),),data="reg",),alignment=ft.alignment.center,),
                     
                 ],

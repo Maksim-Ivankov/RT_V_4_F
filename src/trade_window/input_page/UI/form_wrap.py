@@ -25,8 +25,8 @@ class Form_wrap(ft.UserControl):
        
         self.form_wrap = ft.Column(
             controls=[
-                Navigation(change_page,'1'),
-                Registration()
+                Navigation(change_page,'2'),
+                Sign_in()
                 # Navigation(change_page,'0'),
                 # Dobro_posalovat()
             ]
