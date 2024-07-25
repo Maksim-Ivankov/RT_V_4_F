@@ -1,6 +1,7 @@
 
 import flet as ft
 from variable import *
+from imports import *
 
 class Navigation(ft.UserControl):
 

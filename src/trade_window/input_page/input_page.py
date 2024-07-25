@@ -1,12 +1,10 @@
 import flet as ft
+from imports import *
 from src.trade_window.input_page.UI.img_raketa import Img_raketa
 from src.trade_window.input_page.UI.form_wrap import Form_wrap
 from src.trade_window.input_page.UI.icons_ss import Icons_ss
 
 class Input_page(ft.UserControl):
-    def __init__(self):
-        super().__init__()
-
 
     def build(self):
         

@@ -1,5 +1,6 @@
 
 import flet as ft
+from imports import *
 
 
 class Img_raketa(ft.UserControl):

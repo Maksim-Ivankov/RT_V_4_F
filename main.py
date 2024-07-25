@@ -1,5 +1,6 @@
 import flet as ft
 from variable import *
+from imports import *
 
 from src.trade_window.input_page.input_page import Input_page
 
@@ -9,17 +10,20 @@ class Main:
 
     def run(self, page):
         self.page: ft.Page = page
-        
         self.page.title = "RoboTrade"
         self.page.window_height, self.page.window_width = 672, 423
         self.page.theme_mode = "dark" 
         # self.page.window_center()
         self.page.bgcolor = c_blue
+
+        # tp = TranslateFletPage(page=page, into_language=GoogleTranslateLanguage.english, use_internet=True)
         
         self.main_print = ft.Container( # общий контейнер на страницу
            content = Input_page()
         )
         self.page.add(self.main_print)
+
+        # tp.update()
 
 
 
