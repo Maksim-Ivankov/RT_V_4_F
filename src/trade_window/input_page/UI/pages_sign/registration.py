@@ -37,50 +37,54 @@ class Registration(ft.UserControl):
 
         # обработка при нажатии на кнопку зарегистрироваться
         def registration(e):  
-
-            # response = requests.get(server_ip+'/test')
-            # print(response.json())
-            # if response.status_code == 200:
-            #     print('Данные получены успешно!')
-            
-            success_validation = True
+            success_validation = {'1':0,'2':0,'3':0,'4':0}
             # Валидация емаила
             if(re.fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b', self.ref_email.current.value)):
                 self.ref_email.current.border_color = c_white
                 self.ref_email.current.label = 'Email'
                 self.update()
-                success_validation = True
+                success_validation['1'] = 1
             else:
                 self.ref_email.current.border_color = c_red
                 self.ref_email.current.label = 'Некорректный Email'
                 self.update()
-                success_validation = False
+                success_validation['1'] = 0
             # валидация паролей
-            if self.ref_pass.current.value == self.ref_pass_two.current.value:
-                self.ref_pass.current.border_color = c_white
-                self.ref_pass.current.label = 'Пароль'
-                self.update()
-                success_validation = True
-            else:
-                self.ref_pass.current.border_color = c_red
-                self.ref_pass.current.label = 'Пароли отличаются'
-                self.update()
-                success_validation = False
             if re.fullmatch(r'[A-Za-z0-9]{8,}', self.ref_pass.current.value):
                 self.ref_pass.current.border_color = c_white
                 self.ref_pass.current.label = 'Пароль'
-                success_validation = True
+                success_validation['3'] = 1
                 self.update()
+                if self.ref_pass.current.value == self.ref_pass_two.current.value:
+                    self.ref_pass.current.border_color = c_white
+                    self.ref_pass.current.label = 'Пароль'
+                    self.update()
+                    success_validation['2'] = 1
+                    if len(self.ref_pass.current.value)!=0 or len(self.ref_pass_two.current.value)!=0:
+                        self.ref_pass.current.border_color = c_white
+                        self.ref_pass.current.label = 'Пароль'
+                        self.update()
+                        success_validation['4'] = 1
+                    else:
+                        self.ref_pass.current.border_color = c_red
+                        self.ref_pass.current.label = 'Введите пароль'
+                        self.update()
+                        success_validation['4'] = 0
+                else:
+                    self.ref_pass.current.border_color = c_red
+                    self.ref_pass.current.label = 'Пароли отличаются'
+                    self.update()
+                    success_validation['2'] = 0
             else:
                 self.ref_pass.current.border_color = c_red
                 self.ref_pass.current.label = 'A-Z + a-z + 0-9'
                 self.update()
-                success_validation = False
+                success_validation['3'] = 0
             data_reg = {
                 'email':self.ref_email.current.value,
                 'password':self.ref_pass.current.value
             }
-            if success_validation == True:
+            if success_validation['1']==1 and success_validation['2']==1 and success_validation['3']==1 and success_validation['4']==1:
                 response = requests.post(server_ip+'/registration',data=data_reg)
                 # если получили ответ - успех, регистрация прошла успешно
                 if response.json()['data']=='seccess':
