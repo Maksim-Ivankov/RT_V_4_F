@@ -10,9 +10,11 @@ from src.trade_window.input_page.UI.navigation import Navigation
 
 class Form_wrap(ft.UserControl):
     
+    def __init__(self,page):
+        super().__init__()
+        self.page = page
+
     def build(self):
-        
-        
         def change_page(num):
             self.controls = []
             if num == '0': 
@@ -20,13 +22,13 @@ class Form_wrap(ft.UserControl):
             if num == '1': 
                 self.controls.append(ft.Column(controls=[Navigation(change_page,'1'),Registration()]))
             if num == '2': 
-                self.controls.append(ft.Column(controls=[Navigation(change_page,'2'),Sign_in()]))
+                self.controls.append(ft.Column(controls=[Navigation(change_page,'2'),Sign_in(self.page)]))
             self.update()
        
         self.form_wrap = ft.Column(
             controls=[
                 Navigation(change_page,'2'),
-                Sign_in()
+                Sign_in(self.page)
                 # Navigation(change_page,'0'),
                 # Dobro_posalovat()
             ]

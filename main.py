@@ -3,6 +3,7 @@ from variable import *
 from imports import *
 
 from src.trade_window.input_page.input_page import Input_page
+from src.trade_window.trade_windows_pages.platforma import Platforma
 
 class Main:
     def __init__(self):
@@ -11,19 +12,29 @@ class Main:
     def run(self, page):
         self.page: ft.Page = page
         self.page.title = "RoboTrade"
-        self.page.window_height, self.page.window_width = 672, 423
+        self.page.window_height, self.page.window_width = height_window_platforma, width_window_platforma
         self.page.theme_mode = "dark" 
+        # self.page.window_resizable = False
         # self.page.window_center()
         self.page.bgcolor = c_blue
 
-        # tp = TranslateFletPage(page=page, into_language=GoogleTranslateLanguage.english, use_internet=True)
-        
-        self.main_print = ft.Container( # общий контейнер на страницу
-           content = Input_page()
+        self.main_print = ft.Container( # общий контейнер на страницу45r
+           content = Platforma(self.page)
         )
         self.page.add(self.main_print)
+        # self.page: ft.Page = page
+        # self.page.title = "RoboTrade"
+        # self.page.window_height, self.page.window_width = 672, 423
+        # self.page.theme_mode = "dark" 
+        # self.page.window_resizable = False
+        # # self.page.window_center()
+        # self.page.bgcolor = c_blue
 
-        # tp.update()
+        # self.main_print = ft.Container( # общий контейнер на страницу45r
+        #    content = Input_page(self.page)
+        # )
+        # self.page.add(self.main_print)
+
 
 
 

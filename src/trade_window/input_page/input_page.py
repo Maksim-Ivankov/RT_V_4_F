@@ -6,8 +6,11 @@ from src.trade_window.input_page.UI.icons_ss import Icons_ss
 
 class Input_page(ft.UserControl):
 
-    def build(self):
-        
+    def __init__(self,page):
+        super().__init__()
+        self.page = page
+
+    def build(self):  
         self.stakan = ft.Column(
             controls=[
                 Img_raketa(),
@@ -15,7 +18,7 @@ class Input_page(ft.UserControl):
                     ft.Container(
                         ft.Column(
                             controls=[
-                                Form_wrap()
+                                Form_wrap(self.page)
                             ],
                             width=301,
                         ),

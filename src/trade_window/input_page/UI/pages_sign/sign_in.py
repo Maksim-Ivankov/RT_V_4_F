@@ -3,10 +3,38 @@ import flet as ft
 from variable import *
 from imports import *
 import re
+from src.trade_window.trade_windows_pages.platforma import Platforma
 
 class Sign_in(ft.UserControl):
 
+    def __init__(self,page):
+        super().__init__()
+        self.page = page
+
     def build(self):
+
+        
+        def open_platform():
+            self.page.clean()
+            self.page.window_resizable = True
+            self.page.window_height, self.page.window_width = height_window_platforma, width_window_platforma
+            self.page.controls.append(Platforma(self.page))
+            print('типа отрисовали')
+            self.page.update()
+
+        def sign_in_v_sistemt(email,password,apikey):
+            data_reg = {
+                'email':email,
+                'password':password,
+                'apikey':apikey
+            }
+            response = requests.post(server_ip+'/signinput',data=data_reg)
+                # если получили ответ - успех, регистрация прошла успешно
+            if response.json()['data']=='seccess':
+                print('Авторизация успешна из сохраненных данных')
+                open_platform()
+            else: print('Химия с сохраненными данными входа. Они были изменены')
+
 
         # отрисовка регистрации после ошибки
         def open_reg_two(e):
@@ -44,7 +72,7 @@ class Sign_in(ft.UserControl):
             )
             self.update()
 
-        # функция авторизации - кнопка войти
+        # функция авторизации - кнопка войтиr
         def sign_input(e):
             success_validation = {'1':0,'2':0,'3':0}
             # Валидация емаила
@@ -90,8 +118,19 @@ class Sign_in(ft.UserControl):
                 response = requests.post(server_ip+'/signinput',data=data_reg)
                 # если получили ответ - успех, регистрация прошла успешно
                 if response.json()['data']=='seccess':
+                    if self.checkbox_vsisteme.current.value == True:
+                        config['user'] = {
+                            'email':self.ref_email.current.value,
+                            'password':self.ref_pass.current.value,
+                            'apikey':self.ref_api_key.current.value
+                        }
+                        with open(path_imports_config, 'w') as f:
+                            config.write(f)
                     print('Авторизация успешна')
-                    # СЮДА ВСТАВЛЯЕМ ВХОД В ТЕРМИНАЛ!!!!!
+                    # СЮДА ВСТАВЛЯЕМ ВХОД В ТЕРМИНАЛ!!!!!egf
+                    open_platform()
+                    
+
                 else: 
                     if response.json()['data']=='error':
                         self.controls = []
@@ -138,7 +177,7 @@ class Sign_in(ft.UserControl):
                 
             
 
-        # отработка клика по надписи оставаться в системе
+        # отработка клика по надписи оставаться в системеf
         def vsisteme(e):
             if self.flag_ch == 0:
                 self.checkbox_vsisteme.current.value=True
@@ -151,19 +190,37 @@ class Sign_in(ft.UserControl):
         self.ref_email = ft.Ref[ft.TextField]()
         self.ref_pass = ft.Ref[ft.TextField]()
         self.ref_api_key = ft.Ref[ft.TextField]()
-
         self.flag_ch=0
         self.checkbox_vsisteme = ft.Ref[ft.CupertinoCheckbox]()
+
+        config = configparser.ConfigParser()
+
+        if os.path.isfile(path_imports_config):
+            sost_check_system = True
+            config.read(path_imports_config)
+            config_email = config['user']['email']
+            config_password = config['user']['password']
+            config_apikey = config['user']['apikey']
+            
+            # sign_in_v_sistemt(config_email,config_password,config_apikey)
+            # open_platform()
+            
+        else:
+            sost_check_system = False
+            config_email = ''
+            config_password = ''
+            config_apikey = ''
+
         self.sign_in = ft.Container(
             ft.Column(
                 controls=[
-                    ft.TextField(ref = self.ref_email, label="Email",bgcolor=c_white,border_radius=0,border_color=c_white,height=30,color=c_blue,cursor_color=c_blue,cursor_height=22,text_align='center',content_padding= ft.padding.only(10),),
-                    ft.TextField(ref = self.ref_pass, label="Пароль",password=True, can_reveal_password=True,bgcolor=c_white,border_radius=0,border_color=c_white,height=30,color=c_blue,cursor_color=c_blue,cursor_height=22,text_align='center',content_padding= ft.padding.only(10)),
-                    ft.TextField(ref = self.ref_api_key, label="Api-key",password=True, can_reveal_password=True,bgcolor=c_white,border_radius=0,border_color=c_white,height=30,color=c_blue,cursor_color=c_blue,cursor_height=22,text_align='center',content_padding= ft.padding.only(10)),
+                    ft.TextField(value = config_email,ref = self.ref_email, label="Email",bgcolor=c_white,border_radius=0,border_color=c_white,height=30,color=c_blue,cursor_color=c_blue,cursor_height=22,text_align='center',content_padding= ft.padding.only(10),),
+                    ft.TextField(value = config_password,ref = self.ref_pass, label="Пароль",password=True, can_reveal_password=True,bgcolor=c_white,border_radius=0,border_color=c_white,height=30,color=c_blue,cursor_color=c_blue,cursor_height=22,text_align='center',content_padding= ft.padding.only(10)),
+                    ft.TextField(value = config_apikey,ref = self.ref_api_key, label="Api-key",password=True, can_reveal_password=True,bgcolor=c_white,border_radius=0,border_color=c_white,height=30,color=c_blue,cursor_color=c_blue,cursor_height=22,text_align='center',content_padding= ft.padding.only(10)),
                     ft.Container(
                         ft.Row(
                             controls=[
-                                ft.CupertinoCheckbox(value=False,check_color=c_blue,active_color=c_yelow,inactive_color=c_blue,ref=self.checkbox_vsisteme),
+                                ft.CupertinoCheckbox(value=sost_check_system,check_color=c_blue,active_color=c_yelow,inactive_color=c_blue,ref=self.checkbox_vsisteme),
                                 ft.Container(ft.Text('Оставаться в системе',color=c_blue,),margin = ft.margin.only(left=-15),on_click=vsisteme)
                                 
                             ]
