@@ -17,9 +17,10 @@ class Main:
         # self.page.window_resizable = False
         # self.page.window_center()
         self.page.bgcolor = c_blue
-
-        self.main_print = ft.Container( # общий контейнер на страницу45r
-           content = Platforma(self.page)
+        self.main_print = ft.Container( # общий контейнер на страницу45rк
+           content = Platforma(self.page),
+           expand = True,
+           padding=ft.padding.only(bottom=-10)
         )
         self.page.add(self.main_print)
         # self.page: ft.Page = page
@@ -30,7 +31,7 @@ class Main:
         # # self.page.window_center()
         # self.page.bgcolor = c_blue
 
-        # self.main_print = ft.Container( # общий контейнер на страницу45r
+        # self.main_print = ft.Container( # общий контейнер на страницу45r6
         #    content = Input_page(self.page)
         # )
         # self.page.add(self.main_print)

@@ -7,8 +7,9 @@ from src.trade_window.trade_windows_pages.components.menu.UI.modernNavBar import
 
 class Menu(ft.UserControl):
 
-    def __init__(self,page):
+    def __init__(self,page,callback):
         super().__init__()
+        self.callback = callback
         self.page = page
 
     def build(self):
@@ -18,6 +19,7 @@ class Menu(ft.UserControl):
             if self.controls[0].width !=62:
                 self.controls[0].content.controls[0].content.controls[0].content.src = 'src/img/logo_2_min.png'
                 self.controls[0].content.controls[0].content.controls[0].update()
+                print(self.controls[0].content.controls[0].content.controls[2])
                 for items in self.controls[0].content.controls[0].content.controls[2:]:
                     if isinstance(items,ft.Container):
                         items.content.controls[1].opacity = 0
@@ -36,14 +38,16 @@ class Menu(ft.UserControl):
                         items.content.update()
         # Контейнер меню
         self.menu = ft.Container(
+                content=ModernNavBar(AnimateSidebar,self.callback),
                 width=200,
-                height=height_window_platforma-39,
+                expand = True,
+                # expand=True,
+                # height=height_window_platforma-39,
                 bgcolor=c_blue,
                 border_radius=0,
                 border = ft.border.all(1, c_white),
                 alignment=ft.alignment.center,
                 animate=ft.animation.Animation(500,'decelerate'),
-                content=ModernNavBar(AnimateSidebar),
                 margin = ft.margin.only(left=-10,top=-10)
                 
 
