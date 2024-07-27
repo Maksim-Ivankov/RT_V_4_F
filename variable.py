@@ -34,7 +34,7 @@ server_ip = 'http://127.0.0.1:5000'
 width_window_platforma = 1186
 height_window_platforma = 740
 
-
+version_desctop = 'v1.25.11'
 
 
 

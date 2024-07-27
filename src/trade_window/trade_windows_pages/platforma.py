@@ -16,25 +16,38 @@ class Platforma(ft.UserControl):
     def __init__(self,page):
         super().__init__()
         self.page = page
+        self.page_one = 'Главная'
+
+    # запуск в потоке пересчета времени
+    def did_mount(self):
+        self.running = True
+        self.myThread = threading.Thread(target=self.update_data, args=(), daemon=True)
+        self.myThread.start()
+
+    #то что крутится в потоке - пересчет времени 
+    def update_data(self):
+        while self.running:
+            self.controls[0].content.controls[0].controls[0].content.controls[0].content.controls[3].content.controls[0].content.controls[0].controls[1].value = time.strftime("%d.%m.%Y г. %H:%M:%S", time.localtime())
+            time.sleep(1)
+            self.controls[0].content.controls[0].controls[0].content.controls[0].content.controls[3].content.controls[0].content.controls[0].controls[1].update()
 
     def build(self):
-
         # отрисовка страницы согласно выбранному пункту меню
-        def print_window(page):
+        def print_window(page,punkt_menu):
             platforma = ft.Container(
                 ft.Row(
                     controls=[
-                        Menu(self.page,callback),
+                        Menu(self.page,callback,punkt_menu),
                         page
                     ]),expand = True,
             )
             return platforma
         
         # выбор пункта меню
-        def callback(punkt_menu='Главная'):
+        def callback(punkt_menu=self.page_one):
             self.page_select = punkts[punkt_menu]
             self.controls = []
-            self.controls.append(print_window(self.page_select))
+            self.controls.append(print_window(self.page_select,punkt_menu))
             self.update()
 
         
@@ -47,7 +60,7 @@ class Platforma(ft.UserControl):
                 'Профиль':Prifile_page(),
                 'Настройки программы':Settings_page(),
             }
-        # Страница по умолчанию
-        self.page_select = punkts['Главная']
+
+        self.page_select = punkts[self.page_one]
         
-        return print_window(self.page_select)
+        return print_window(self.page_select,self.page_one)

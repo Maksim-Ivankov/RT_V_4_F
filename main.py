@@ -2,12 +2,16 @@ import flet as ft
 from variable import *
 from imports import *
 
+import asyncio
+
 from src.trade_window.input_page.input_page import Input_page
 from src.trade_window.trade_windows_pages.platforma import Platforma
 
 class Main:
     def __init__(self):
         None
+
+
 
     def run(self, page):
         self.page: ft.Page = page
@@ -23,6 +27,7 @@ class Main:
            padding=ft.padding.only(bottom=-10)
         )
         self.page.add(self.main_print)
+
         # self.page: ft.Page = page
         # self.page.title = "RoboTrade"
         # self.page.window_height, self.page.window_width = 672, 423
