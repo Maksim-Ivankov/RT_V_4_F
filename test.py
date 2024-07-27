@@ -1,103 +1,22 @@
 import flet as ft
-from variable import *
-from imports import *
 
-from test2 import Stakan_column
-
-class Main:
-    def __init__(self):
-        None
+def main(page: ft.Page):
 
 
-    def run(self, page):
-        self.page: ft.Page = page
-        self.page.window_height, self.page.window_width = 400, 400
-        self.main_print = ft.Container(
-           content = Stakan_column(),
+    def row_with_vertical_alignment():
+        return ft.Column(
+            [
+                # ft.Text(str(align), size=16),
+                ft.Container(
+                    # content=ft.Row(items(3), vertical_alignment=align),
+                    bgcolor='blue',
+                    height=150,
+                ),
+            ]
         )
-        self.page.add(self.main_print)
 
+    page.add(
+        row_with_vertical_alignment(),
+    )
 
-
-
-if __name__ == '__main__':
-    main = Main()
-    ft.app(target=Main().run, assets_dir="assets")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ft.app(target=main)

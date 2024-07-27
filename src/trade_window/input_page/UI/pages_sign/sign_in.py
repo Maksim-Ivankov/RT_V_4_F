@@ -11,15 +11,12 @@ class Sign_in(ft.UserControl):
         super().__init__()
         self.page = page
 
-    def build(self):
-
-        
+    def build(self):        
         def open_platform():
             self.page.clean()
             self.page.window_resizable = True
             self.page.window_height, self.page.window_width = height_window_platforma, width_window_platforma
             self.page.controls.append(Platforma(self.page))
-            print('типа отрисовали')
             self.page.update()
 
         def sign_in_v_sistemt(email,password,apikey):

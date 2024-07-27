@@ -11,8 +11,6 @@ class Main:
     def __init__(self):
         None
 
-
-
     def run(self, page):
         self.page: ft.Page = page
         self.page.title = "RoboTrade"
@@ -53,6 +51,31 @@ if __name__ == '__main__':
 
 
 
+# import flet as ft
+
+
+# def main(page: ft.Page):
+#     page.title = "Row example"
+#     page.add(
+#         ft.Column(
+#             controls=[
+#                 ft.Row(
+#                     controls=[
+#                         ft.Container(
+#                             # expand=1,
+#                             content=ft.Text("Container 1"),
+#                             bgcolor=ft.colors.GREEN_100,
+#                         ),
+#                         ft.Container(
+#                             expand=2, content=ft.Text("Container 2"), bgcolor=ft.colors.RED_100
+#                         ),
+#                     ],
+#                 ),
+#                 ft.Text('wefwefgiuwehnfiu23f23ui9f239')
+#             ]
+#         )
+#     ),
+# ft.app(target=main)
 
 
 
