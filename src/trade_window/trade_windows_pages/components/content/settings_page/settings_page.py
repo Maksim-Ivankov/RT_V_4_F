@@ -1,4 +1,5 @@
 
+
 import flet as ft
 from variable import *
 from imports import *
@@ -8,9 +9,6 @@ from src.trade_window.trade_windows_pages.components.content.settings_page.UI.pr
 from src.trade_window.trade_windows_pages.components.content.settings_page.UI.change_folder import Change_folder
 
 class Settings_page(ft.UserControl):
-    # def __init__(self,change_menu):
-    #     super().__init__()
-    #     self.change_menu = change_menu
 
     def build(self):
         
@@ -20,30 +18,15 @@ class Settings_page(ft.UserControl):
                     ft.Container(
                         
                         # ft.Text('Настройки программы',color=c_blue,expand=True),
-                        ft.Row(
-                            controls=[
-                                ft.Container(
-                                    # expand=1,
-                                    width=10,
-                                    height=28,
-                                    bgcolor='red',
-                                ),
-                                ft.Container(
-                                    # expand=1,
+                        ft.Container(
                                     ft.Text('Настройки программы',color=c_blue),
+                                    alignment=ft.alignment.center
                                     
-                                ),
-                            ],
-                            # expand = True,
                         ),
                         bgcolor=c_yelow,
-                        # width=12000,
-                        # expand=1,
                         height=28,
-                        # margin=ft.margin.only(top=-10,left=-10),
-                        # border=ft.border.all(1,c_white),
-                        
-                        # expand = True,
+                        margin=ft.margin.only(top=-10,left=-10,right=-10),
+                        border = ft.border.all(1,c_white),
                         
                     ),
                     ft.Container(
@@ -53,7 +36,7 @@ class Settings_page(ft.UserControl):
                                 Proksi(),
                                 Change_folder(),
                             ]
-                        ),bgcolor='red'
+                        ),padding=30
                     )
                 ]
             ),expand=2

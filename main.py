@@ -2,8 +2,6 @@ import flet as ft
 from variable import *
 from imports import *
 
-import asyncio
-
 from src.trade_window.input_page.input_page import Input_page
 from src.trade_window.trade_windows_pages.platforma import Platforma
 
@@ -46,40 +44,169 @@ if __name__ == '__main__':
     main = Main()
     ft.app(target=Main().run, assets_dir="assets")
 
-
-
-
-
-
+# df133d2
 # import flet as ft
+
+# def main(page: ft.Page):
+
+#     page.window_height, page.window_width = 500, 400
+
+
+#     def row_with_vertical_alignment():
+#         return ft.Container(
+#             ft.MenuBar(
+#                 expand=True,
+                
+#                 style=ft.MenuStyle(
+#                     bgcolor=c_white,
+                    
+#                 ),
+#                 controls=[
+#                     ft.SubmenuButton(
+                        
+#                         content=ft.Text("Темная",color=c_blue), 
+#                         width=140,
+#                         height=30,
+#                     #     alignment = ft.alignment.center,
+#                         controls=[
+#                             ft.MenuItemButton(
+#                                 content=ft.Text("Темная"),
+                                
+#                                 # style=ft.ButtonStyle(
+#                                 #     bgcolor={ft.ControlState.HOVERED: ft.colors.GREEN_100}
+#                                 # ),
+#                                 # on_click=handle_menu_item_click,
+#                             ),
+#                             ft.MenuItemButton(
+#                                 content=ft.Text("Светлая"),
+                                
+#                                 # style=ft.ButtonStyle(
+#                                 #     bgcolor={ft.ControlState.HOVERED: ft.colors.GREEN_100}
+#                                 # ),
+#                                 # on_click=handle_menu_item_click,
+#                             ),
+
+#                         ],
+#                     )
+#                 ]
+#             )
+
+            
+#         )
+
+#     page.add(
+#         row_with_vertical_alignment(),
+#     )
+
+# ft.app(target=main)
 
 
 # def main(page: ft.Page):
-#     page.title = "Row example"
-#     page.add(
-#         ft.Column(
-#             controls=[
-#                 ft.Row(
-#                     controls=[
-#                         ft.Container(
-#                             # expand=1,
-#                             content=ft.Text("Container 1"),
-#                             bgcolor=ft.colors.GREEN_100,
-#                         ),
-#                         ft.Container(
-#                             expand=2, content=ft.Text("Container 2"), bgcolor=ft.colors.RED_100
-#                         ),
-#                     ],
+
+#     page.window_height, page.window_width = 500, 400
+
+#     def row_with_vertical_alignment():
+#        return ft.Container(
+#             ft.Dropdown(
+#                 # elevation = 15,
+#                 # fill_color = c_white,
+#                 # focused_bgcolor=c_white,
+#                 autofocus=False,
+#                 color=c_blue,
+#                 width=150,
+#                 # focused_bgcolor=c_white,
+#                 # focused_color = c_white,
+#                 height=30,
+#                 value='Темная',
+#                 filled = True,
+#                 content_padding = -5,
+#                 bgcolor=c_white,
+#                 alignment = ft.Alignment(0, 0),
+#                 # content_padding=ft.padding.only(top=-10),
+#                 text_style = ft.TextStyle(
+#                     size=12,
+#                     color=c_white
+                    
 #                 ),
-#                 ft.Text('wefwefgiuwehnfiu23f23ui9f239')
-#             ]
+                
+#                 border = ft.border.all(0,c_white),
+#                 border_radius=0,
+#                 options=[
+#                     ft.dropdown.Option("Темная"),
+#                     ft.dropdown.Option("Светлая"),
+                    
+#                 ],)
 #         )
-#     ),
+
+#     page.add(
+#         row_with_vertical_alignment(),
+#     )
+
+# ft.app(target=main)
+#         return ft.Container(
+            
+#             ft.Dropdown(
+#                 # elevation = 15,
+#                 # fill_color = c_white,
+#                 # focused_bgcolor=c_white,
+#                 autofocus=False,
+#                 color=c_blue,
+#                 width=150,
+#                 height=30,
+#                 value='Темная',
+#                 filled = True,
+#                 content_padding = -5,
+#                 bgcolor=c_white,
+#                 alignment = ft.Alignment(0, 0),
+#                 # content_padding=ft.padding.only(top=-10),
+#                 text_style = ft.TextStyle(
+#                     size=12,
+#                     color=c_blue
+                    
+#                 ),
+                
+#                 border = ft.border.all(0,c_white),
+#                 border_radius=0,
+#                 options=[
+#                     ft.dropdown.Option("Темная"),
+#                     ft.dropdown.Option("Светлая"),
+#                 ],)
+#         )
+
+#     page.add(
+#         row_with_vertical_alignment(),
+#     )
+
 # ft.app(target=main)
 
 
 
-
+# пример с гита с вопроса
+# def row_with_vertical_alignment():
+#         return  ft.Dropdown(
+#         label='Status',
+#         width=150,
+#         color=ft.colors.GREY_700,
+#         bgcolor=ft.colors.WHITE,
+#         border_color=ft.colors.GREY_700,
+#         border_width=1,
+#         hint_text='  Status',
+#         hint_style=ft.TextStyle(size=12,color=ft.colors.GREY_700,weight="BOLD",font_family='Tahoma'),
+#         text_style=ft.TextStyle(size=12,color=ft.colors.GREY_700,font_family='Tahoma'),
+#         dense=True,
+#         filled=True,
+#         border_radius=1,
+#         content_padding=4,
+#         alignment=ft.alignment.center_left,
+#         options=[
+#             ft.dropdown.Option('Todos'),
+#             ft.dropdown.Option('Pendente'),
+#             ft.dropdown.Option('Andamento'),
+#             ft.dropdown.Option('Finalizado'),
+#         ],
+#         # on_change=inputsearch,
+#         autofocus=True
+#         )
 
 
 
