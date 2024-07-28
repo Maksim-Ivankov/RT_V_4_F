@@ -7,11 +7,15 @@ from src.trade_window.trade_windows_pages.components.content.prifile_page.UI.bir
 from src.trade_window.trade_windows_pages.components.content.prifile_page.UI.data_profile import Data_profile
 from src.trade_window.trade_windows_pages.components.content.prifile_page.UI.telegram import Telegram
 from src.trade_window.trade_windows_pages.components.content.prifile_page.UI.type_profile import Type_profile
+from src.trade_window.trade_windows_pages.components.content.UI.dropdown import Dropdown
 
 class Prifile_page(ft.UserControl):
     # def __init__(self,change_menu):
     #     super().__init__()
     #     self.change_menu = change_menu
+
+    def colback_change_birga_trade(self,e):
+        pass
 
     def build(self):
         
@@ -33,12 +37,30 @@ class Prifile_page(ft.UserControl):
                         
                     ),
                     ft.Container(
-                        ft.Row(
-                            controls=[
-                                Data_profile(),
-                                Type_profile(),
-                            ]
-                        ),padding=30
+                        ft.Column(controls=[
+                            ft.Container(
+                                ft.Row(
+                                controls=[
+                                    Data_profile(),
+                                    Type_profile(),
+                                ]
+                                ),padding=30
+                            ),
+                            ft.Container(
+                                ft.Row(
+                                controls=[
+                                    Birgi(),
+                                    Telegram()
+                                ]
+                                ),padding=ft.padding.only(left=30,top=-20)
+                            ),
+                            ft.Container(ft.Row(controls=[
+                                ft.Text('Биржа для торговли в RoboTrade',size=12,color=c_white),
+                                Dropdown(self.colback_change_birga_trade,'Binance',['Binance','OKX','ByBit'],150)
+                            ]),padding=ft.padding.only(left=30,top=10)
+                            ),
+                            ft.Container(ft.ElevatedButton(content = ft.Text('Смотреть избранные стратегии',size=12,),bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),height=30,margin=ft.margin.only(left=30,top=10))
+                        ])
                     )
                 ]
             ),expand=2
