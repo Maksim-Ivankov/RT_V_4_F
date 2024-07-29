@@ -20,6 +20,7 @@ if os.path.isdir(appdata) == False:
     print('Папка создана')
 # путь к файлу конфигурации для авторизации (запомнить меня)
 path_imports_config = appdata + '\config.ini'
+path_data_map_coin = appdata + '\map_coin.json'
 
 #--------------------------------------------------
 
@@ -36,8 +37,8 @@ height_window_platforma = 740
 
 version_desctop = 'v1.25.11'
 
-
-
+key_bin = 'QIT80MTFskjHSr82dtsteA6bG01CUeODQCg65KoYaQ5LmPcSpYDzyv1Oa7fugW3m'
+secret_bin = 'uMLo0WdaCv5FHBauV8QI4LZoDgmmVFf5Jd8TboKYRxHnHx6pmNrhg5bmdBgO54xI'
 
 
 

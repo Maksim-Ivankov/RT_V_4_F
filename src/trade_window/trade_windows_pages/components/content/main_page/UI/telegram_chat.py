@@ -20,7 +20,7 @@ class Telegram_chat(ft.UserControl):
                     ft.Container(
                         
                         width=215,
-                        height=330,
+                        height=370,
                         border = ft.border.all(1, c_white),
                         padding=10,
                     ), 
