@@ -9,13 +9,21 @@ from src.trade_window.trade_windows_pages.components.content.prifile_page.UI.tel
 from src.trade_window.trade_windows_pages.components.content.prifile_page.UI.type_profile import Type_profile
 from src.trade_window.trade_windows_pages.components.content.UI.dropdown import Dropdown
 
+from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
+
 class Prifile_page(ft.UserControl):
-    # def __init__(self,change_menu):
-    #     super().__init__()
-    #     self.change_menu = change_menu
+    def __init__(self):
+        super().__init__()
+        self.birga_trade = 'Binance'
 
     def colback_change_birga_trade(self,e):
-        pass
+        self.birga_trade = e.control.value
+        data_save = {
+            'birga_trade':e.control.value,
+        }
+        Save_config('Birga_trade',data_save)
+        e.control.border_color = c_green
+        e.control.update()
 
     def build(self):
         
@@ -23,18 +31,7 @@ class Prifile_page(ft.UserControl):
             ft.Column(
                 controls=[
                     ft.Container(
-                        
-                        # ft.Text('Настройки программы',color=c_blue,expand=True),
-                        ft.Container(
-                                    ft.Text('Профиль',color=c_blue),
-                                    alignment=ft.alignment.center
-                                    
-                        ),
-                        bgcolor=c_yelow,
-                        height=28,
-                        margin=ft.margin.only(top=-10,left=-10,right=-10),
-                        border = ft.border.all(1,c_white),
-                        
+                        ft.Container(ft.Text('Профиль',color=c_blue),alignment=ft.alignment.center),bgcolor=c_yelow,height=28,margin=ft.margin.only(top=-10,left=-10,right=-10),border = ft.border.all(1,c_white), 
                     ),
                     ft.Container(
                         ft.Column(controls=[
