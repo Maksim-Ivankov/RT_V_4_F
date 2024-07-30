@@ -31,6 +31,24 @@ class Teplowaya_map(ft.UserControl):
             coin_mas1[i] = change_istina[i]
         return coin_mas1
     
+    # принимает данные с биржи и кол-во монет, которые нужно вернуть. Возвращает отсортированный словарь монета:процент движения
+    def get_top_coin_volume_trade(self,data,count):
+        change={}
+        change_istina = {}
+        coin_max={}
+        coin_min={}
+        coin_mas1 = {}
+        for i in data:
+            change[i['symbol']] = round(float(i['openPrice'])*float(i['volume']))
+        coin_max = dict(sorted(change.items(), key=lambda item: item[1],reverse=True))
+        i=0
+        for key, value in coin_max.items():
+            if i<count:
+                coin_mas1[key] = value
+                i=i+1
+            else: break
+        return coin_mas1
+    
     # отработка выбора режима тепловой карты
     def change_regime_tree_map(self,e):
         self.regime_tree_map_now = e.control.data
@@ -41,6 +59,15 @@ class Teplowaya_map(ft.UserControl):
         self.controls = []
         self.controls.append(self.print_tree_map(self.regime_tree_map_now))
         self.update()
+
+    # преобразует число к виду - 15M, 1K
+    def num_format(self,num):
+        magnitude = 0
+        while abs(num) >= 1000:
+            magnitude += 1
+            num /= 1000.0
+        # add more suffixes if you need them
+        return '%.2f%s' % (num, ['', 'K', 'KK', 'M', 'T', 'P'][magnitude])
 
     # отрисовка блока с тепловой картой
     def print_tree_map(self,regime):
@@ -62,16 +89,19 @@ class Teplowaya_map(ft.UserControl):
         
         if int(count_coin)>55:
             count_coin = 50
+        if self.regime_tree_map_now == 'Trading_volume':
+            if int(count_coin)>30:
+                count_coin = 24
 
         translation_regime_tree_map_now = {
             'Changes_in_24_hours':'Изменения за 24 ч.',
             'Trading_volume':'Объём торгов',
-            'Efficiency_in_1_hour':'Эффективность за 1 ч.',
+            # 'Efficiency_in_1_hour':'Эффективность за 1 ч.',
         }
 
         # набираем массив вкладок режима
         # Отработка выбора режима тепловой карты
-        regime_tree_map = ['Changes_in_24_hours','Trading_volume','Efficiency_in_1_hour']
+        regime_tree_map = ['Changes_in_24_hours','Trading_volume']
         item_birgas = []
         for i in regime_tree_map:
             if i == self.regime_tree_map_now:
@@ -82,14 +112,21 @@ class Teplowaya_map(ft.UserControl):
                  item_birgas.append(
                      ft.Container(ft.Text(translation_regime_tree_map_now[i],color=c_white,size=12),data = i,on_click=self.change_regime_tree_map)
                 )
-        
-        coin_mas = self.get_top_coin_changes_day(data_loaded,int(count_coin))
-
+                 
+        if self.regime_tree_map_now == 'Changes_in_24_hours':
+            coin_mas = self.get_top_coin_changes_day(data_loaded,int(count_coin))
+        elif self.regime_tree_map_now == 'Trading_volume':
+            coin_mas = self.get_top_coin_volume_trade(data_loaded,int(count_coin))
+         
+# num_format
         data_graph = []
         weight_data_graph = []
         arr_coin_color = []
         for key, value in coin_mas.items():
-            data_graph.append(f'{key}\n{value}')
+            if self.regime_tree_map_now == 'Trading_volume':
+                data_graph.append(f'{key}\n{self.num_format(value)}')
+            else:
+                data_graph.append(f'{key}\n{value}')
             weight_data_graph.append(abs(value))
             if value>0:
                 arr_coin_color.append(c_green)
@@ -99,15 +136,17 @@ class Teplowaya_map(ft.UserControl):
         fig = plt.figure(figsize=(8,4))
         ax = fig.add_subplot(111)
         if int(count_coin) <31:
-            squarify.plot(weight_data_graph, label=data_graph,ec = 'black', color=arr_coin_color,text_kwargs={'fontsize':8}, ax=ax)
+            if self.regime_tree_map_now == 'Trading_volume':
+                squarify.plot(weight_data_graph, label=data_graph,ec = 'black', color=arr_coin_color,text_kwargs={'fontsize':6,'color':c_blue}, ax=ax)
+            else:
+                squarify.plot(weight_data_graph, label=data_graph,ec = 'black', color=arr_coin_color,text_kwargs={'fontsize':8,'color':c_blue}, ax=ax)
         elif int(count_coin) <55:
-            squarify.plot(weight_data_graph, label=data_graph,ec = 'black', color=arr_coin_color,text_kwargs={'fontsize':6}, ax=ax)
+            squarify.plot(weight_data_graph, label=data_graph,ec = 'black', color=arr_coin_color,text_kwargs={'fontsize':6,'color':c_blue}, ax=ax)
         else: 
-            squarify.plot(weight_data_graph, label=data_graph,ec = 'black', color=arr_coin_color,text_kwargs={'fontsize':6}, ax=ax)
+            squarify.plot(weight_data_graph, label=data_graph,ec = 'black', color=arr_coin_color,text_kwargs={'fontsize':6,'color':c_blue}, ax=ax)
         plt.axis('off')
 
         
-
         return ft.Container(
             ft.Column(
                 controls=[

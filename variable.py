@@ -21,6 +21,8 @@ if os.path.isdir(appdata) == False:
 # путь к файлу конфигурации для авторизации (запомнить меня)
 path_imports_config = appdata + '\config.ini'
 path_data_map_coin = appdata + '\map_coin.json'
+path_data_user_tg_chat = appdata + '\channel_users_tg.json'
+path_data_message_tg_chat = appdata + '\channel_messages_tg.json'
 
 #--------------------------------------------------
 
@@ -33,14 +35,16 @@ c_red = '#FF0A0A'
 server_ip = 'http://127.0.0.1:5000'
 
 width_window_platforma = 1186
-height_window_platforma = 740
+height_window_platforma = 760
 
 version_desctop = 'v1.25.11'
 
 key_bin = 'QIT80MTFskjHSr82dtsteA6bG01CUeODQCg65KoYaQ5LmPcSpYDzyv1Oa7fugW3m'
 secret_bin = 'uMLo0WdaCv5FHBauV8QI4LZoDgmmVFf5Jd8TboKYRxHnHx6pmNrhg5bmdBgO54xI'
 
-
+api_id_tg = '29054097'
+api_hash_id_tg = 'ed0af3e9cb2fb29e47631254716cae92'
+username_tg = 'maksimivankov'
 
 
 
