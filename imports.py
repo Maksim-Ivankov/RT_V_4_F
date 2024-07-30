@@ -14,7 +14,15 @@ from binance.um_futures import UMFutures
 
 import io
 
+import numpy as np
 
+# работа с тг
+from xmlrpc.client import DateTime
+from telethon.sync import TelegramClient
+from telethon.tl.functions.messages import GetDialogsRequest
+from telethon.tl.types import InputPeerEmpty
+from telethon.tl.functions.messages import GetHistoryRequest
+from telethon.tl.types import PeerChannel
 
 
 
