@@ -26,7 +26,7 @@ class Ferst_page(ft.UserControl):
                                     ]),
                                     width=440,
                                     height=80,
-                                    margin=ft.margin.only(left=90)
+                                    margin=ft.margin.only(left=90),
                                 ),
                             ]),
                             alignment=ft.alignment.center),margin=ft.margin.only(top=2,left=-10,right=-10),padding=ft.padding.only(top=10)      

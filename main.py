@@ -10,6 +10,13 @@ class Main:
         None
 
     def run(self, page):
+
+        def start_new_page():
+            p = subPage(controls=[ft.Text("Hello from the new page!!")])
+            p.start()
+
+        
+
         self.page: ft.Page = page
         self.page.title = "RoboTrade"
         self.page.window_height, self.page.window_width = height_window_platforma, width_window_platforma
@@ -18,11 +25,14 @@ class Main:
         # self.page.window_center()
         self.page.bgcolor = c_blue
         self.main_print = ft.Container( # общий контейнер на страницу45rк
+        #    content = ft.Text('123123123'),
            content = Platforma(self.page),
            expand = True,
            padding=ft.padding.only(bottom=-10)
         )
         self.page.add(self.main_print)
+        # self.page.overlay.append(ft.Text('123123123'))
+        # self.page.update()
 
         # self.page: ft.Page = page
         # self.page.title = "RoboTrade"

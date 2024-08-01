@@ -58,13 +58,14 @@ class Platforma(ft.UserControl):
         def callback(punkt_menu=self.page_one):
             self.page_select = punkts[punkt_menu]
             self.controls = []
+            self.update()
             self.controls.append(print_window(self.page_select,punkt_menu))
             self.update()
 
         
         punkts = {
                 'Главная':Main_page(),
-                'Историческая торговля':Hisorical_trade_page(),
+                'Историческая торговля':Hisorical_trade_page(self.page),
                 'Тестовая торговля':Test_trade_page(),
                 'Торговый робот':Trade_robot_page(),
                 'FAQ':Faq_page(),
