@@ -4,6 +4,7 @@ from variable import *
 from imports import *
 
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.UI.header import Header
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.ferst_page import Ferst_page
 
 class Hisorical_trade_page(ft.UserControl):
     # def __init__(self,change_menu):
@@ -20,6 +21,7 @@ class Hisorical_trade_page(ft.UserControl):
                     ft.Container(
                         ft.Column(controls=[
                             Header(),
+                            Ferst_page()
                         ]),
                         expand=2,
                     )
