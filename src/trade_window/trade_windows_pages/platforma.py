@@ -22,8 +22,8 @@ class Platforma(ft.UserControl):
         self.running = True
         self.myThread = threading.Thread(target=self.update_data, args=(), daemon=True)
         self.myThread.start()
-        self.myThread_tg = threading.Thread(target=self.update_data_tg, args=(), daemon=True)
-        self.myThread_tg.start()
+        # self.myThread_tg = threading.Thread(target=self.update_data_tg, args=(), daemon=True)
+        # self.myThread_tg.start()
 
     #то что крутится в потоке - пересчет времени 
     def update_data(self):
@@ -33,10 +33,10 @@ class Platforma(ft.UserControl):
             time.sleep(1)
             self.controls[0].content.controls[0].content.controls[0].content.controls[0].content.controls[3].content.controls[0].content.controls[0].controls[1].update()
 
-    def update_data_tg(self):
-        while self.running:
-            print('------ Данные тг ------')
-            time.sleep(3600)
+    # def update_data_tg(self):
+    #     while self.running:
+    #         print('------ Данные тг ------')
+    #         time.sleep(3600)
 
     def build(self):
         # отрисовка страницы согласно выбранному пункту меню
