@@ -1,4 +1,7 @@
 
+# from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
+import configparser
+
 # Работа с директорией
 APPNAME = "RoboTrade"
 import sys
@@ -23,6 +26,8 @@ path_imports_config = appdata + '\config.ini'
 path_data_map_coin = appdata + '\map_coin.json'
 path_data_user_tg_chat = appdata + '\channel_users_tg.json'
 path_data_message_tg_chat = appdata + '\channel_messages_tg.json'
+path_JSON_coins_info_our = appdata + '\coins_info_our.json'
+#--------------------------------------------------
 
 #--------------------------------------------------
 
@@ -45,6 +50,8 @@ secret_bin = 'uMLo0WdaCv5FHBauV8QI4LZoDgmmVFf5Jd8TboKYRxHnHx6pmNrhg5bmdBgO54xI'
 api_id_tg = '29054097'
 api_hash_id_tg = 'ed0af3e9cb2fb29e47631254716cae92'
 username_tg = 'maksimivankov'
+data1 = {'sledim_money':'1m'}
+
 
 
 

@@ -8,7 +8,7 @@ from src.trade_window.trade_windows_pages.components.content.UI.dropdown import 
 from src.trade_window.trade_windows_pages.components.content.UI.input import Input
 
 from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
-from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.cgange_coin_window import Cgange_coin_window
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_coin.cgange_coin_window import Cgange_coin_window
 
 # Dropdown(self.on_change_tema,self.change_tema,["Dark","Light"],150)
 # Input(self.on_change_count_coin,self.change_count_coin,150)
@@ -16,51 +16,56 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 class Svoboda_freym_page(ft.UserControl):
     def __init__(self,change_page,page):
         super().__init__()
+        config = configparser.ConfigParser()         
+        config.read(path_imports_config)
+        if ('param_trade_historical_trade_svobodniy_freym') in config.sections():
+            self.change_sledim_sa_cenoy = config.get('param_trade_historical_trade_svobodniy_freym', 'sledim_money')
+            self.change_work_tf = config.get('param_trade_historical_trade_svobodniy_freym', 'work_tf')
+            self.change_how_mach_time = config.get('param_trade_historical_trade_svobodniy_freym', 'dlitelnost')
+            self.change_count_coin = config.get('param_trade_historical_trade_svobodniy_freym', 'how_mach_money')
+        else:
+            self.change_sledim_sa_cenoy = '1m'
+            self.change_work_tf = '5m'
+            self.change_how_mach_time = '24h'
+            self.change_count_coin = '10'
         self.page = page
         self.change_page = change_page
-        self.change_sledim_sa_cenoy = '1m'
-        self.change_work_tf = '5m'
-        self.change_how_mach_time = '12 часов'
-        self.change_count_coin = '10'
     
     # выбор выпадашки - следим за ценой
     def on_change_sledim_sa_cenoy(self,e):
-        pass
+        data_save = {
+            'sledim_money':e.control.value
+        }
+        Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
 
     # выбор выпадашки - рабочий таймфрейм
     def on_change_work_tf(self,e):
-        pass
+        data_save = {
+            'work_tf':e.control.value
+        }
+        Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
 
     # выбор выпадашки - длителоьность
     def on_change_how_mach_time(self,e):
-        pass
+        data_save = {
+            'dlitelnost':e.control.value
+        }
+        Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
 
     # выбор выпадашки - сколько монет торговать
     def on_change_how_mach_coin(self,e):
-        pass
+        data_save = {
+            'how_mach_money':e.control.value
+        }
+        Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
 
-    # открыть окно выбора монет
-    # def chage_coin(self,e):
-    #     # Cgange_coin_window().start_new_page()
-    #     start_new_page()
-    # def bs_dismissed(e):
-    #     print("Dismissed!")
+    # нажали на кнопку сохранить в модалке
+    def coin_save(self):
+        print('1111')
 
-    # def show_bs(e):
-    #     bs.open = True
-    #     bs.update()
-
-    # def close_bs(e):
-    #     bs.open = False
-    #     bs.update()
+    # окно выбора стратегии монет
     def chage_coin(self,e):
-        # self.controls = []
-        bs = ft.BottomSheet(
-            Cgange_coin_window(),
-            open=True,
-            bgcolor='transparent',
-            elevation = 0
-        )
+        bs = Cgange_coin_window(self.coin_save)
         self.page.overlay.append(bs)
         self.page.update()
     
@@ -87,7 +92,7 @@ class Svoboda_freym_page(ft.UserControl):
                                                             ft.Text('Рабочий таймфрейм',size=12,color=c_white,text_align='center',width=150),
                                                             Dropdown(self.on_change_work_tf,self.change_work_tf,['1m','5m','15m','30m','1h','4h'],150),
                                                             ft.Text('Длительность',size=12,color=c_white,text_align='center',width=150),
-                                                            Dropdown(self.on_change_how_mach_time,self.change_how_mach_time,['12 часов','24 часа','48 часов'],150),
+                                                            Dropdown(self.on_change_how_mach_time,self.change_how_mach_time,['12h','24h','48h'],150),
                                                             ft.Text('Выбор монет',size=12,color=c_white,text_align='center',width=150),
                                                             ft.Container(ft.ElevatedButton(content = ft.Text('Выбрать монеты',size=12,),on_click=self.chage_coin,bgcolor=c_white,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,width=150,height=30,margin=ft.margin.only(top=0,bottom=0)),
                                                             ft.Text('Сколько монет торговать',size=12,color=c_white,text_align='center',width=150),
