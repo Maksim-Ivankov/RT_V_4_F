@@ -59,9 +59,13 @@ class Component_change_strategy_coin(ft.UserControl):
 
     # кнопка продолжить нажатие
     def save_change_type_coin(self,e):
+        strategy_coin_list_collback = {
+            'top_dvigeniya':'Топ движения',
+            'top_value':'Топ объёма',
+        }
         if self.change_coin != 'change_list':
             self.close_modal()
-            self.coin_save()
+            self.coin_save(strategy_coin_list_collback[self.change_coin])
         else: 
             self.controls = []
             self.controls.append(Component_table(self.close_modal,self.coin_save))

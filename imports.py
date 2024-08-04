@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import squarify
 from flet.matplotlib_chart import MatplotlibChart
 from binance.um_futures import UMFutures
-
+import pandas as pd
 import io
 
 import numpy as np

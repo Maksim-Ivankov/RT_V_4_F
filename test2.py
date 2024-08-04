@@ -1,28 +1,22 @@
 import flet as ft
 
 def main(page: ft.Page):
-    def bs_dismissed(e):
-        print("Dismissed!")
-    def show_bs(e):
-        bs.open = True
-        bs.update()
-    def close_bs(e):
-        bs.open = False
-        bs.update()
-    bs = ft.BottomSheet(
-        ft.Container(
-            ft.Column(
-                [
-                    ft.Text("This is sheet's content!"),
-                    ft.ElevatedButton("Close bottom sheet", on_click=close_bs),
-                ],
-                tight=True,
-            ),
-            padding=10,
-        ),
-        open=True,
-        on_dismiss=bs_dismissed,
+    page.title = "GridView Example"
+    page.theme_mode = ft.ThemeMode.DARK
+    page.padding = 50
+    page.update()
+    images = ft.GridView(
+        expand=1,
+        runs_count=5,
+        max_extent=150,
+        child_aspect_ratio=1.0,
+        spacing=5,
+        run_spacing=5,
     )
-    page.overlay.append(bs)
-    page.add(ft.ElevatedButton("Display bottom sheet", on_click=show_bs))
+    page.add(images)
+    for i in range(0, 60):
+        images.controls.append(
+            ft.Text('qwfqwfqw')
+        )
+    page.update()
 ft.app(target=main)

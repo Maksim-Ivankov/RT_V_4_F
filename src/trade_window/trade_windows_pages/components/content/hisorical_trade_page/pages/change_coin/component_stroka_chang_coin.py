@@ -17,7 +17,9 @@ class Component_stroka_chang_coin(ft.UserControl):
     def remove_one_coin(self,e):
         self.data_mas.remove(e.control.data)
         self.reprint_stroka(self.data_mas)
-        data_save = {'coins_trade':'|'.join(self.data_mas)}
+        data_save = {
+            'coins_trade':'|'.join(self.data_mas)
+            }
         Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
         # config = configparser.ConfigParser()         
         # config.read(path_imports_config)
@@ -26,7 +28,9 @@ class Component_stroka_chang_coin(ft.UserControl):
 
     def reprint_stroka(self,mas_result_coin):
         self.data_mas = mas_result_coin
-        data_save = {'coins_trade':'|'.join(self.data_mas)}
+        data_save = {
+            'coins_trade':'|'.join(self.data_mas)
+            }
         Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
         self.mas_print_coin_container = []
         for i in reversed(mas_result_coin):

@@ -10,13 +10,6 @@ class Main:
         None
 
     def run(self, page):
-
-        def start_new_page():
-            p = subPage(controls=[ft.Text("Hello from the new page!!")])
-            p.start()
-
-        
-
         self.page: ft.Page = page
         self.page.title = "RoboTrade"
         self.page.window_height, self.page.window_width = height_window_platforma, width_window_platforma

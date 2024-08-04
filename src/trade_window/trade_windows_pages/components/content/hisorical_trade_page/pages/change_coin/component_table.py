@@ -60,7 +60,7 @@ class Component_table(ft.UserControl):
     # кнопка сохранить монеты
     def save_coin_def(self,e):
         self.close_modal()
-        self.coin_save()
+        self.coin_save('Список монет')
 
     # данные для отрисовки таблицы
     def print_component(self):

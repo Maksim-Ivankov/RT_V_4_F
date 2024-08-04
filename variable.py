@@ -22,11 +22,13 @@ if os.path.isdir(appdata) == False:
     os.makedirs(appdata)
     print('Папка создана')
 # путь к файлу конфигурации для авторизации (запомнить меня)
-path_imports_config = appdata + '\config.ini'
-path_data_map_coin = appdata + '\map_coin.json'
-path_data_user_tg_chat = appdata + '\channel_users_tg.json'
+path_imports_config = appdata + '\config.ini' # основной файл инициализации, всех настроек
+path_ini_svoboda_freym = appdata + '\svoboda_freym.ini' # файл настроек для данных историческая торговля/свободный фрейм
+path_data_map_coin = appdata + '\map_coin.json' # должен обновляться каждые n минут. С него рисуется тепловая карта и берутся монеты для получения датафреймов
+path_data_user_tg_chat = appdata + '\channel_users_tg.json' 
 path_data_message_tg_chat = appdata + '\channel_messages_tg.json'
 path_JSON_coins_info_our = appdata + '\coins_info_our.json'
+path_svoboda_freym = appdata + '\svoboda_freym' # начало пути для сохранения датафреймов - историческая торговля/свободный фрейм
 #--------------------------------------------------
 
 #--------------------------------------------------
