@@ -13,6 +13,7 @@ from flet.matplotlib_chart import MatplotlibChart
 from binance.um_futures import UMFutures
 import pandas as pd
 import io
+from ast import literal_eval
 
 import numpy as np
 
