@@ -1,4 +1,4 @@
-
+# компонент информации о стратегии, которая отображается справа от чекбоксов выбора стратегии
 import flet as ft
 from variable import *
 from imports import *

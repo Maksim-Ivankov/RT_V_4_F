@@ -12,11 +12,14 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_coin.page_last_data.page_last_data import Page_last_data
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.settings_robot_page.settings_robot_page import Settings_robot_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_strategy_trade_page.change_strategy_trade_page import Change_strategy_trade_page
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regime_trade_page.regime_trade_page import Regime_trade_page
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.regim_set_settings_page import Regim_set_settings_page
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.regim_trade_one_settings_page import Regim_trade_one_settings_page
 
 class Hisorical_trade_page(ft.UserControl):
     def __init__(self,page):
         super().__init__()
-        self.ferst_page = 'Выбрать стратегию торговли'
+        self.ferst_page = 'Одна настройка'
         # self.ferst_page = 'Свободный фрейм'
         self.page = page
 
@@ -30,6 +33,9 @@ class Hisorical_trade_page(ft.UserControl):
             'Хранилище торговых данных':Page_last_data(self.change_page),
             'Настройки робота':Settings_robot_page(self.change_page),
             'Выбрать стратегию торговли':Change_strategy_trade_page(self.change_page),
+            'Выбрать режим торговли':Regime_trade_page(self.change_page),
+            'Одна настройка':Regim_trade_one_settings_page(self.change_page),
+            'Сет настроек':Regim_set_settings_page(self.change_page),
         }
 
         title_list={
@@ -40,6 +46,9 @@ class Hisorical_trade_page(ft.UserControl):
             'Хранилище торговых данных':'Хранилище торговых данных',
             'Настройки робота':'Торговля по историческим данным | Настройки робота',
             'Выбрать стратегию торговли':'Торговля по историческим данным | Выбор стратегии торговли',
+            'Выбрать режим торговли':'Торговля по историческим данным | Выбор режима торговли',
+            'Одна настройка':'Торговля по историческим данным | Настройки стратегии',
+            'Сет настроек':'Торговля по историческим данным | Задание сета настроек',
         }
 
         return ft.Container(
