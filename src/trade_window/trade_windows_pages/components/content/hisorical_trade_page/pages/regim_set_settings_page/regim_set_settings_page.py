@@ -11,6 +11,10 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.UI.card_set.MA_set import MA_set
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.UI.card_set.one_set import One_set
 
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_general_set import Generate_general_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_one_set import Generate_one_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_MA_set import Generate_MA_set
+
 class Regim_set_settings_page(ft.UserControl):
     def __init__(self,change_page):
         super().__init__()
@@ -20,9 +24,26 @@ class Regim_set_settings_page(ft.UserControl):
             'MA':'Скользящие средние'
         }
         self.card_set = {
-            'one':MA_set(),
-            'MA':One_set()
+            'one':MA_set(self.click_neral_set),
+            'MA':One_set(self.click_neral_set)
         }
+        self.open_page_get_set = {
+            'Общие настройки':Generate_general_set(self.update_page),
+            'MA':Generate_MA_set(self.update_page),
+            'one':Generate_one_set(self.update_page),
+        }
+
+    def update_page(self):
+        self.controls = []
+        self.controls.append(self.print_page())
+        self.update()
+
+    # нажали на кнопку - получить сет в генеральных настройках
+    def click_neral_set(self,e):
+        self.controls = []
+        self.controls.append(self.open_page_get_set[e.control.data])
+        self.update()
+
 
     def print_page(self):
 
@@ -31,7 +52,7 @@ class Regim_set_settings_page(ft.UserControl):
         self.strategys = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
         
         grid_component = []
-        grid_component.append(General_set())
+        grid_component.append(General_set(self.click_neral_set))
         str_header = ''
         for strat in self.strategys:
             str_header = str_header + self.strategy_translate[strat] + ' | '
@@ -41,8 +62,23 @@ class Regim_set_settings_page(ft.UserControl):
             ft.Container(
                         ft.Container(
                             ft.Column(controls=[
-                                ft.Container(ft.Text(f'Установка сета настроек для стратегий:\n{str_header}',size=12,color=c_white,text_align='center',),padding=ft.padding.only(left=230)),
-                                ft.Row(controls=grid_component),
+                                ft.Container(ft.Text(f'Установка сета настроек для стратегий:\n{str_header}',size=12,color=c_white,text_align='center',),padding=ft.padding.only(left=288,bottom=10)),
+                                # ft.Row(controls=grid_component),
+                                ft.Container(
+                                    ft.GridView(
+                                        controls = grid_component,
+                                        # expand=1,
+                                        runs_count=3,
+                                        # max_extent=150,
+                                        # child_aspect_ratio=0.65,
+                                        spacing=-140,
+                                        # run_spacing=5,
+                                    
+                                    
+                                    ),
+                                    width=880,
+                                    height=490,
+                                ),
                                 # Table_set_print(),
                                 ft.Container(
                                     ft.Container(

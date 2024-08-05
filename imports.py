@@ -14,6 +14,7 @@ from binance.um_futures import UMFutures
 import pandas as pd
 import io
 from ast import literal_eval
+import random
 
 import numpy as np
 

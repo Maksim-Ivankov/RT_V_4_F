@@ -34,7 +34,6 @@ class Regim_trade_one_settings_page(ft.UserControl):
             strat_mas.append(self.strategy_print[strat])
 
 
-
         self.regim_trade_one_settings_page = ft.Container(
             ft.Container(
                         ft.Container(
