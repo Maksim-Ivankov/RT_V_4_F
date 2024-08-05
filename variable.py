@@ -24,6 +24,9 @@ if os.path.isdir(appdata) == False:
 # путь к файлу конфигурации для авторизации (запомнить меня)
 path_imports_config = appdata + '\config.ini' # основной файл инициализации, всех настроек
 path_ini_svoboda_freym = appdata + '\svoboda_freym.ini' # файл настроек для данных историческая торговля/свободный фрейм
+path_ini_general_set = appdata + '\general_set.ini' # файл общего сета настроек
+path_ini_one_set = appdata + '\one_set.ini' # файл сета настроек one
+path_ini_MA_set = appdata + '\MA_set.ini' # файл сета настроек MA
 path_data_map_coin = appdata + '\map_coin.json' # должен обновляться каждые n минут. С него рисуется тепловая карта и берутся монеты для получения датафреймов
 path_data_user_tg_chat = appdata + '\channel_users_tg.json' 
 path_data_message_tg_chat = appdata + '\channel_messages_tg.json'

@@ -95,19 +95,17 @@ class Settings_robot_page(ft.UserControl):
                                                 
                                     ])),
                                     width=560,
-                                    # height=80,
-                                    # bgcolor='red'
                                 ),
                                 ft.Container(
-                                                ft.Container(
-                                                    ft.Row(controls=[
-                                                    ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Свободный фрейм',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                                                    ft.Container(ft.ElevatedButton(content = ft.Text('Выбрать стратегию торговли',size=12,),data='Выбрать стратегию торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                                                ]),padding=ft.padding.only(left=130,top=10)
-                                                ),
-                                                width=560,
-                                                # height=100
-                                            )
+                                    ft.Container(
+                                        ft.Row(controls=[
+                                        ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Свободный фрейм',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                        ft.Container(ft.ElevatedButton(content = ft.Text('Выбрать стратегию торговли',size=12,),data='Выбрать стратегию торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                    ]),padding=ft.padding.only(left=130,top=10)
+                                    ),
+                                    width=560,
+                                    # height=100
+                                )
                             ]),
                             alignment=ft.alignment.center),margin=ft.margin.only(top=2,left=-10,right=-10),padding=ft.padding.only(top=10)      
                     ),expand=2
