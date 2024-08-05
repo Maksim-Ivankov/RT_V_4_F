@@ -33,13 +33,12 @@ class Regim_trade_one_settings_page(ft.UserControl):
         for strat in self.strategys:
             strat_mas.append(self.strategy_print[strat])
 
-
         self.regim_trade_one_settings_page = ft.Container(
             ft.Container(
                         ft.Container(
                             ft.Column(controls=[
                                 ft.Container(ft.Text('Настройте выбранные ранее стратегии',size=12,color=c_white,text_align='center',),padding=ft.padding.only(left=310,bottom=14)),
-                                ft.Column(controls=strat_mas),
+                                ft.Container(ft.Column(controls=strat_mas,scroll=ft.ScrollMode.ALWAYS),height=500),
                                 ft.Container(
                                     ft.Container(
                                         ft.Row(controls=[
@@ -50,8 +49,8 @@ class Regim_trade_one_settings_page(ft.UserControl):
                                     width=860,
                                     # height=920
                                 )
-                            ],scroll=ft.ScrollMode.ALWAYS),
-                            alignment=ft.alignment.center),margin=ft.margin.only(top=2,left=-10,right=-10),padding=ft.padding.only(top=10), height=600     
+                            ]),
+                            alignment=ft.alignment.center),margin=ft.margin.only(top=2,left=-10,right=-10),padding=ft.padding.only(top=10)
                     ),expand=2
         )
         

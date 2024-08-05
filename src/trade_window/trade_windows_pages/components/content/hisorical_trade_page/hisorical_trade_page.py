@@ -19,7 +19,7 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 class Hisorical_trade_page(ft.UserControl):
     def __init__(self,page):
         super().__init__()
-        self.ferst_page = 'Сет настроек'
+        self.ferst_page = 'Одна настройка'
         # self.ferst_page = 'Свободный фрейм'
         self.page = page
 
