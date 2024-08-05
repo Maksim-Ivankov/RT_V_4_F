@@ -40,13 +40,14 @@ class Generate_MA_set(ft.UserControl):
     
 
     def btn_generate(self,e):
-        os.remove(path_ini_MA_set)
+        if os.path.exists(path_ini_MA_set):
+            os.remove(path_ini_MA_set)
         for i in range(1,int(self.how_mach_settings)+1):
-            Save_config(i,{'koef_bistro':str(random.choice(self.koef_bistro.split(',')))},path_ini_MA_set)
-            Save_config(i,{'koef_medleno':str(random.choice(self.koef_medleno.split(',')))},path_ini_MA_set)
-            Save_config(i,{'sovpad_last':str(random.choice(self.sovpad_last.split(',')))},path_ini_MA_set)
-            Save_config(i,{'up_chanal':str(random.choice(self.up_chanal.split(',')))},path_ini_MA_set)
-            Save_config(i,{'down_chanal':str(random.choice(self.down_chanal.split(',')))},path_ini_MA_set)
+            Save_config(str(i)+'_section',{'koef_bistro':str(random.choice(self.koef_bistro.split(',')))},path_ini_MA_set)
+            Save_config(str(i)+'_section',{'koef_medleno':str(random.choice(self.koef_medleno.split(',')))},path_ini_MA_set)
+            Save_config(str(i)+'_section',{'sovpad_last':str(random.choice(self.sovpad_last.split(',')))},path_ini_MA_set)
+            Save_config(str(i)+'_section',{'up_chanal':str(random.choice(self.up_chanal.split(',')))},path_ini_MA_set)
+            Save_config(str(i)+'_section',{'down_chanal':str(random.choice(self.down_chanal.split(',')))},path_ini_MA_set)
             self.progress_bar.value = i*(100/int(self.how_mach_settings))*0.01
             self.update()
         self.btn_close()

@@ -15,12 +15,13 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regime_trade_page.regime_trade_page import Regime_trade_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.regim_set_settings_page import Regim_set_settings_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.regim_trade_one_settings_page import Regim_trade_one_settings_page
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.trade_page import Trade_page
 
 class Hisorical_trade_page(ft.UserControl):
     def __init__(self,page):
         super().__init__()
-        self.ferst_page = 'Одна настройка'
-        # self.ferst_page = 'Свободный фрейм'
+        # self.ferst_page = 'Первая'
+        self.ferst_page = 'Запустить торговлю'
         self.page = page
 
     def print_page(self,page):
@@ -36,6 +37,7 @@ class Hisorical_trade_page(ft.UserControl):
             'Выбрать режим торговли':Regime_trade_page(self.change_page),
             'Одна настройка':Regim_trade_one_settings_page(self.change_page),
             'Сет настроек':Regim_set_settings_page(self.change_page),
+            'Запустить торговлю':Trade_page(self.change_page),
         }
 
         title_list={
@@ -49,6 +51,7 @@ class Hisorical_trade_page(ft.UserControl):
             'Выбрать режим торговли':'Торговля по историческим данным | Выбор режима торговли',
             'Одна настройка':'Торговля по историческим данным | Настройки стратегии',
             'Сет настроек':'Торговля по историческим данным | Задание сета настроек',
+            'Запустить торговлю':'Торговля по историческим данным | Торговля',
         }
 
         return ft.Container(

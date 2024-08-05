@@ -67,19 +67,15 @@ class Regim_set_settings_page(ft.UserControl):
                                 ft.Container(
                                     ft.GridView(
                                         controls = grid_component,
-                                        # expand=1,
                                         runs_count=3,
-                                        # max_extent=150,
-                                        # child_aspect_ratio=0.65,
                                         spacing=-140,
-                                        # run_spacing=5,
-                                    
-                                    
                                     ),
-                                    width=880,
-                                    height=490,
+                                    width=860,
+                                    height=240,
+                                    padding = 10,
+                                    border=ft.border.all(1,c_white)
                                 ),
-                                # Table_set_print(),
+                                Table_set_print(),
                                 ft.Container(
                                     ft.Container(
                                         ft.Row(controls=[
@@ -91,6 +87,7 @@ class Regim_set_settings_page(ft.UserControl):
                                     # height=920
                                 )
                             ]),
+                            # ],scroll=ft.ScrollMode.ALWAYS),
                             alignment=ft.alignment.center),margin=ft.margin.only(top=2,left=-10,right=-10),padding=ft.padding.only(top=10)      
                     ),expand=2
         )

@@ -45,16 +45,17 @@ class Generate_general_set(ft.UserControl):
         Save_config('param_trade_historical_trade_svobodniy_freym',{'set_general_input_how_mach_settings':str(e.control.value)})
 
     def btn_generate(self,e):
-        os.remove(path_ini_general_set)
+        if os.path.exists(path_ini_general_set):
+            os.remove(path_ini_general_set)
         for i in range(1,int(self.how_mach_settings)+1):
-            Save_config(i,{'start_time':str(random.choice(self.start_time.split(',')))},path_ini_general_set)
-            Save_config(i,{'stop_time':str(random.choice(self.stop_time.split(',')))},path_ini_general_set)
-            Save_config(i,{'depo':str(random.choice(self.depo.split(',')))},path_ini_general_set)
-            Save_config(i,{'leveradg':str(random.choice(self.leveradg.split(',')))},path_ini_general_set)
-            Save_config(i,{'diapazon_tp':str(random.choice(self.diapazon_tp.split(',')))},path_ini_general_set)
-            Save_config(i,{'diapazon_sl':str(random.choice(self.diapazon_sl.split(',')))},path_ini_general_set)
-            Save_config(i,{'diapazon_volume_min':str(random.choice(self.diapazon_volume_min.split(',')))},path_ini_general_set)
-            Save_config(i,{'diapazon_volume_max':str(random.choice(self.diapazon_volume_max.split(',')))},path_ini_general_set)
+            Save_config(str(i)+'_section',{'start_time':str(random.choice(self.start_time.split(',')))},path_ini_general_set)
+            Save_config(str(i)+'_section',{'stop_time':str(random.choice(self.stop_time.split(',')))},path_ini_general_set)
+            Save_config(str(i)+'_section',{'depo':str(random.choice(self.depo.split(',')))},path_ini_general_set)
+            Save_config(str(i)+'_section',{'leveradg':str(random.choice(self.leveradg.split(',')))},path_ini_general_set)
+            Save_config(str(i)+'_section',{'diapazon_tp':str(random.choice(self.diapazon_tp.split(',')))},path_ini_general_set)
+            Save_config(str(i)+'_section',{'diapazon_sl':str(random.choice(self.diapazon_sl.split(',')))},path_ini_general_set)
+            Save_config(str(i)+'_section',{'diapazon_volume_min':str(random.choice(self.diapazon_volume_min.split(',')))},path_ini_general_set)
+            Save_config(str(i)+'_section',{'diapazon_volume_max':str(random.choice(self.diapazon_volume_max.split(',')))},path_ini_general_set)
             self.progress_bar.value = i*(100/int(self.how_mach_settings))*0.01
             self.update()
         self.btn_close()

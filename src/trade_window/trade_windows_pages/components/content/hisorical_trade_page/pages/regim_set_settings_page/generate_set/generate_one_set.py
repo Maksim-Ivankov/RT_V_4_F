@@ -15,10 +15,6 @@ class Generate_one_set(ft.UserControl):
         super().__init__()
         self.btn_close = btn_close
         
-# up_chanal
-# down_chanal
-# corner_long
-# corner_short
 
     def input_up_chanal(self,e):
         self.up_chanal = e.control.value
@@ -35,12 +31,13 @@ class Generate_one_set(ft.UserControl):
 
 
     def btn_generate(self,e):
-        os.remove(path_ini_one_set)
+        if os.path.exists(path_ini_one_set):
+            os.remove(path_ini_one_set)
         for i in range(1,int(self.how_mach_settings)+1):
-            Save_config(i,{'up_chanal':str(random.choice(self.up_chanal.split(',')))},path_ini_one_set)
-            Save_config(i,{'down_chanal':str(random.choice(self.down_chanal.split(',')))},path_ini_one_set)
-            Save_config(i,{'corner_long':str(random.choice(self.corner_long.split(',')))},path_ini_one_set)
-            Save_config(i,{'corner_short':str(random.choice(self.corner_short.split(',')))},path_ini_one_set)
+            Save_config(str(i)+'_section',{'up_chanal':str(random.choice(self.up_chanal.split(',')))},path_ini_one_set)
+            Save_config(str(i)+'_section',{'down_chanal':str(random.choice(self.down_chanal.split(',')))},path_ini_one_set)
+            Save_config(str(i)+'_section',{'corner_long':str(random.choice(self.corner_long.split(',')))},path_ini_one_set)
+            Save_config(str(i)+'_section',{'corner_short':str(random.choice(self.corner_short.split(',')))},path_ini_one_set)
             self.progress_bar.value = i*(100/int(self.how_mach_settings))*0.01
             self.update()
         self.btn_close()
