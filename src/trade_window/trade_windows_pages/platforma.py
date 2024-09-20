@@ -15,7 +15,7 @@ class Platforma(ft.UserControl):
     def __init__(self,page):
         super().__init__()
         self.page = page
-        self.page_one = 'Настройки программы'
+        self.page_one = 'Историческая торговля'
 
     # запуск в потоке пересчета времени
     def did_mount(self):

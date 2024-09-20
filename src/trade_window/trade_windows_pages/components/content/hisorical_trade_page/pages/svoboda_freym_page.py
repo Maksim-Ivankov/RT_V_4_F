@@ -46,7 +46,7 @@ class Svoboda_freym_page(ft.UserControl):
         }
         self.page = page
         self.change_page = change_page
-        Save_config('param_trade_historical_trade_svobodniy_freym',{'use_last_sost':'False'}) # при инициализации используем не сохраненные данные, а текущие
+        # Save_config('param_trade_historical_trade_svobodniy_freym',{'use_last_sost':'False'}) # при инициализации используем не сохраненные данные, а текущие
     
     # выбор выпадашки - следим за ценой
     def on_change_sledim_sa_cenoy(self,e):
@@ -250,12 +250,9 @@ class Svoboda_freym_page(ft.UserControl):
             self.change_how_mach_time = '24h'
             self.change_count_coin = '10'
             self.strat_coin_text = 'Выбрать монеты'
-
-        coins_print = []
-        for i in self.coins_trade:
-            coins_print.append(
-                ft.Container(ft.Text(i,color=c_blue,size=12,text_align='center'),width=160)
-            )
+        
+        # Если выбраны прошлые данные, нужно показать монеты прошлых данных
+        
         
         # если есть датафреймы
         # получаем файлы в указанной директории массивом
@@ -297,6 +294,16 @@ class Svoboda_freym_page(ft.UserControl):
                 ft.Text(f'Монеты - {self.coin_mas_last}',size=12,color=c_blue),
                 ft.Text(f'Данные готовы. Можно приступать к торговле',size=12,color=c_blue),
             ]
+            # записываем монеты из выбранного шага и- использовать прошлые данные
+            self.coins_trade = literal_eval(self.coin_mas_last)
+            
+        coins_print = []
+        for i in self.coins_trade:
+            coins_print.append(
+                ft.Container(ft.Text(i,color=c_blue,size=12,text_align='center'),width=160)
+            )
+            
+            # print(self.coin_mas_last)
         self.componen_log = Componen_log(data_detect)
         self.component_coin_log =  Component_coin_log(coins_print)
 

@@ -28,6 +28,7 @@ from telethon.tl.types import InputPeerEmpty
 from telethon.tl.functions.messages import GetHistoryRequest
 from telethon.tl.types import PeerChannel
 
-
-
+# игнорим предупреждения
+import warnings
+warnings.filterwarnings("ignore")
 
