@@ -28,7 +28,7 @@ class Dropdown(ft.UserControl):
                 autofocus=False,
                 bgcolor=c_blue,
                 border_radius=0,
-                content_padding = ft.padding.only(left=-5,right=5),
+                content_padding = ft.padding.only(left=5,right=5),
                 border_color=c_white,
                 border_width=1,
                 alignment = ft.Alignment(0, 0),

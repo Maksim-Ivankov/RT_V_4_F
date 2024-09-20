@@ -18,7 +18,7 @@ import random
 
 import numpy as np
 
-from flet_multi_page import subPage
+# from flet_multi_page import subPage
 
 # работа с тг
 from xmlrpc.client import DateTime
