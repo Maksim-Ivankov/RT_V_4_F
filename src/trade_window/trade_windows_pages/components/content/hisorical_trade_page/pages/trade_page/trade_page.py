@@ -41,8 +41,10 @@ class Trade_page(ft.UserControl):#1
             ft.Container(
                         ft.Container(
                             ft.Column(controls=[
-                                ft.Container(ft.Text('Проверьте настройки и запустите торговлю',size=12,color=c_white,text_align='center',),padding=ft.padding.only(left=230)),
+                                ft.Container(ft.Text('Проверьте настройки и запустите торговлю',size=12,color=c_white,text_align='center'),padding=ft.padding.only(left=320)),
                                 ft.Container(
+                                    ft.Row(controls=[
+                                    ft.Container(
                                     ft.Container(
                                         ft.Column(controls=[
                                             ft.Column(
@@ -53,28 +55,15 @@ class Trade_page(ft.UserControl):#1
                                                         ft.Container(
                                                             ft.Column(
                                                                 controls=[
-                                                                ft.DataTable(columns=[
-                                                                    # ft.DataColumn(ft.Text('№',text_align='center',color=c_white,size=12)),
-                                                                    # ft.DataColumn(ft.Text('Время старта',text_align='center',color=c_white,size=12)),
-                                                                    # ft.DataColumn(ft.Text('Время остановки',text_align='center',color=c_white,size=12)),
-                                                                    # ft.DataColumn(ft.Text('Депозит',text_align='center',color=c_white,size=12)),
-                                                                 
-
-                                                                ],
-                                                                rows = datas_print,
-                                                                column_spacing = 5,
-                                                                data_row_max_height = 30,
-                                                                data_row_min_height = 30,
-                                                                show_checkbox_column = False,
-                                                            )
+                                                            
                                                             ],
                                                             scroll=ft.ScrollMode.ALWAYS,),
-                                                            width=600,
+                                                            width=500,
                                                             height=148,
                                                             border = ft.border.all(1, c_white),
                                                             bgcolor=c_blue,
                                                         ),
-                                                        width=600,
+                                                        width=500,
                                                         # border = ft.border.all(1, c_white),
                                                         # padding=14,
                                                         height = 148,
@@ -82,20 +71,53 @@ class Trade_page(ft.UserControl):#1
                                                         
                                             )]),     
                                     ])),
-                                    width=860,
-                                ),
+                                    width=500,
+                                    # bgcolor='red'
+                                    ),
+                                    ft.Container(
+                                        ft.Container(
+                                            ft.Column(controls=[
+                                                ft.Column(
+                                                    controls=[
+                                                        ft.Container(
+                                                            ft.Container(ft.Text('Настройки стратегий',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
+                                                        ft.Container(
+                                                            ft.Container(
+                                                                ft.Column(
+                                                                    controls=[
+                                                                
+                                                                ],
+                                                                scroll=ft.ScrollMode.ALWAYS,),
+                                                                width=350,
+                                                                height=148,
+                                                                border = ft.border.all(1, c_white),
+                                                                bgcolor=c_blue,
+                                                            ),
+                                                            width=350,
+                                                            # border = ft.border.all(1, c_white),
+                                                            # padding=14,
+                                                            height = 148,
+                                                            padding=ft.padding.only(left=-1,top=-1,bottom=-1)    
+                                                )]),     
+                                        ])),
+                                        width=400,
+                                        # bgcolor='red'
+                                    ),
+                                    ]),
+                                width=900,padding=ft.padding.only(left=20)),
                                 ft.Container(
                                     ft.Container(
                                         ft.Row(controls=[
-                                        ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Настройки робота',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                                        ft.Container(ft.ElevatedButton(content = ft.Text('Выбрать режим торговли',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                                    ]),padding=ft.padding.only(left=290,top=10)
+                                        ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                        ft.Container(ft.ElevatedButton(content = ft.Text('Запустить торговлю',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                    ]),padding=ft.padding.only(left=320,top=10)
                                     ),
-                                    width=860,
+                                    width=500,
+                                    # bgcolor='red'
                                     # height=920
                                 )
-                            ]),
-                            alignment=ft.alignment.center),margin=ft.margin.only(top=2,left=-10,right=-10),padding=ft.padding.only(top=10)      
+                            ]),alignment=ft.alignment.center),
+                        padding=ft.padding.only(top=10)
                     ),expand=2
         )
         
