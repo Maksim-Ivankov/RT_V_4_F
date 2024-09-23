@@ -1,4 +1,3 @@
-import flet as ft
 from variable import *
 from imports import *
 
@@ -90,8 +89,9 @@ class HisTrade_Svoboda_OneSettings():
                    config.get('param_trade_historical_trade_svobodniy_freym', 'strategys') 
         )
         file.close()
-        strategys = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
-        for strat in strategys:
+        self.strategys = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
+        "Стратегии торговли в массиве"
+        for strat in self.strategys:
             strat_obj = settings_strat[strat]
             str_set = ''
             
