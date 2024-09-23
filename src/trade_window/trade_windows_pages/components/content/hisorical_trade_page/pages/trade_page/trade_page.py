@@ -12,7 +12,11 @@ class Trade_page(ft.UserControl):#1
         self.change_page = change_page
         
     def start_trade(self,e):
-        core_trade_ob = Core_trade()
+        regime = 'Историческая торговля|Свободный фрейм|Ода настройка'
+        config = configparser.ConfigParser()  
+        config.read(path_imports_config)
+        strategy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
+        core_trade_ob = Core_trade(regime,strategy)
 
     def print_page(self):
         
