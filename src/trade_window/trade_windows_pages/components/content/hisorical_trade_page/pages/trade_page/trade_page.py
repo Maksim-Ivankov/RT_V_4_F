@@ -17,6 +17,7 @@ class Trade_page(ft.UserControl):#1
         config.read(path_imports_config)
         strategy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
         core_trade_ob = Core_trade(regime,strategy)
+        core_trade_ob.start_trade()
 
     def print_page(self):
         
