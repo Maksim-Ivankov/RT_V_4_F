@@ -4,13 +4,19 @@ from variable import *
 from imports import *
 
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.data_settings import print_our_settings,print_set_settings
+from src.controllers.trade.core_trade import Core_trade
 
 class Trade_page(ft.UserControl):#1
     def __init__(self,change_page):
         super().__init__()
         self.change_page = change_page
+        
+    def start_trade(self,e):
+        core_trade_ob = Core_trade()
 
     def print_page(self):
+        
+        
 
         self.trade_page = ft.Container(
             ft.Container(
@@ -76,7 +82,7 @@ class Trade_page(ft.UserControl):#1
                                     ft.Container(
                                         ft.Row(controls=[
                                         ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                                        ft.Container(ft.ElevatedButton(content = ft.Text('Запустить торговлю',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                        ft.Container(ft.ElevatedButton(content = ft.Text('Запустить торговлю',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=self.start_trade,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
                                     ]),padding=ft.padding.only(left=320,top=10)
                                     ),
                                     width=500,
