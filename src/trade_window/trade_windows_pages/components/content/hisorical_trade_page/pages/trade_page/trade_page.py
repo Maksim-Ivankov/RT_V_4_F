@@ -11,20 +11,26 @@ class Trade_page(ft.UserControl):#1
     def __init__(self,change_page):
         super().__init__()
         self.change_page = change_page
+        self.output_info_trade = Output_info_trade()
+        self.count_pb = 0
         
     def start_trade(self,e):
         regime = 'Историческая торговля|Свободный фрейм|Ода настройка'
         config = configparser.ConfigParser()  
         config.read(path_imports_config)
         strategy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
-        # core_trade_ob = Core_trade(regime,strategy)
-        # core_trade_ob.start_trade()
+        core_trade_ob = Core_trade(regime,strategy)
+        self.controls[0].content.content.content.controls.append(self.output_info_trade.print_page())
+        
+        self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb), args=(), daemon=True)
+        self.myThread.start()
+        
+    def change_pb(self,procent):
+        self.output_info_trade.pb.value = procent
+        self.update()
         
 
     def print_page(self):
-        
-        output_info_trade = Output_info_trade()
-
         self.trade_page = ft.Container(
             ft.Container(
                         ft.Container(

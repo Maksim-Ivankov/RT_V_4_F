@@ -6,10 +6,13 @@ from imports import *
 class Output_info_trade(ft.UserControl):#1
     def __init__(self):
         super().__init__()
+        self.pb = ft.ProgressBar(width=900,bgcolor=c_blue,color=c_yelow)
 
 
     def print_page(self):
-        self.trade_page = ft.Container(ft.Text('1111111111'))
+        self.trade_page = ft.Container(ft.Column(controls=[
+            ft.Container(self.pb,margin=ft.margin.only(top=20,bottom=20))
+        ]),width=900)
             
         
         return self.trade_page

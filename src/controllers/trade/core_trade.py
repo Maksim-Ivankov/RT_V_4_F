@@ -71,10 +71,11 @@ class Core_trade():
                 break
             
 
-    def start_trade(self):
+    def start_trade(self,change_pb):
         data_numbers = []
         self.calculation_step_df(self.var.COINS[0])
         for index in range(self.var.VOLUME):
+            change_pb(index/self.var.VOLUME)
             data_numbers.append(index) # добавляем в массив номера итераций - 0,1,2,3 - имитируем реальную торговлю
             if index>self.INDEX_START: # начинаем не с нуля, а с 20-ой свечи
                 self.trade_param['index_trade'] = index
