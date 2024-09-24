@@ -71,7 +71,8 @@ class Core_trade():
                 break
             
 
-    def start_trade(self,change_pb,add_logi_trade):
+    def start_trade(self,change_pb,add_logi_trade,add_trade_table):
+        self.add_trade_table = add_trade_table
         data_numbers = []
         self.calculation_step_df(self.var.COINS[0])
         add_logi_trade('Начали торговлю')
@@ -168,9 +169,9 @@ class Core_trade():
             self.DEPOSIT_GLOBAL = round(self.DEPOSIT_GLOBAL,2)
             self.place_open_position_profit = round(-LEVERAGE*self.DEPOSIT_GLOBAL*procent-LEVERAGE*self.DEPOSIT_GLOBAL*(COMMISSION_MAKER+COMMISSION_TAKER),2)
         self.print_file_log(f'{self.trade_param['trend']}|{self.var.DEPOSIT}|{self.DEPOSIT_GLOBAL}|{round(self.profit,2)}|{round(self.comission,2)}|{round(self.local_profit,2)}\n',self.path_save_trade_log)
+        if self.local_profit>0: self.add_trade_table({'result':'+','data':f'{self.trade_param['coin']}| {self.trade_param['trend']} | Депозит: {round(self.DEPOSIT_GLOBAL,2)} | Профит: {round(self.local_profit,2)}'})
+        else: self.add_trade_table({'result':'-','data':f'{self.trade_param['coin']}| {self.trade_param['trend']} | Депозит: {round(self.DEPOSIT_GLOBAL,2)} | Убыток: {round(self.local_profit,2)}'})
         self.trade_param['position'] = False
-
-
 
 
 

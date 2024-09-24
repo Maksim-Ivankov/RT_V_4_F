@@ -43,7 +43,7 @@ class Trade_page(ft.UserControl):#1
                                                             ft.Container(ft.Text('Сделки',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
                                                         ft.Container(
                                                             ft.Container(
-                                                                
+                                                                ft.Column(scroll=ft.ScrollMode.ALWAYS),
                                                                 width=425,
                                                                 height=400,
                                                                 border = ft.border.all(1, c_white),
@@ -69,15 +69,22 @@ class Trade_page(ft.UserControl):#1
         # self.controls[0].content.content.content.controls.append(self.output_info_trade.print_page())
         self.controls[0].content.content.content.height=600
         self.content.scroll_to(key="pb", duration=1000)
-        self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_trade), args=(), daemon=True)
+        self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table), args=(), daemon=True)
         self.myThread.start()
         
     def change_pb(self,procent):
         self.pb.value = procent
         
-    def add_logi_trade(self,data):
+    def add_logi_table(self,data):
         self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[0].content.content.controls[0].controls[1].content.content.controls.insert(0,ft.Text(data))
         self.update()
+        
+    def add_trade_table(self,data):
+        # print(data)
+        if data['result'] == '+': data_add = ft.Container(ft.Text(data['data'],color=c_blue,text_align='center'),height=30,bgcolor=c_green,width=400)
+        else: data_add = ft.Container(ft.Text(data['data'],color=c_blue,text_align='center'),height=30,bgcolor=c_red,width=400)
+        self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
+        
     def print_page(self):
         
             
