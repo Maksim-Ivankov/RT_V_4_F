@@ -1,22 +1,25 @@
+import math
+
 import flet as ft
+import flet.canvas as cv
 
 def main(page: ft.Page):
-    page.title = "GridView Example"
-    page.theme_mode = ft.ThemeMode.DARK
-    page.padding = 50
-    page.update()
-    images = ft.GridView(
-        expand=1,
-        runs_count=5,
-        max_extent=150,
-        child_aspect_ratio=1.0,
-        spacing=5,
-        run_spacing=5,
+    stroke_paint = ft.Paint(stroke_width=2, style=ft.PaintingStyle.STROKE)
+    fill_paint = ft.Paint(style=ft.PaintingStyle.FILL)
+    cp = cv.Canvas(
+        [
+            cv.Rect(100, 100, 50,50, stroke_paint)
+            # cv.Circle(100, 100, 50, stroke_paint),
+            # cv.Circle(80, 90, 10, stroke_paint),
+            # cv.Circle(84, 87, 5, fill_paint),
+            # cv.Circle(120, 90, 10, stroke_paint),
+            # cv.Circle(124, 87, 5, fill_paint),
+            # cv.Arc(70, 95, 60, 40, 0, math.pi, paint=stroke_paint),
+        ],
+        width=float("inf"),
+        expand=True,
     )
-    page.add(images)
-    for i in range(0, 60):
-        images.controls.append(
-            ft.Text('qwfqwfqw')
-        )
-    page.update()
-ft.app(target=main)
+
+    page.add(cp)
+
+ft.app(main)

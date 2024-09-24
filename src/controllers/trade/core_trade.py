@@ -71,7 +71,7 @@ class Core_trade():
                 break
             
 
-    def start_trade(self,change_pb,add_logi_trade,add_trade_table):
+    def start_trade(self,change_pb,add_logi_trade,add_trade_table,print_trade_end):
         self.add_trade_table = add_trade_table
         data_numbers = []
         self.calculation_step_df(self.var.COINS[0])
@@ -114,6 +114,7 @@ class Core_trade():
                         else: add_logi_trade(f'{index}|Стоим в сделке')
             self.print_file_log(f'{index}|{self.DEPOSIT_GLOBAL}|{self.trend_mas}|{self.trade_param['trend']}|{self.trade_param['coin']}|{self.trade_param['open_time_trade']}\n',self.path_save_log)
         add_logi_trade(f'Закончили торговлю')
+        print_trade_end()
         
     # открывает лонг или шорт
     def open_position(self):

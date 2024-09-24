@@ -16,6 +16,8 @@ import io
 from ast import literal_eval
 import random
 import statsmodels.api as sm
+import flet.canvas as cv
+import math
 
 import numpy as np
 
