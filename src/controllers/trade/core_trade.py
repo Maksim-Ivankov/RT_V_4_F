@@ -71,9 +71,10 @@ class Core_trade():
                 break
             
 
-    def start_trade(self,change_pb):
+    def start_trade(self,change_pb,add_logi_trade):
         data_numbers = []
         self.calculation_step_df(self.var.COINS[0])
+        add_logi_trade('Начали торговлю')
         for index in range(self.var.VOLUME):
             change_pb(index/self.var.VOLUME)
             data_numbers.append(index) # добавляем в массив номера итераций - 0,1,2,3 - имитируем реальную торговлю
@@ -95,7 +96,10 @@ class Core_trade():
                                 self.trade_param['open_time_trade'] = self.trade_param['df_now_step']['open_time'][index]
                                 self.open_position() # открываем позицию 
                                 self.df_see = pd.read_csv(f'{path_svoboda_freym}\\{self.var.number_trade}\\see\\{coin}.csv')
+                                add_logi_trade(f'{index}|Сигнал {self.trade_param['trend']}, монета {coin}, цена входа - {self.trade_param['price_treyd']}')
                                 break
+                            else: add_logi_trade(f'{index}|Монета {coin} - Нет сигнала')
+                            # add_logi_trade(f'')
                 else:
                     try:
                         self.trade_param['df_see'] = self.df_see.iloc[int(self.search_step_see(self.trade_param['index_trade'])):int(self.search_step_see(self.trade_param['index_trade'])+self.trade_param['timeframe'])] # получили датафрейм мини из файла
@@ -103,9 +107,12 @@ class Core_trade():
                         print(f'Находимся в конце фрейма, не успеваем выйти из сделки - {e}')
                     for nonindex, row in self.trade_param['df_see'].iterrows():
                         if self.check_trade(row['close'],self.var.COMMISSION_MAKER,self.var.COMMISSION_TAKER,self.var.TP,self.var.SL,self.var.LEVERAGE):
+                            if self.local_profit>0: add_logi_trade(f'{index}|Вышли из сделки, депозит - {self.DEPOSIT_GLOBAL}, профит {self.local_profit}')
+                            else: add_logi_trade(f'{index}|Вышли из сделки, депозит - {self.DEPOSIT_GLOBAL}, убыток {self.local_profit}')
                             break # чекаем монету по шагам итерации между большим и мальеньким фреймомd
+                        else: add_logi_trade(f'{index}|Стоим в сделке')
             self.print_file_log(f'{index}|{self.DEPOSIT_GLOBAL}|{self.trend_mas}|{self.trade_param['trend']}|{self.trade_param['coin']}|{self.trade_param['open_time_trade']}\n',self.path_save_log)
-        print('Готово')
+        add_logi_trade(f'Закончили торговлю')
         
     # открывает лонг или шорт
     def open_position(self):
