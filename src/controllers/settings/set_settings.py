@@ -27,17 +27,17 @@ class HisTrade_Svoboda_OneSettings():
         "режим тейка"
         self.regime_SL = config.get('param_trade_historical_trade_svobodniy_freym', 'regim_sl') # режим стопа
         "режим стопа"
-        self.TP = float(config.get('param_trade_historical_trade_svobodniy_freym', 'tp')) # Тейк профит, процент
+        self.TP = float(config.get('param_trade_historical_trade_svobodniy_freym', 'tp'))/100 # Тейк профит, процент
         "Тейк профит, процент"
-        self.SL = float(config.get('param_trade_historical_trade_svobodniy_freym', 'sl')) # Стоп лосс, процент
+        self.SL = float(config.get('param_trade_historical_trade_svobodniy_freym', 'sl'))/100 # Стоп лосс, процент
         "Стоп лосс, процент"
         self.DEPOSIT = int(config.get('param_trade_historical_trade_svobodniy_freym', 'deposit')) # Депозит
         "Депозит"
         self.LEVERAGE = int(config.get('param_trade_historical_trade_svobodniy_freym', 'leverage')) # торговое плечо
         "торговое плечо"
-        self.COMMISSION_MAKER = float(config.get('param_trade_historical_trade_svobodniy_freym', 'komission_mayker')) # комиссия на вход
+        self.COMMISSION_MAKER = float(config.get('param_trade_historical_trade_svobodniy_freym', 'komission_mayker'))/100 # комиссия на вход
         "комиссия на вход"
-        self.COMMISSION_TAKER = float(config.get('param_trade_historical_trade_svobodniy_freym', 'komission_taker')) # комиссия на выхд
+        self.COMMISSION_TAKER = float(config.get('param_trade_historical_trade_svobodniy_freym', 'komission_taker'))/100 # комиссия на выхд
         "комиссия на выхд"
         self.VOLUME = int(change_how_mach_time[config.get('param_trade_historical_trade_svobodniy_freym', 'dlitelnost')]/self.TF) # сколько свечей получить при запросе к бирже
         "сколько свечей получить при запросе к бирже"
