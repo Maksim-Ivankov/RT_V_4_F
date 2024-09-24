@@ -5,6 +5,7 @@ from imports import *
 
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.data_settings import print_our_settings,print_set_settings
 from src.controllers.trade.core_trade import Core_trade
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.output_info_trade import Output_info_trade
 
 class Trade_page(ft.UserControl):#1
     def __init__(self,change_page):
@@ -16,12 +17,13 @@ class Trade_page(ft.UserControl):#1
         config = configparser.ConfigParser()  
         config.read(path_imports_config)
         strategy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
-        core_trade_ob = Core_trade(regime,strategy)
-        core_trade_ob.start_trade()
+        # core_trade_ob = Core_trade(regime,strategy)
+        # core_trade_ob.start_trade()
+        
 
     def print_page(self):
         
-        
+        output_info_trade = Output_info_trade()
 
         self.trade_page = ft.Container(
             ft.Container(
@@ -93,7 +95,8 @@ class Trade_page(ft.UserControl):#1
                                     width=500,
                                     # bgcolor='red'
                                     # height=920
-                                )
+                                ),
+                                
                             ]),alignment=ft.alignment.center),
                         padding=ft.padding.only(top=10)
                     ),expand=2

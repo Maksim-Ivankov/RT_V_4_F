@@ -11,7 +11,7 @@ class One():
         
     def check_cignal(self):
         self.prepared_df = self.PrepareDF(self.df)
-        signal="нет сигнала" # возвращаемый сигнал, лонг или шорт
+        signal="no" # возвращаемый сигнал, лонг или шорт
         i=len(self.df)-2 # 99 - текущая свеча, которая не закрыта, 98 - последняя закрытая свеча, нам нужно 97, чтобы проверить, нижняя она или верхняяf
         if self.isHCC(self.prepared_df,i-1)>0: # если у нас локальный минимум
             if self.prepared_df['position_in_channel'][i-1]>self.var.strat_one_up_chanal: # проверяем, прижаты ли мы к нижней границе канала

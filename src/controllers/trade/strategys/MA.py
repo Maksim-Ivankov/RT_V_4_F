@@ -45,20 +45,20 @@ class MA():
                     return 'long'
                 else:
                     self.data_mas[:] = []
-                    return 'нет сигнала'
+                    return 'no'
             elif self.data_mas[0] == False and data_once==True:
                 if prepared_df['position_in_channel'][i-1]>self.var.strat_ma_up_chanal: # проверяем, прижаты ли мы к нижней границе канала
                     self.data_mas[:] = []
                     return 'short'
                 else:
                     self.data_mas[:] = []
-                    return 'нет сигнала'
+                    return 'no'
             else:
                 self.data_mas[:] = []
-                return 'нет сигнала'
+                return 'no'
         else:
             self.data_mas[:] = []
-            return 'нет сигнала'
+            return 'no'
     
     
     
