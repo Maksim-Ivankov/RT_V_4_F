@@ -21,7 +21,8 @@ class Trade_page(ft.UserControl):#1
         strategy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
         core_trade_ob = Core_trade(regime,strategy)
         self.controls[0].content.content.content.controls.append(self.output_info_trade.print_page())
-        
+        self.controls[0].content.content.content.height=600
+        self.content.scroll_to(key="pb", duration=1000)
         self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb), args=(), daemon=True)
         self.myThread.start()
         
@@ -31,10 +32,7 @@ class Trade_page(ft.UserControl):#1
         
 
     def print_page(self):
-        self.trade_page = ft.Container(
-            ft.Container(
-                        ft.Container(
-                            ft.Column(controls=[
+        self.content = ft.Column(controls=[
                                 ft.Container(ft.Text('Проверьте настройки и запустите торговлю',size=12,color=c_white,text_align='center'),padding=ft.padding.only(left=320)),
                                 ft.Container(
                                     ft.Row(controls=[
@@ -103,10 +101,17 @@ class Trade_page(ft.UserControl):#1
                                     # height=920
                                 ),
                                 
-                            ]),alignment=ft.alignment.center),
-                        padding=ft.padding.only(top=10)
+                            ],scroll=ft.ScrollMode.ALWAYS)
+        
+        self.trade_page = ft.Container(
+            ft.Container(
+                        ft.Container(
+                            self.content,
+                            alignment=ft.alignment.center),
+                            padding=ft.padding.only(top=10)
                     ),expand=2
         )
+        
         
         return self.trade_page
 

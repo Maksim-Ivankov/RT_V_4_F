@@ -11,7 +11,8 @@ class Output_info_trade(ft.UserControl):#1
 
     def print_page(self):
         self.trade_page = ft.Container(ft.Column(controls=[
-            ft.Container(self.pb,margin=ft.margin.only(top=20,bottom=20))
+            ft.Container(self.pb,margin=ft.margin.only(top=20,bottom=20),key='pb'),
+            ft.Container(width=900,height=1200,bgcolor='red')
         ]),width=900)
             
         
