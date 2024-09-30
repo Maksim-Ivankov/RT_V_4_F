@@ -18,7 +18,7 @@ class Graph_dohod(ft.UserControl):
         
         self.depo_max_min_stat_arr = []
         # график
-        self.width_graph = 405
+        self.width_graph = 400
         self.height_graph = 200
         self.print_canvas_arr = []
     
@@ -60,47 +60,52 @@ class Graph_dohod(ft.UserControl):
         # рисуем график
         self.OldRange = (self.price_max - self.price_min) # старая высота = 39,78
         self.NewRange = self.height_graph # новая высота = 200
-        self.NewRange1 = (self.width_graph/(len(self.array_data_row))) # новая ширина = 36,81
+        self.x0 = 30
+        self.NewRange1 = ((self.width_graph-self.x0)/(len(self.array_data_row))) # новая ширина = 36,81
         self.y0 = self.height_graph - (((depo_start - self.price_min) * self.NewRange) / self.OldRange)
-        self.x0 = 0
-        
-        # print(self.OldRange)
-        # print(self.NewRange)
-        # print(self.OldRange1)
-        # print(self.NewRange1)
-        # print(self.y0)
-        # print(self.x0)
         
         # стили для фигур
-        # stroke_paint = ft.Paint(stroke_width=1, style=ft.PaintingStyle.STROKE,color=ft.colors.GREEN)
+        line_depo_start = ft.Paint(stroke_width=2, style=ft.PaintingStyle.STROKE,color=c_gray_binance)
         fill_green = ft.Paint(style=ft.PaintingStyle.FILL,color=c_green_binance)
         fill_red = ft.Paint(style=ft.PaintingStyle.FILL,color=c_red_binance)
+        fill_blue = ft.Paint(style=ft.PaintingStyle.FILL,color=c_blue)
         
-        # self.print_canvas_arr.append(cv.Line(0,self.height_graph-self.y0,self.width_graph,self.height_graph-self.y0, stroke_paint))
+        self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0, 0, 30, 200)],0, 0)],paint=fill_blue))
+        self.print_canvas_arr.append(cv.Line(0,self.y0,self.width_graph,self.y0, line_depo_start))
+        
+        step_price_arr = []
+        for i in range(int(self.price_min),int(self.price_max),int(self.OldRange/5)):
+            step_price_arr.append(i)
+        for index in range(len(step_price_arr)):
+            y = self.height_graph - (((step_price_arr[index] - self.price_min) * self.NewRange) / self.OldRange) - 10
+            self.print_canvas_arr.append(cv.Text(5,y,step_price_arr[index],ft.TextStyle(size=12,color='#b6b8b1')))
+            
+        self.y0 = self.height_graph - (((depo_start - self.price_min) * self.NewRange) / self.OldRange)
+        
+        
         
         for index in range(len(self.array_data_row)):
             self.value = float(self.array_data_row[index].split('|')[2])
             # print(self.value)
             self.x = ((index) * self.NewRange1)
             self.y = self.height_graph - (((self.value - self.price_min) * self.NewRange) / self.OldRange)
-            print(f'x0={self.x0} | y0={self.y0} | x={self.x} | y={self.y}')
+            # print(f'x0={self.x0} | y0={self.y0} | x={self.x} | y={self.y}')
             if float(self.array_data_row[index].split('|')[3])>=0:
                 # graph_profit.tag_lower(graph_profit.create_rectangle(x0, self.height-y0, x, self.height-y,outline="#0ECB81", fill="#0ECB81")) # зеленая
                 # self.print_canvas_arr.append(cv.Rect(self.x0, self.height_graph-self.y0, self.x, self.height_graph-self.y,fill_green))
-                self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_green))
+                self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_green))
             # self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, self.y0, self.x, self.y)],0, 0)],paint=fill_green))
             # self.y0 = self.y
             # self.x0 = self.x
                 # self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, self.height_graph - self.y0, self.x, self.height_graph - self.y)],0, 0)],paint=fill_green))
             else:
-                self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_red))
+                self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_red))
                 # self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0, self.y0, self.NewRange1, self.y)],self.x, 0)],paint=fill_red))
             #     print(f'красн | x0={self.x0} | y0={self.y0} | x={self.x} | y={self.y}')
             #     self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0, self.height_graph - self.y0, self.x, self.height_graph - self.y)],0, 0)],paint=fill_red))
                 # self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, self.height_graph - self.y0, self.x, self.height_graph - self.y)],0, 0)],paint=fill_red))
                 # self.print_canvas_arr.append(cv.Rect(self.x0, self.height_graph-self.y0, self.x, self.height_graph-self.y,fill_red))
             self.y0 = self.y
-            self.x0 = self.x
                 
         # self.print_canvas_arr.append(cv.Line(0,0,50,50, stroke_paint))
         # self.print_canvas_arr.append(cv.Rect(50,50,100,100))

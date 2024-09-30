@@ -52,6 +52,7 @@ c_red = '#FF0A0A'
 c_blue_binance = '#161A1E'
 c_green_binance = '#0ECB81'
 c_red_binance = '#F6465D'
+c_gray_binance = '#363A45'
 
 server_ip = 'http://127.0.0.1:5000'
 
