@@ -49,6 +49,8 @@ c_yelow = '#FBD46D'
 c_green = '#0AFF89'
 c_red = '#FF0A0A'
 
+c_blue_binance = '#161A1E'
+
 server_ip = 'http://127.0.0.1:5000'
 
 width_window_platforma = 1186

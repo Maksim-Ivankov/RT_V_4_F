@@ -3,41 +3,24 @@ import flet as ft
 from variable import *
 from imports import *
 
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.graph_dohod.graph_dohod import Graph_dohod
+
 class Output_info_trade(ft.UserControl):#1
     def __init__(self):
         super().__init__()
         self.pb = ft.ProgressBar(width=900,bgcolor=c_blue,color=c_yelow)
+        self.number_trade = len(os.listdir(path_save_trade))+1
 
     
     def print_itog_and_graph(self):
-        stroke_paint = ft.Paint(stroke_width=2, style=ft.PaintingStyle.STROKE)
-        fill_paint = ft.Paint(style=ft.PaintingStyle.FILL)
         self.trade_page_two = ft.Container(ft.Column(controls=[
             ft.Container(ft.Row(controls=[
                     ft.Container(
                                     ft.Container(ft.Column(controls=[ft.Column(controls=[
                                                     ft.Container(
-                                                        ft.Container(ft.Text('График доходности',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
+                                                        ft.Container(ft.Text('Доходность',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
                                                         ft.Container(
-                                                            ft.Container(
-                                                                cv.Canvas(
-                                                                    [
-                                                                        cv.Circle(100, 100, 50, stroke_paint),
-                                                                        cv.Circle(80, 90, 10, stroke_paint),
-                                                                        cv.Circle(84, 87, 5, fill_paint),
-                                                                        cv.Circle(120, 90, 10, stroke_paint),
-                                                                        cv.Circle(124, 87, 5, fill_paint),
-                                                                        cv.Arc(70, 95, 60, 40, 0, math.pi, paint=stroke_paint),
-                                                                    ],
-                                                                    width=float("inf"),
-                                                                    expand=True,
-                                                                ),
-                                                                width=425,
-                                                                height=400,
-                                                                border = ft.border.all(1, c_white),
-                                                                bgcolor=c_blue,
-                                                                padding=10,
-                                                            ),
+                                                            Graph_dohod(self.number_trade),
                                                             width=425,
                                                             # border = ft.border.all(1, c_white),
                                                             # padding=14,
