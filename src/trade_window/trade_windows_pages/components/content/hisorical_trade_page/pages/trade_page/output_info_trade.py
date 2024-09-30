@@ -9,7 +9,8 @@ class Output_info_trade(ft.UserControl):#1
     def __init__(self):
         super().__init__()
         self.pb = ft.ProgressBar(width=900,bgcolor=c_blue,color=c_yelow)
-        self.number_trade = len(os.listdir(path_save_trade))+1
+        self.number_trade = len(os.listdir(path_save_trade))
+        # self.number_trade = len(os.listdir(path_save_trade))+1
 
     
     def print_itog_and_graph(self):

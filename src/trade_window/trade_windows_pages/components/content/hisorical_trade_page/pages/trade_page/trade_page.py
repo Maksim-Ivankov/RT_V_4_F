@@ -111,7 +111,8 @@ class Trade_page(ft.UserControl):#1
         self.trade_page = ft.Container(
             ft.Container(
                         ft.Container(
-                            self.content,
+                            # self.content, ВЕРНУТЬ
+                            self.output_info_trade.print_itog_and_graph(),
                             alignment=ft.alignment.center),
                             padding=ft.padding.only(top=10)
                     ),expand=2
