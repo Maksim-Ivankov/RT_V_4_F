@@ -23,10 +23,13 @@ class Graph_dohod(ft.UserControl):
         self.print_canvas_arr = []
     
     def pan_start(self,e: ft.DragStartEvent):
-        print(e.local_x)
-        print(e.local_y)
-        # x = e.local_x
-        # y = e.local_y
+        self.line_price.y1 = e.local_y
+        self.line_price.y2 = e.local_y
+        self.line_price_rect.elements[0].elements[0].y = e.local_y-10
+        self.price_value_line.y = e.local_y-8
+        text_price = (((self.height_graph - e.local_y)*self.OldRange)/self.NewRange)+self.price_min
+        self.price_value_line.text = int(round(text_price,0))
+        self.update()
 
     def print_page(self):
         
@@ -36,7 +39,7 @@ class Graph_dohod(ft.UserControl):
             with open(self.path_save_trade_log) as file:
                 self.array_data_row = [row.strip() for row in file]
         for trade_once in self.array_data_row:
-            depo_start = float(trade_once.split('|')[1])
+            self.depo_start = float(trade_once.split('|')[1])
             depo = float(trade_once.split('|')[2])
             result = float(trade_once.split('|')[3])
             komission = float(trade_once.split('|')[4])
@@ -51,9 +54,9 @@ class Graph_dohod(ft.UserControl):
             self.trade_komission+=komission
             self.depo_max_min_stat_arr.append(depo)
             
-        self.trade_balance_procent = round(((depo-depo_start)/depo_start)*100,2)
+        self.trade_balance_procent = round(((depo-self.depo_start)/self.depo_start)*100,2)
         self.price_max = max(self.depo_max_min_stat_arr) # максимальное депо
-        if self.price_max<depo_start:self.price_max = depo_start
+        if self.price_max<self.depo_start:self.price_max = self.depo_start
         self.price_min = min(self.depo_max_min_stat_arr) # минимальное депо
         
         
@@ -62,17 +65,28 @@ class Graph_dohod(ft.UserControl):
         self.NewRange = self.height_graph # новая высота = 200
         self.x0 = 30
         self.NewRange1 = ((self.width_graph-self.x0)/(len(self.array_data_row))) # новая ширина = 36,81
-        self.y0 = self.height_graph - (((depo_start - self.price_min) * self.NewRange) / self.OldRange)
+        self.y0 = self.height_graph - (((self.depo_start - self.price_min) * self.NewRange) / self.OldRange)
         
         # стили для фигур
         line_depo_start = ft.Paint(stroke_width=2, style=ft.PaintingStyle.STROKE,color=c_gray_binance)
+        fill_rect_price = ft.Paint(style=ft.PaintingStyle.FILL,color=c_gray_binance)
         fill_green = ft.Paint(style=ft.PaintingStyle.FILL,color=c_green_binance)
         fill_red = ft.Paint(style=ft.PaintingStyle.FILL,color=c_red_binance)
         fill_blue = ft.Paint(style=ft.PaintingStyle.FILL,color=c_blue)
         
+        # добавляем элементы легенды для цены
         self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0, 0, 30, 200)],0, 0)],paint=fill_blue))
         self.print_canvas_arr.append(cv.Line(0,self.y0,self.width_graph,self.y0, line_depo_start))
         
+        # линия прайса
+        self.line_price = cv.Line(0,0,self.width_graph,0, line_depo_start)
+        # прямоугольник прайса
+        self.line_price_rect = cv.Path([cv.Path.SubPath([cv.Path.Rect(0, 0, 30, 20)],0, 0)],paint=fill_rect_price)
+        # прайс
+        self.price_value_line = cv.Text(5,5,'111',ft.TextStyle(size=12,color='#b6b8b1'))
+        
+        
+        # рисуем цену
         step_price_arr = []
         for i in range(int(self.price_min),int(self.price_max),int(self.OldRange/5)):
             step_price_arr.append(i)
@@ -80,63 +94,35 @@ class Graph_dohod(ft.UserControl):
             y = self.height_graph - (((step_price_arr[index] - self.price_min) * self.NewRange) / self.OldRange) - 10
             self.print_canvas_arr.append(cv.Text(5,y,step_price_arr[index],ft.TextStyle(size=12,color='#b6b8b1')))
             
-        self.y0 = self.height_graph - (((depo_start - self.price_min) * self.NewRange) / self.OldRange)
+        self.y0 = self.height_graph - (((self.depo_start - self.price_min) * self.NewRange) / self.OldRange)
         
         
-        
+        # рисуем свечи доходности
         for index in range(len(self.array_data_row)):
             self.value = float(self.array_data_row[index].split('|')[2])
-            # print(self.value)
             self.x = ((index) * self.NewRange1)
             self.y = self.height_graph - (((self.value - self.price_min) * self.NewRange) / self.OldRange)
-            # print(f'x0={self.x0} | y0={self.y0} | x={self.x} | y={self.y}')
             if float(self.array_data_row[index].split('|')[3])>=0:
-                # graph_profit.tag_lower(graph_profit.create_rectangle(x0, self.height-y0, x, self.height-y,outline="#0ECB81", fill="#0ECB81")) # зеленая
-                # self.print_canvas_arr.append(cv.Rect(self.x0, self.height_graph-self.y0, self.x, self.height_graph-self.y,fill_green))
                 self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_green))
-            # self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, self.y0, self.x, self.y)],0, 0)],paint=fill_green))
-            # self.y0 = self.y
-            # self.x0 = self.x
-                # self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, self.height_graph - self.y0, self.x, self.height_graph - self.y)],0, 0)],paint=fill_green))
             else:
                 self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_red))
-                # self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0, self.y0, self.NewRange1, self.y)],self.x, 0)],paint=fill_red))
-            #     print(f'красн | x0={self.x0} | y0={self.y0} | x={self.x} | y={self.y}')
-            #     self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0, self.height_graph - self.y0, self.x, self.height_graph - self.y)],0, 0)],paint=fill_red))
-                # self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, self.height_graph - self.y0, self.x, self.height_graph - self.y)],0, 0)],paint=fill_red))
-                # self.print_canvas_arr.append(cv.Rect(self.x0, self.height_graph-self.y0, self.x, self.height_graph-self.y,fill_red))
-            self.y0 = self.y
-                
-        # self.print_canvas_arr.append(cv.Line(0,0,50,50, stroke_paint))
-        # self.print_canvas_arr.append(cv.Rect(50,50,100,100))
-        # self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0,0,50,50)],50,50,)],paint=fill_green))
-        
+            self.y0 = self.y   
         
         self.graph_profit = cv.Canvas(self.print_canvas_arr,width=self.width_graph,height=self.height_graph,content=ft.GestureDetector(
-            on_pan_start=self.pan_start,
-            # on_pan_update=pan_update,
+            # on_pan_start=self.pan_start,
+            on_hover=self.pan_start,
             drag_interval=10,
         ))
+        
+        self.print_canvas_arr.append(self.line_price)
+        self.print_canvas_arr.append(self.line_price_rect)
+        self.print_canvas_arr.append(self.price_value_line)
             
         self.trade_page = ft.Container(
-            # cv.Canvas(
-            #     [
-            #         cv.Circle(100, 100, 50, stroke_paint),
-            #         cv.Circle(80, 90, 10, stroke_paint),
-            #         cv.Circle(84, 87, 5, fill_paint),
-            #         cv.Circle(120, 90, 10, stroke_paint),
-            #         cv.Circle(124, 87, 5, fill_paint),
-            #         cv.Arc(70, 95, 60, 40, 0, math.pi, paint=stroke_paint),
-            #     ],
-            #     width=float("inf"),
-            #     expand=True,
-            # ),
             ft.Container(ft.Column(controls=[
                 # для канваса
                 ft.Container(
                     self.graph_profit,
-                    # width=405,
-                    # height=200,
                     bgcolor=c_blue_binance,
                     ),
                 # для статистики под канвасом
