@@ -10,8 +10,10 @@ class Output_info_trade(ft.UserControl):#1
     def __init__(self):
         super().__init__()
         self.pb = ft.ProgressBar(width=900,bgcolor=c_blue,color=c_yelow)
-        self.number_trade = len(os.listdir(path_save_trade))
-        # self.number_trade = len(os.listdir(path_save_trade))+1
+        self.number_folder = len(os.listdir(path_save_trade))
+        self.number_trade = 0
+        # self.number_folder = len(os.listdir(path_save_trade))+1
+        
 
     
     def print_itog_and_graph(self):
@@ -22,7 +24,7 @@ class Output_info_trade(ft.UserControl):#1
                                                     ft.Container(
                                                         ft.Container(ft.Text('Доходность',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
                                                         ft.Container(
-                                                            Graph_dohod(self.number_trade),
+                                                            Graph_dohod(self.number_folder),
                                                             width=425,
                                                             height = 400,
                                                             padding=ft.padding.only(left=-1,top=-1,bottom=-1)
@@ -31,7 +33,7 @@ class Output_info_trade(ft.UserControl):#1
                                             ft.Column(controls=[ft.Column(controls=[
                                                         ft.Container(ft.Container(ft.Text('График сделки',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
                                                         ft.Container(
-                                                            Graph_trade(),
+                                                            Graph_trade(self.number_folder,self.number_trade),
                                                             width=425,
                                                             height = 400,
                                                             padding=ft.padding.only(left=-1,top=-1,bottom=-1)    

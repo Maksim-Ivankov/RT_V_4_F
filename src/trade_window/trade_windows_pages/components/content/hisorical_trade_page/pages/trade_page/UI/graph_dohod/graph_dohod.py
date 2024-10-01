@@ -4,9 +4,9 @@ from variable import *
 from imports import *
 
 class Graph_dohod(ft.UserControl):
-    def __init__(self,number_trade):
+    def __init__(self,number_folder):
         super().__init__()
-        self.number_trade = number_trade
+        self.number_folder = number_folder
         self.array_data_row = []
         self.trade_plus = 0
         self.trade_minus = 0
@@ -34,7 +34,7 @@ class Graph_dohod(ft.UserControl):
     def print_page(self):
         
         # штука ниже вытаскивает из файла с трейдом все данные и делает статистику
-        self.path_save_trade_log = f'{path_save_trade}\\{self.number_trade}\\trade.txt' # путь сохранения логов в папке трейда
+        self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\trade.txt' # путь сохранения логов в папке трейда
         if os.path.isfile(self.path_save_trade_log):
             with open(self.path_save_trade_log) as file:
                 self.array_data_row = [row.strip() for row in file]

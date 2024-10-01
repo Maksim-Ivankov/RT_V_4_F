@@ -107,6 +107,7 @@ class Core_trade():
                     except Exception as e:
                         print(f'Находимся в конце фрейма, не успеваем выйти из сделки - {e}')
                     for nonindex, row in self.trade_param['df_see'].iterrows():
+                        self.trade_param['close_time_trade'] = int(row['open_time'])
                         if self.check_trade(row['close'],self.var.COMMISSION_MAKER,self.var.COMMISSION_TAKER,self.var.TP,self.var.SL,self.var.LEVERAGE):
                             if self.local_profit>0: add_logi_trade(f'{index}|Вышли из сделки, депозит - {self.DEPOSIT_GLOBAL}, профит {self.local_profit}')
                             else: add_logi_trade(f'{index}|Вышли из сделки, депозит - {self.DEPOSIT_GLOBAL}, убыток {self.local_profit}')
@@ -169,7 +170,7 @@ class Core_trade():
             self.DEPOSIT_GLOBAL = self.DEPOSIT_GLOBAL - LEVERAGE*self.DEPOSIT_GLOBAL*procent - LEVERAGE*self.DEPOSIT_GLOBAL*(COMMISSION_MAKER+COMMISSION_TAKER) # обновляем размер депо
             self.DEPOSIT_GLOBAL = round(self.DEPOSIT_GLOBAL,2)
             self.place_open_position_profit = round(-LEVERAGE*self.DEPOSIT_GLOBAL*procent-LEVERAGE*self.DEPOSIT_GLOBAL*(COMMISSION_MAKER+COMMISSION_TAKER),2)
-        self.print_file_log(f'{self.trade_param['trend']}|{self.var.DEPOSIT}|{self.DEPOSIT_GLOBAL}|{round(self.profit,2)}|{round(self.comission,2)}|{round(self.local_profit,2)}\n',self.path_save_trade_log)
+        self.print_file_log(f'{self.trade_param['trend']}|{self.var.DEPOSIT}|{self.DEPOSIT_GLOBAL}|{round(self.profit,2)}|{round(self.comission,2)}|{round(self.local_profit,2)}|{self.trade_param['coin']}|{self.trade_param['take_profit_price']}|{self.trade_param['stop_loss_price']}|{self.trade_param['price_treyd']}|{self.trade_param['open_time_trade']}|{self.trade_param['close_time_trade']}\n',self.path_save_trade_log)
         if self.local_profit>0: self.add_trade_table({'result':'+','data':f'{self.trade_param['coin']}| {self.trade_param['trend']} | Депозит: {round(self.DEPOSIT_GLOBAL,2)} | Профит: {round(self.local_profit,2)}'})
         else: self.add_trade_table({'result':'-','data':f'{self.trade_param['coin']}| {self.trade_param['trend']} | Депозит: {round(self.DEPOSIT_GLOBAL,2)} | Убыток: {round(self.local_profit,2)}'})
         self.trade_param['position'] = False

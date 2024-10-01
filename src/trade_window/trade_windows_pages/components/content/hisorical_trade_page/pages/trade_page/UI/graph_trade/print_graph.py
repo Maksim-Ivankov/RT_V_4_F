@@ -3,7 +3,7 @@ import flet as ft
 from variable import *
 from imports import *
 
-class Graph_trade(ft.UserControl):
+class Print_graph(ft.UserControl):
     def __init__(self,number_folder,number_trade):
         super().__init__()
         self.number_folder = number_folder
