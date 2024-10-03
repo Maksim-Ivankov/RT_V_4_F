@@ -95,6 +95,7 @@ class Core_trade():
                             if self.trade_param['trend'] != 'no': # если есть сигнал, выходим из цикла
                                 self.trade_param['price_treyd'] = self.trade_param['df_now_step']['close'][index]
                                 self.trade_param['open_time_trade'] = self.trade_param['df_now_step']['open_time'][index]
+                                self.trade_param['path_df'] = f'{path_svoboda_freym}\\{self.var.number_trade}\\work\\{coin}.csv'
                                 self.open_position() # открываем позицию 
                                 self.df_see = pd.read_csv(f'{path_svoboda_freym}\\{self.var.number_trade}\\see\\{coin}.csv')
                                 add_logi_trade(f'{index}|Сигнал {self.trade_param['trend']}, монета {coin}, цена входа - {self.trade_param['price_treyd']}')
@@ -170,7 +171,7 @@ class Core_trade():
             self.DEPOSIT_GLOBAL = self.DEPOSIT_GLOBAL - LEVERAGE*self.DEPOSIT_GLOBAL*procent - LEVERAGE*self.DEPOSIT_GLOBAL*(COMMISSION_MAKER+COMMISSION_TAKER) # обновляем размер депо
             self.DEPOSIT_GLOBAL = round(self.DEPOSIT_GLOBAL,2)
             self.place_open_position_profit = round(-LEVERAGE*self.DEPOSIT_GLOBAL*procent-LEVERAGE*self.DEPOSIT_GLOBAL*(COMMISSION_MAKER+COMMISSION_TAKER),2)
-        self.print_file_log(f'{self.trade_param['trend']}|{self.var.DEPOSIT}|{self.DEPOSIT_GLOBAL}|{round(self.profit,2)}|{round(self.comission,2)}|{round(self.local_profit,2)}|{self.trade_param['coin']}|{self.trade_param['take_profit_price']}|{self.trade_param['stop_loss_price']}|{self.trade_param['price_treyd']}|{self.trade_param['open_time_trade']}|{self.trade_param['close_time_trade']}\n',self.path_save_trade_log)
+        self.print_file_log(f'{self.trade_param['trend']}|{self.var.DEPOSIT}|{self.DEPOSIT_GLOBAL}|{round(self.profit,2)}|{round(self.comission,2)}|{round(self.local_profit,2)}|{self.trade_param['coin']}|{self.trade_param['take_profit_price']}|{self.trade_param['stop_loss_price']}|{self.trade_param['price_treyd']}|{self.trade_param['open_time_trade']}|{self.trade_param['close_time_trade']}|{self.trade_param['path_df']}\n',self.path_save_trade_log)
         if self.local_profit>0: self.add_trade_table({'result':'+','data':f'{self.trade_param['coin']}| {self.trade_param['trend']} | Депозит: {round(self.DEPOSIT_GLOBAL,2)} | Профит: {round(self.local_profit,2)}'})
         else: self.add_trade_table({'result':'-','data':f'{self.trade_param['coin']}| {self.trade_param['trend']} | Депозит: {round(self.DEPOSIT_GLOBAL,2)} | Убыток: {round(self.local_profit,2)}'})
         self.trade_param['position'] = False

@@ -18,6 +18,8 @@ import random
 import statsmodels.api as sm
 import flet.canvas as cv
 import math
+from datetime import datetime
+import mplfinance as mpf
 
 import numpy as np
 
