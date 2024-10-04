@@ -72,9 +72,14 @@ class Print_graph(ft.UserControl):
             y1 = self.set['width_graph']*0.7 - (((row['close'] - self.price_min) * self.set['height_graph']*0.7) / self.OldRange)
             high = self.set['width_graph']*0.7 - (((row['high'] - self.price_min) * self.set['height_graph']*0.7) / self.OldRange)
             low = self.set['width_graph']*0.7 - (((row['low'] - self.price_min) * self.set['height_graph']*0.7) / self.OldRange)
+            if index == int(self.set['index_entry']):
+                self.print_trade_point('entry',x0,y1)
+            if index == int(self.set['index_exit']):
+                self.print_trade_point('exit',x0,y1)
             self.paint_candle(x0,y0,y1,high,low)
             VOLUME_y =(((row['VOLUME'] - price_min_volume) * NewRange_volume) / OldRange_volume)*0.8
             self.paint_one_volume(x0,y0,y1,VOLUME_y)
+        
             
         # рисуем одну свечу    
     def paint_candle(self,x0,y0,y1,high,low):
@@ -93,6 +98,27 @@ class Print_graph(ft.UserControl):
             self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0, 0,self.width_telo, -VOLUME_y)],x0, self.set['height_graph']-14)],paint=self.fill_green))
         if y0<y1: # зеленый
             self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0, 0,self.width_telo, -VOLUME_y)],x0, self.set['height_graph']-14)],paint=self.fill_red))
+            
+    def print_trade_point(self,point,x0,y1):
+        # print('Рисуем треугольник')
+        # if point == 'entry':
+        #     if self.set['trend'] == 'long':
+        #         self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.MoveTo(x0+10,y1+5),cv.Path.LineTo(x0+20,y1+20),cv.Path.LineTo(x0+0,y1+20),cv.Path.LineTo(x0+10,y1+5),],0, 0)],paint=self.fill_green))
+        #     elif self.set['trend'] == 'short':
+        #         self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.MoveTo(x0,y1),cv.Path.LineTo(x0-10,y1-10),cv.Path.LineTo(x0+10,y1-10),cv.Path.LineTo(x0,y1),],0, 0)],paint=self.fill_red))
+        # if point == 'exit':
+        #     if self.set['trend'] == 'long':
+        #         self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.MoveTo(x0,y1),cv.Path.LineTo(x0+10,y1+10),cv.Path.LineTo(x0-10,y1+10),cv.Path.LineTo(x0,y1),],0, 0)],paint=self.fill_green))
+        #     elif self.set['trend'] == 'short':
+        #         self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.MoveTo(x0,y1),cv.Path.LineTo(x0-10,y1-10),cv.Path.LineTo(x0+10,y1-10),cv.Path.LineTo(x0,y1),],0, 0)],paint=self.fill_red))
+        
+        if self.set['trend'] == 'long':
+            if point == 'entry': self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.MoveTo(x0,y1),cv.Path.LineTo(x0+10,y1+10),cv.Path.LineTo(x0-10,y1+10),cv.Path.LineTo(x0,y1),],0, 0)],paint=self.fill_green))
+            if point == 'exit':self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.MoveTo(x0,y1),cv.Path.LineTo(x0-10,y1-10),cv.Path.LineTo(x0+10,y1-10),cv.Path.LineTo(x0,y1),],0, 0)],paint=self.fill_red))
+        elif self.set['trend'] == 'short':
+            if point == 'entry': self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.MoveTo(x0,y1),cv.Path.LineTo(x0-10,y1-10),cv.Path.LineTo(x0+10,y1-10),cv.Path.LineTo(x0,y1),],0, 0)],paint=self.fill_red))
+            if point == 'exit': self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.MoveTo(x0,y1),cv.Path.LineTo(x0+10,y1+10),cv.Path.LineTo(x0-10,y1+10),cv.Path.LineTo(x0,y1),],0, 0)],paint=self.fill_green))
+            
 
 
     def print_page(self):

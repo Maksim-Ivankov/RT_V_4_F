@@ -32,6 +32,8 @@ class Graph_trade(ft.UserControl):
         self.settings_print_graph['close_time_trade'] = int(self.array_data_row[self.number_trade].split('|')[11])
         self.settings_print_graph['path_df'] = self.array_data_row[self.number_trade].split('|')[12]
         self.settings_print_graph['trend'] = self.array_data_row[self.number_trade].split('|')[0]
+        self.settings_print_graph['index_entry'] = self.array_data_row[self.number_trade].split('|')[13]
+        self.settings_print_graph['index_exit'] = self.array_data_row[self.number_trade].split('|')[14]
         
 
             
