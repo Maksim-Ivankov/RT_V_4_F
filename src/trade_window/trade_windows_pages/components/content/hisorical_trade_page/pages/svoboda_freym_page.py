@@ -87,6 +87,7 @@ class Svoboda_freym_page(ft.UserControl):
         self.controls[0].content.content.content.controls[1].content.controls[1].content.controls[0].content.controls[7].content.content.value = data
         self.update()
 
+    # ЗДЕСЬ МОДАЛКА!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # окно выбора стратегии монет1
     def chage_coin(self,e):
         bs = Cgange_coin_window(self.coin_save)

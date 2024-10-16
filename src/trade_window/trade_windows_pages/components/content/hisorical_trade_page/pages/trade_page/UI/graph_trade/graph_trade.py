@@ -17,6 +17,7 @@ class Graph_trade(ft.UserControl):
         self.settings_print_graph['height_graph'] = 400
     
 
+
     def print_page(self):
         
         # штука ниже вытаскивает из файла с трейдом все данные и делает статистику
