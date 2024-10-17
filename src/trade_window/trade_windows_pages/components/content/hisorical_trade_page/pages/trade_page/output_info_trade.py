@@ -40,31 +40,63 @@ class Output_info_trade(ft.UserControl):#1
         self.colback('graph_2')
         # print('Нарисовать малый output_info_trade - 1')
     
-    def print_itog_and_graph(self,number_graph='graph_1'):
+    def print_itog_and_graph(self,number_graph='graph_1',print_trade=''):
         self.state_graph_btn = number_graph
-        self.trade_page_two = ft.Container(ft.Column(controls=[
-            ft.Container(ft.Row(controls=[
-                    ft.Container(
-                                    ft.Container(ft.Column(controls=[ft.Column(controls=[
-                                                    ft.Container(
-                                                        ft.Container(ft.Text('Доходность',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
+        if print_trade!='':
+            self.trade_page_two = ft.Container(ft.Column(controls=[
+                ft.Container(ft.Row(controls=[
+                        ft.Container(
+                                        ft.Container(ft.Column(controls=[ft.Column(controls=[
                                                         ft.Container(
-                                                            Graph_dohod(self.number_folder),
-                                                            width=425,
-                                                            height = 400,
-                                                            padding=ft.padding.only(left=-1,top=-1,bottom=-1)
-                                                        )]),])),width=425,),
-                                    ft.Container(ft.Container(
-                                            ft.Column(controls=[ft.Column(controls=[
-                                                        self.state_graph_btn_print[number_graph],
+                                                            ft.Container(ft.Text('Доходность',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
+                                                            ft.Container(
+                                                                Graph_dohod(self.number_folder),
+                                                                width=425,
+                                                                height = 400,
+                                                                padding=ft.padding.only(left=-1,top=-1,bottom=-1)
+                                                            )]),])),width=425,),
+                                        ft.Container(ft.Container(
+                                                ft.Column(controls=[ft.Column(controls=[
+                                                            self.state_graph_btn_print[number_graph],
+                                                            ft.Container(
+                                                                self.state_graph_print[number_graph],
+                                                                width=425,
+                                                                height = 400,
+                                                                padding=ft.padding.only(left=-1,top=-1,bottom=-1)    
+                                                    )]),])),width=425,),]),
+                    width=900,height=450,padding=ft.padding.only(left=20))
+            ]),key='itog',width=900)
+        else:
+            self.trade_page_two = ft.Container(ft.Column(controls=[
+                ft.Container(ft.Row(controls=[
+                        ft.Container(
+                                        ft.Container(ft.Column(controls=[ft.Column(controls=[
                                                         ft.Container(
-                                                            self.state_graph_print[number_graph],
-                                                            width=425,
-                                                            height = 400,
-                                                            padding=ft.padding.only(left=-1,top=-1,bottom=-1)    
-                                                )]),])),width=425,),]),
-                width=900,height=450,padding=ft.padding.only(left=20))
-        ]),key='itog',width=900)
+                                                            ft.Container(ft.Text('Доходность',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
+                                                            ft.Container(
+                                                                Graph_dohod(self.number_folder),
+                                                                width=425,
+                                                                height = 400,
+                                                                padding=ft.padding.only(left=-1,top=-1,bottom=-1)
+                                                            )]),])),width=425,),
+                                        ft.Container(ft.Container(
+                                                ft.Column(controls=[ft.Column(controls=[
+                                                            self.state_graph_btn_print[number_graph],
+                                                            ft.Container(
+                                                                ft.Container(
+                                                                    ft.Text('Выберите сделку для отображения графика',text_align='CENTER'),
+                                                                    width=425,
+                                                                    height=400,
+                                                                    border = ft.border.all(1, c_white),
+                                                                    bgcolor=c_blue_binance,
+                                                                    padding=ft.padding.only(top=200)
+                                                                ),
+                                                                width=425,
+                                                                height = 400,
+                                                                padding=ft.padding.only(left=-1,top=-1,bottom=-1)    
+                                                    )]),])),width=425,),]),
+                    width=900,height=450,padding=ft.padding.only(left=20))
+            ]),key='itog',width=900)
         return self.trade_page_two
     
     def print_page(self):

@@ -34,14 +34,20 @@ class Trade_page(ft.UserControl):#1
         
     def change_pb(self,procent):
         self.output_info_trade.pb.value = procent
-        
+    
+    # добавление текста в окно логов
     def add_logi_table(self,data):
         self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[0].content.content.controls[0].controls[1].content.content.controls.insert(0,ft.Text(data))
         self.update()
+
+    # обработка нажатия по сделке в окне сделок
+    def click_trade(self,e):
+        print(e.control.data['data'])
         
+    # добавление сделок в окно сделок
     def add_trade_table(self,data):
-        if data['result'] == '+': data_add = ft.Container(ft.Text(data['data'],color=c_blue,text_align='center'),height=30,bgcolor=c_green,width=400)
-        else: data_add = ft.Container(ft.Text(data['data'],color=c_blue,text_align='center'),height=30,bgcolor=c_red,width=400)
+        if data['result'] == '+': data_add = ft.Container(ft.Text(data['data'],color=c_blue,text_align='center'),data=data,height=30,bgcolor=c_green,width=400,on_click=self.click_trade)
+        else: data_add = ft.Container(ft.Text(data['data'],color=c_blue,text_align='center'),data=data,height=30,bgcolor=c_red,width=400,on_click=self.click_trade)
         self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
         
     def print_trade_end(self):
