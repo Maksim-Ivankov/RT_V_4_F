@@ -6,24 +6,30 @@ from imports import *
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.graph_trade.print_graph import Print_graph
 
 class Graph_trade(ft.UserControl):
-    def __init__(self,number_folder,number_trade,form_graph='max'):
+    def __init__(self,number_folder):
         super().__init__()
-        self.form_graph = form_graph
+        # self.form_graph = form_graph
         self.number_folder = number_folder
-        self.number_trade = number_trade
+        # self.number_trade = int(number_trade)
         self.settings_print_graph = {}
         self.settings_print_graph['width_graph'] = 425
         self.settings_print_graph['height_graph'] = 400
+        self.array_data_row = []
     
 
 
-    def print_page(self):
+    def print_page(self,number_trade,form_graph='max'):
+        self.number_trade = int(number_trade)
+        self.form_graph = form_graph
+        # print(f'Рисуем график - {number_trade} | {form_graph}')
+        # print(f'Номер папки = {self.number_folder}| Номер трейда = {self.number_trade}')
         # print(self.form_graph)
         # штука ниже вытаскивает из файла с трейдом все данные и делает статистику
         self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\trade.txt' # путь сохранения логов в папке трейда
         if os.path.isfile(self.path_save_trade_log):
             with open(self.path_save_trade_log) as file:
                 self.array_data_row = [row.strip() for row in file]
+        # print(self.array_data_row)
         self.settings_print_graph['coin'] = self.array_data_row[self.number_trade].split('|')[6]
         self.settings_print_graph['TP'] = float(self.array_data_row[self.number_trade].split('|')[7])
         self.settings_print_graph['SL'] = float(self.array_data_row[self.number_trade].split('|')[8])
@@ -37,6 +43,7 @@ class Graph_trade(ft.UserControl):
         
 
         if self.form_graph == 'max':
+            # print(f'Рисуем график макс - {number_trade}')
             # print('graph_trade max')
             self.trade_page = ft.Container(
                 Print_graph(self.settings_print_graph,'max'),
@@ -47,6 +54,7 @@ class Graph_trade(ft.UserControl):
                 padding=10,
             )
         if self.form_graph == 'min':
+            # print(f'Рисуем график мин - {number_trade}')
             # print('graph_trade min')
             self.trade_page = ft.Container(
                 Print_graph(self.settings_print_graph,'min'),
@@ -60,5 +68,5 @@ class Graph_trade(ft.UserControl):
         return self.trade_page
 
    
-    def build(self):
-        return self.print_page()
+    # def build(self):
+    #     return self.print_page(self.number_trade)

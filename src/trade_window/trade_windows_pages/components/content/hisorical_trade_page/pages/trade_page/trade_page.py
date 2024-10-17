@@ -13,10 +13,13 @@ class Trade_page(ft.UserControl):#1
         self.change_page = change_page
         self.count_pb = 0
         self.output_info_trade = Output_info_trade(self.open_mini_graph_trade)
+        self.change_trade_from_table = ''
+        self.count_trade_table = 0
         
     def open_mini_graph_trade(self,number_graph):
+        print(f'Внутри графика по кнопке сделка и график сделки- {self.change_trade_from_table}')
         self.controls[0].content.content.content.controls.pop()
-        self.controls[0].content.content.content.controls.append(self.output_info_trade.print_itog_and_graph(number_graph))
+        self.controls[0].content.content.content.controls.append(self.output_info_trade.print_itog_and_graph(number_graph,self.change_trade_from_table))
         self.update()
         # print(self.controls[0].content.content.content.content.controls[0].content.controls[1].content.content.controls[0].controls[0].controls)
 
@@ -42,15 +45,25 @@ class Trade_page(ft.UserControl):#1
 
     # обработка нажатия по сделке в окне сделок
     def click_trade(self,e):
-        print(e.control.data['data'])
+
+        # print(e.control.data) # здесь все четко, проблема тут, но глубже
+        self.change_trade_from_table = e.control.data
+        self.controls[0].content.content.content.controls.pop()
+        self.controls[0].content.content.content.controls.append(self.output_info_trade.print_itog_and_graph('graph_1',self.change_trade_from_table))
+        self.update()
         
     # добавление сделок в окно сделок
     def add_trade_table(self,data):
-        if data['result'] == '+': data_add = ft.Container(ft.Text(data['data'],color=c_blue,text_align='center'),data=data,height=30,bgcolor=c_green,width=400,on_click=self.click_trade)
-        else: data_add = ft.Container(ft.Text(data['data'],color=c_blue,text_align='center'),data=data,height=30,bgcolor=c_red,width=400,on_click=self.click_trade)
+        if data['result'] == '+': 
+            data_add = ft.Container(ft.Text(data['data'],color=c_blue,text_align='center'),data=str(self.count_trade_table),height=30,bgcolor=c_green,width=400,on_click=self.click_trade)
+            self.count_trade_table+=1
+        else: 
+            data_add = ft.Container(ft.Text(data['data'],color=c_blue,text_align='center'),data=str(self.count_trade_table),height=30,bgcolor=c_red,width=400,on_click=self.click_trade)
+            self.count_trade_table+=1
         self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
-        
+    
     def print_trade_end(self):
+        # print('Отрисовали низ 1 раз после логов и сделок')
         self.controls[0].content.content.content.controls.append(self.output_info_trade.print_itog_and_graph('graph_1'))
         self.content.scroll_to(key="itog", duration=1000)
 
@@ -123,8 +136,7 @@ class Trade_page(ft.UserControl):#1
         self.trade_page = ft.Container(
             ft.Container(
                         ft.Container(
-                            self.content, # ВЕРНУТЬ
-                            # ft.Column(controls=[self.output_info_trade.print_itog_and_graph('graph_1')]),
+                            self.content,
                             alignment=ft.alignment.center),
                             padding=ft.padding.only(top=10)
                     ),expand=2

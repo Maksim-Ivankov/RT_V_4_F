@@ -99,8 +99,10 @@ class Print_graph(ft.UserControl):
         # print(f'y стоп = {y_stop}')
         # print(f'SL = {float(self.set['SL'])}')
         # print(f'self.price_min_min = {self.price_min_min}')
-        self.print_canvas_arr_min.append(cv.Line(0,y_stop,self.set['width_graph']-20,y_stop+2, self.line_red)) 
-        self.print_canvas_arr_min.append(cv.Line(0,y_take,self.set['width_graph']-20,y_take+2, self.line_red)) 
+        if y_stop>0 and y_stop<self.set['width_graph']*0.7:
+            self.print_canvas_arr_min.append(cv.Line(0,y_stop,self.set['width_graph']-20,y_stop+2, self.line_red)) 
+        if y_take>0 and y_take<self.set['width_graph']*0.7:
+            self.print_canvas_arr_min.append(cv.Line(0,y_take,self.set['width_graph']-20,y_take+2, self.line_green)) 
         # print(y_take)
 
         
