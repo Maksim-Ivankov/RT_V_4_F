@@ -17,7 +17,7 @@ class Trade_page(ft.UserControl):#1
         self.count_trade_table = 0
         
     def open_mini_graph_trade(self,number_graph):
-        print(f'Внутри графика по кнопке сделка и график сделки- {self.change_trade_from_table}')
+        # print(f'Внутри графика по кнопке сделка и график сделки- {self.change_trade_from_table}')
         self.controls[0].content.content.content.controls.pop()
         self.controls[0].content.content.content.controls.append(self.output_info_trade.print_itog_and_graph(number_graph,self.change_trade_from_table))
         self.update()

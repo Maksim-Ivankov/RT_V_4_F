@@ -43,6 +43,7 @@ class Print_graph(ft.UserControl):
         self.print_canvas_arr_min = [] # сюда сохраняем все что нжно отрисовать в канвасе мини
 
     def pan_start(self,e: ft.DragStartEvent):
+        print(e.local_y)
         # self.canvas.scan_dragto(event.x, event.y, gain=1)
         # self.canvas_price.scan_dragto(0, event.y, gain=1)
         # self.canvas_date.scan_dragto(event.x, 0, gain=1)
@@ -60,10 +61,18 @@ class Print_graph(ft.UserControl):
         # self.graph_trade.scale
         # print(self.graph_trade.shapes)
         # pass
-        # self.line_price.y1 = e.local_y
-        # self.line_price.y2 = e.local_y
-        # self.update()
-        pass
+        self.line_price.y1 = e.local_y
+        self.line_price.y2 = e.local_y
+        self.line_price_rect.elements[0].elements[0].y = e.local_y-10
+        self.price_value_line.y = e.local_y-8
+        if self.form_graph == 'max':
+            text_price = (((self.set['height_graph'] - e.local_y)*self.OldRange)/self.set['height_graph'])+self.price_min
+        if self.form_graph == 'min':
+            text_price = (((self.set['height_graph'] - e.local_y)*self.OldRange_min)/self.set['height_graph'])+self.price_min_min
+        self.price_value_line.text = round(text_price,5)
+        # self.price_value_line.text = text_price
+        self.update()
+        # pass
         
     
     # рисуем бары свечей1
@@ -224,23 +233,40 @@ class Print_graph(ft.UserControl):
         self.fill_red = ft.Paint(style=ft.PaintingStyle.FILL,color=c_red_binance)
         self.fill_blue = ft.Paint(style=ft.PaintingStyle.FILL,color=c_blue)
         line_price_paint = ft.Paint(stroke_width=2, style=ft.PaintingStyle.STROKE,color=c_gray_binance)
-        
+        # сноска с ценой
+        # линия прайса
+        self.line_price = cv.Line(0,0,self.set['width_graph']-20,2, line_price_paint)
+        # прямоугольник прайса
+        self.line_price_rect = cv.Path([cv.Path.SubPath([cv.Path.Rect(0, 0, 50, 20)],0, 0)],paint=self.fill_rect_price)
+        # прайс
+        self.price_value_line = cv.Text(5,5,'111',ft.TextStyle(size=12,color='#b6b8b1'))
+
         self.paint_bar()
+
+        
         
         # # линия прайса
         # self.line_price = cv.Line(0,0,self.set['width_graph'],0, line_price_paint)
         # self.print_canvas_arr.append(self.line_price)
         # отрисовка полного графика
         if self.form_graph == 'max':
+            self.print_canvas_arr.append(self.line_price)
+            self.print_canvas_arr.append(self.line_price_rect)
+            self.print_canvas_arr.append(self.price_value_line)
+            # self.NewRange_price = 
+            # self.print_canvas_arr.append(self.line_price)
             # print('Внутри print_graph - рисуем большой')
             self.graph_trade = cv.Canvas(self.print_canvas_arr,content=ft.GestureDetector(
                 # on_pan_start=self.pan_start,
                 # on_hover=self.pan_start,
                 on_hover = self.pan_start,
-                drag_interval=10,
+                hover_interval=50,
             ))
         # отрисовка урезанного графика, только со сделкой
         if self.form_graph == 'min':
+            self.print_canvas_arr_min.append(self.line_price)
+            self.print_canvas_arr_min.append(self.line_price_rect)
+            self.print_canvas_arr_min.append(self.price_value_line)
             # print('Внутри print_graph - рисуем малый')
             # print(self.print_canvas_arr_min)
             # self.print_canvas_arr_test.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0, 0,100, 100)],0, 0)],paint=self.fill_green))
@@ -249,7 +275,7 @@ class Print_graph(ft.UserControl):
                 # on_pan_start=self.pan_start,
                 # on_hover=self.pan_start,
                 on_hover = self.pan_start,
-                drag_interval=10,
+                hover_interval=50,
             ))
         return self.graph_trade
 
