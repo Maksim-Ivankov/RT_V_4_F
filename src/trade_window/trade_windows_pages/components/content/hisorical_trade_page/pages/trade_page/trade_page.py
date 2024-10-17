@@ -12,8 +12,14 @@ class Trade_page(ft.UserControl):#1
         super().__init__()
         self.change_page = change_page
         self.count_pb = 0
-        self.output_info_trade = Output_info_trade()
+        self.output_info_trade = Output_info_trade(self.open_mini_graph_trade)
         
+    def open_mini_graph_trade(self,number_graph):
+        self.controls[0].content.content.content.controls.pop()
+        self.controls[0].content.content.content.controls.append(self.output_info_trade.print_itog_and_graph(number_graph))
+        self.update()
+        # print(self.controls[0].content.content.content.content.controls[0].content.controls[1].content.content.controls[0].controls[0].controls)
+
     def start_trade(self,e):
         regime = 'Историческая торговля|Свободный фрейм|Ода настройка'
         config = configparser.ConfigParser()  
@@ -39,12 +45,12 @@ class Trade_page(ft.UserControl):#1
         self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
         
     def print_trade_end(self):
-        self.controls[0].content.content.content.controls.append(self.output_info_trade.print_itog_and_graph())
+        self.controls[0].content.content.content.controls.append(self.output_info_trade.print_itog_and_graph('graph_1'))
         self.content.scroll_to(key="itog", duration=1000)
-        
+
+
+
     def print_page(self):
-        
-            
         self.content = ft.Column(controls=[
                                 ft.Container(ft.Text('Проверьте настройки и запустите торговлю',size=12,color=c_white,text_align='center'),padding=ft.padding.only(left=320)),
                                 ft.Container(
@@ -111,8 +117,8 @@ class Trade_page(ft.UserControl):#1
         self.trade_page = ft.Container(
             ft.Container(
                         ft.Container(
-                            # self.content, # ВЕРНУТЬ
-                            self.output_info_trade.print_itog_and_graph(),
+                            self.content, # ВЕРНУТЬ
+                            # ft.Column(controls=[self.output_info_trade.print_itog_and_graph('graph_1')]),
                             alignment=ft.alignment.center),
                             padding=ft.padding.only(top=10)
                     ),expand=2
