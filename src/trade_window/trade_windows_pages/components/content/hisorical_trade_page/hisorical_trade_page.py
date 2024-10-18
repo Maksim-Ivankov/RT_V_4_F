@@ -16,12 +16,13 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.regim_set_settings_page import Regim_set_settings_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.regim_trade_one_settings_page import Regim_trade_one_settings_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.trade_page import Trade_page
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.istoriya_treyd_page import Istoriya_treyd_page
 
 class Hisorical_trade_page(ft.UserControl):
     def __init__(self,page):
         super().__init__()
-        # self.ferst_page = 'Первая'
-        self.ferst_page = 'Запустить торговлю'
+        self.ferst_page = 'Первая'
+        # self.ferst_page = 'Запустить торговлю'
         self.page = page
 
     def print_page(self,page):
@@ -38,6 +39,7 @@ class Hisorical_trade_page(ft.UserControl):
             'Одна настройка':Regim_trade_one_settings_page(self.change_page),
             'Сет настроек':Regim_set_settings_page(self.change_page),
             'Запустить торговлю':Trade_page(self.change_page),
+            'История торговли':Istoriya_treyd_page(self.change_page),
         }
 
         title_list={
@@ -52,6 +54,7 @@ class Hisorical_trade_page(ft.UserControl):
             'Одна настройка':'Торговля по историческим данным | Настройки стратегии',
             'Сет настроек':'Торговля по историческим данным | Задание сета настроек',
             'Запустить торговлю':'Торговля по историческим данным | Торговля',
+            'История торговли':'Торговля по историческим данным | История торговли',
         }
 
         return ft.Container(
@@ -62,7 +65,7 @@ class Hisorical_trade_page(ft.UserControl):
                     ),
                     ft.Container(
                         ft.Column(controls=[
-                            Header(),
+                            Header(self.change_page),
                             pages_list[page]
                         ]),
                         expand=2,
