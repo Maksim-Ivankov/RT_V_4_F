@@ -18,14 +18,12 @@ class Main:
         # self.page.window_center()
         self.page.bgcolor = c_blue
         self.main_print = ft.Container( # общий контейнер на страницу45rк1
-        #    content = ft.Text('123123123'),
            content = Platforma(self.page),
            expand = True,
            padding=ft.padding.only(bottom=-10)
         )
         self.page.add(self.main_print)
-        # self.page.overlay.append(ft.Text('123123123'))
-        # self.page.update()
+
 
         # self.page: ft.Page = page
         # self.page.title = "RoboTrade"

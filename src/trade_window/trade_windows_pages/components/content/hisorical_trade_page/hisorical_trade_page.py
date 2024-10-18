@@ -21,8 +21,8 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 class Hisorical_trade_page(ft.UserControl):
     def __init__(self,page):
         super().__init__()
-        self.ferst_page = 'Первая'
-        # self.ferst_page = 'Запустить торговлю'
+        # self.ferst_page = 'Первая'
+        self.ferst_page = 'История торговли'
         self.page = page
 
     def print_page(self,page):

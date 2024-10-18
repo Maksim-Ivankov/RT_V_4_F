@@ -1,0 +1,164 @@
+import flet as ft
+from variable import *
+from imports import *
+
+# config = configparser.ConfigParser()  
+# config.read(path_imports_config)
+
+# ----------------------------------------
+
+
+# mas_strat_siroy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
+# strat_elements = []
+# count_strat = 0
+# for strat in mas_strat_siroy:
+#     strat_elements.append(ft.Container(ft.Column(controls=[
+#         ft.Text(f'Стратегия: {name_strat[strat]}'),
+#         strat_set_print[strat]
+#     ])))
+#     count_strat+=1
+#     if len(mas_strat_siroy) != count_strat:
+#         strat_elements.append(ft.Container(width=350,height=1,bgcolor=c_white))
+    
+# ----------------------------------------
+# основные настройки лежат здесь
+
+# вытаскиваем название стратегии
+# # настройки стратегий лежат здесб
+def def_print_set_settings(number_folder):
+
+    name_strat = {
+        'one':'Канал, тренд, локаль, объём',
+        'MA':'Скользящие средние'
+    }
+    strat_mas = []
+    # вытаскиваем название стратегии
+    folder_strat = os.listdir(f'{path_save_trade}\\{number_folder}')
+    for file in folder_strat:
+        if file!='log_trade.txt' and file!='settings_our.txt' and file!='trade.txt':
+            strat_mas.append(file.rstrip('.txt'))
+
+    if len(strat_mas) == 1: 
+        folder_strat = f'{path_save_trade}\\{number_folder}\\{strat_mas[0]}.txt'
+        if os.path.isfile(folder_strat):
+            with open(folder_strat) as file:
+                array_data_row = [row.strip() for row in file]
+                # print(array_data_row)
+        if strat_mas[0] == 'one':
+
+            
+            # array_data_row[0].strip('&')[]
+
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Верх канала - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Низ канала - {array_data_row[0].split('&')[1]}',size=12),
+                ft.Text(f'Угол тренда лонг - {array_data_row[0].split('&')[2]}',size=12),
+                ft.Text(f'Угол тренда шорт - {array_data_row[0].split('&')[3]}',size=12),
+            ]))
+        elif strat_mas[0] == 'MA':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Коэф. быстрой скольз. средней - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Коэф. медленной скольз. средней - {array_data_row[0].split('&')[1]}',size=12),
+                ft.Text(f'Кол-во совпадений в прошлом - {array_data_row[0].split('&')[2]}',size=12),
+                ft.Text(f'Прижатие к верху коридора - {array_data_row[0].split('&')[3]}',size=12),
+                ft.Text(f'Прижатие к низу коридора - {array_data_row[0].split('&')[4]}',size=12),
+            ]))
+        else:
+            strat_set_print = ft.Container(ft.Text('Потом доработать отрисовку множественной стратегии istoriya_treyd_page/UI/trade_page/data_settings'))
+
+    path_settings = f'{path_save_trade}\\{number_folder}\\settings_our.txt'
+    if os.path.isfile(path_settings):
+        with open(path_settings) as file:
+            array_data_row = [row.strip() for row in file]
+            strategys_data = array_data_row[0].split('&')[22] # ['MA']
+    # print(strategys_data)
+    strat_elements = []
+    count_strat = 0
+    for strat in strat_mas:
+        strat_elements.append(ft.Container(ft.Column(controls=[
+            ft.Text(f'Стратегия: {name_strat[strat]}'),
+            strat_set_print
+        ])))
+        count_strat+=1
+        if len(strategys_data) != count_strat:
+            strat_elements.append(ft.Container(width=350,height=1,bgcolor=c_white))
+
+
+    print_set_settings = ft.Container(
+        ft.Container(
+            ft.Column(controls=strat_elements,scroll=ft.ScrollMode.ALWAYS,),
+            width=350,height=140),padding=10
+    )
+    return print_set_settings
+
+def def_print_our_settings(number_folder):
+    path_settings = f'{path_save_trade}\\{number_folder}\\settings_our.txt'
+    if os.path.isfile(path_settings):
+        with open(path_settings) as file:
+            array_data_row = [row.strip() for row in file]
+            # ["top_value&1m&5m&24h&6&BTCUSDT|ETHUSDT|SOLUSDT|BOMEUSDT|BTCUSDC|1000PEPEUSDT&24&5&False&fiks&fiks&fiks&fiks&V 22_07_24_1&0.2&100&20&0.1&0.3&0.3&200000&1500000&['MA']"]
+            strategi_coin_data = array_data_row[0].split('&')[0] # top_value
+            # sledim_money_data = array_data_row[0].split('&')[1] # 1m
+            work_tf_data = array_data_row[0].split('&')[2] # 5m
+            dlitelnost_data = array_data_row[0].split('&')[3] # 24h
+            how_mach_money_data = array_data_row[0].split('&')[4] # 6
+            # coins_trade_data = array_data_row[0].split('&')[5]# 
+            # number_trade_data = array_data_row[0].split('&')[6] # 24
+            # use_last_number_data = array_data_row[0].split('&')[7] # 5
+            # use_last_sost_data = array_data_row[0].split('&')[8] # false
+            regim_tp_data = array_data_row[0].split('&')[9] # fiks
+            regim_sl_data = array_data_row[0].split('&')[10] # fiks
+            regim_volume_min_data = array_data_row[0].split('&')[11] # fiks
+            regim_volume_max_data = array_data_row[0].split('&')[12] # fiks
+            name_bot_data = array_data_row[0].split('&')[13] # V 22_07_24_1
+            komission_mayker_data = array_data_row[0].split('&')[14]#  0.2
+            # deposit_data = array_data_row[0].split('&')[15] # 100
+            leverage_data = array_data_row[0].split('&')[16] # 20
+            komission_taker_data = array_data_row[0].split('&')[17] # 0.1
+            tp_data = array_data_row[0].split('&')[18] # 0.5
+            sl_data = array_data_row[0].split('&')[19] # 4 
+            volume_min_data = array_data_row[0].split('&')[20] # 500
+            volume_max_data = array_data_row[0].split('&')[21] # 200000000
+            strategys_data = array_data_row[0].split('&')[22] # ['MA']
+    
+
+    print_our_settings = ft.Container(
+        ft.Row(controls=[
+            ft.Container(
+                ft.Column(controls=[
+                    ft.Text(f'Имя робота для логов: {name_bot_data}',size=12),
+                    ft.Text(f'Режим монеты: {strategi_coin_data}',size=12),
+                    ft.Text(f'Сколько монет торговать: {how_mach_money_data}',size=12),
+                    ft.Text(f'Комиссия мейкер: {komission_mayker_data}',size=12),
+                    ft.Text(f'Комиссия тейкер: {komission_taker_data}',size=12),
+                    ft.Text(f'Таймфрейм: {work_tf_data}',size=12),
+                    ft.Text(f'Длительность торговли: {dlitelnost_data}',size=12),
+                ],scroll=ft.ScrollMode.ALWAYS,),
+                width=230,height=140),
+            ft.Container(width=1,height=140,bgcolor=c_white),
+            ft.Container(
+                ft.Column(controls=[
+                    ft.Text(f'Режим тейка/стопа: {regim_tp_data}/{regim_sl_data}',size=12),
+                    ft.Text(f'Тейк профит: {tp_data}',size=12),
+                    ft.Text(f'Стоп лосс: {sl_data}',size=12),
+                    ft.Text(f'Режим объёмов: {regim_volume_min_data}/{regim_volume_max_data}',size=12),
+                    ft.Text(f'Объём торгов мин: {volume_min_data}',size=12),
+                    ft.Text(f'Объём торгов макс: {volume_max_data}',size=12),
+                    ft.Text(f'Плечо: {leverage_data}',size=12),
+                ],scroll=ft.ScrollMode.ALWAYS,),
+                width=230,height=140),
+        ]),padding=10
+    )
+
+    return print_our_settings
+
+
+
+
+
+
+
+
+
+
+
