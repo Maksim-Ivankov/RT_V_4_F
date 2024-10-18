@@ -45,8 +45,6 @@ class Trade_page(ft.UserControl):#1
 
     # обработка нажатия по сделке в окне сделок
     def click_trade(self,e):
-
-        # print(e.control.data) # здесь все четко, проблема тут, но глубже
         self.change_trade_from_table = e.control.data
         self.controls[0].content.content.content.controls.pop()
         self.controls[0].content.content.content.controls.append(self.output_info_trade.print_itog_and_graph('graph_1',self.change_trade_from_table))

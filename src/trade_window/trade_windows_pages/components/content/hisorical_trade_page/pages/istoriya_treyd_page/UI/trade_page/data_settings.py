@@ -2,25 +2,7 @@ import flet as ft
 from variable import *
 from imports import *
 
-# config = configparser.ConfigParser()  
-# config.read(path_imports_config)
 
-# ----------------------------------------
-
-
-# mas_strat_siroy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
-# strat_elements = []
-# count_strat = 0
-# for strat in mas_strat_siroy:
-#     strat_elements.append(ft.Container(ft.Column(controls=[
-#         ft.Text(f'Стратегия: {name_strat[strat]}'),
-#         strat_set_print[strat]
-#     ])))
-#     count_strat+=1
-#     if len(mas_strat_siroy) != count_strat:
-#         strat_elements.append(ft.Container(width=350,height=1,bgcolor=c_white))
-    
-# ----------------------------------------
 # основные настройки лежат здесь
 
 # вытаскиваем название стратегии
@@ -152,10 +134,41 @@ def def_print_our_settings(number_folder):
 
     return print_our_settings
 
+# собираем данные для отрисовки логов в окне логов
+def def_print_log(number_folder):
+    log_mas = []
+    path_settings = f'{path_save_trade}\\{number_folder}\\log_trade.txt'
+    if os.path.isfile(path_settings):
+        with open(path_settings) as file:
+            array_data_row = [row.strip() for row in file]
+            for i in array_data_row:
+                if int(i.split('|')[0])>20:
+                    if i.split('|')[3]=='no':
+                        log_mas.append(ft.Container(ft.Text(
+                            f'{i.split('|')[0]} | Депозит {i.split('|')[1]} | нет сигнала',
+                        )))
+                    else:
+                        log_mas.append(ft.Container(ft.Text(
+                            f'{i.split('|')[0]} | Депозит {i.split('|')[1]} | Сделка {i.split('|')[3]} {i.split('|')[4]}',
+                        )))
+    return log_mas
 
-
-
-
+# данные для отрисовки сделок в окне сделок
+def def_print_trade(number_folder):
+    trade_mas = []
+    path_settings = f'{path_save_trade}\\{number_folder}\\trade.txt'
+    if os.path.isfile(path_settings):
+        with open(path_settings) as file:
+            array_data_row = [row.strip() for row in file]
+            count_trade_table = 0
+            for i in array_data_row:
+                if float(i.split('|')[3]) > 0: 
+                    trade_mas.append(ft.Container(ft.Text(f'{i.split('|')[0]} | Результат {i.split('|')[3]} | Монета {i.split('|')[6]}',color=c_blue,text_align='center'),data=str(count_trade_table),height=30,bgcolor=c_green,width=400))
+                    count_trade_table+=1
+                else: 
+                    trade_mas.append(ft.Container(ft.Text(f'{i.split('|')[0]} | Результат {i.split('|')[3]} | Монета {i.split('|')[6]}',color=c_blue,text_align='center'),data=str(count_trade_table),height=30,bgcolor=c_red,width=400))
+                    count_trade_table+=1
+    return trade_mas
 
 
 
