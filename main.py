@@ -17,7 +17,7 @@ class Main:
         # self.page.window_resizable = False
         # self.page.window_center()
         self.page.bgcolor = c_blue
-        self.main_print = ft.Container( # общий контейнер на страницу45rк1
+        self.main_print = ft.Container( # общий контейнер на страницу45rк11
            content = Platforma(self.page),
            expand = True,
            padding=ft.padding.only(bottom=-10)

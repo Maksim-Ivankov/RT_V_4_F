@@ -48,6 +48,7 @@ class Output_info_trade(ft.UserControl):#1
         self.state_graph_btn = number_graph
         if print_trade!='':
             if number_graph == 'graph_1':
+                # print('Рисуем график большой')
                 # print('Рисуем не пустой график')
                 self.number_trade = int(print_trade)
                 self.trade_page_two = ft.Container(ft.Column(controls=[
@@ -74,6 +75,7 @@ class Output_info_trade(ft.UserControl):#1
                     width=900,height=450,padding=ft.padding.only(left=20))
                 ]),key='itog',width=900)
             else:
+                # print('Рисуем график малый')
                 # print('Рисуем не пустой график')
                 self.number_trade = int(print_trade)
                 self.trade_page_two = ft.Container(ft.Column(controls=[
