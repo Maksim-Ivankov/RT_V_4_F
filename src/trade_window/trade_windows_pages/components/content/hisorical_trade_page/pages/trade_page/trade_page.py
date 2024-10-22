@@ -81,7 +81,7 @@ class Trade_page(ft.UserControl):#1
                                                         ft.Container(ft.Text('Общие настройки робота',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
                                                         ft.Container(
                                                             ft.Container(
-                                                                print_our_settings,
+                                                                print_our_settings(),
                                                                 width=500,
                                                                 height=148,
                                                                 border = ft.border.all(1, c_white),
@@ -104,7 +104,7 @@ class Trade_page(ft.UserControl):#1
                                                             ft.Container(ft.Text('Настройки стратегий',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
                                                         ft.Container(
                                                             ft.Container(
-                                                                print_set_settings,
+                                                                print_set_settings(),
                                                                 width=350,
                                                                 height=148,
                                                                 border = ft.border.all(1, c_white),
