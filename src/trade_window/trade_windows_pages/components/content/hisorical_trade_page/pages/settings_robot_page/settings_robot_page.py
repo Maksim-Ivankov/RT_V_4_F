@@ -45,6 +45,17 @@ class Settings_robot_page(ft.UserControl):
         Save_config('param_trade_historical_trade_svobodniy_freym',{'volume_max':str(e.control.value)})
 
     def build(self):
+
+
+        config = configparser.ConfigParser()  
+        config.read(path_imports_config)
+        name_robot_log = config.get('param_trade_historical_trade_svobodniy_freym', 'name_bot')
+        komis_mayk_log = config.get('param_trade_historical_trade_svobodniy_freym', 'komission_mayker')
+        komis_teyk_log = config.get('param_trade_historical_trade_svobodniy_freym', 'komission_taker')
+        depo_log = config.get('param_trade_historical_trade_svobodniy_freym', 'deposit')
+        leverage_log = config.get('param_trade_historical_trade_svobodniy_freym', 'leverage')
+
+
         self.settings_robot = ft.Container(
             ft.Container(
                         ft.Container(
@@ -63,19 +74,19 @@ class Settings_robot_page(ft.UserControl):
                                                             controls=[
                                                                 ft.Column(controls=[
                                                                     ft.Container(ft.Text('Имя робота для логов',size=12,text_align='center'),width=170,padding=0),
-                                                                    ft.Container(Input(self.input_name_bot,'Версия 22_07_24_1',170)),
+                                                                    ft.Container(Input(self.input_name_bot,name_robot_log,170)),
                                                                     ft.Container(ft.Text('Комиссия мейкер, %',size=12,text_align='center'),width=170),
-                                                                    Input(self.input_komission_mayker,'0.2',170)
+                                                                    Input(self.input_komission_mayker,komis_mayk_log,170)
                                                                 ]),
                                                                 ft.Column(controls=[
                                                                     ft.Container(ft.Text('Депозит,$',size=12,text_align='center'),width=170,padding=0),
-                                                                    ft.Container(Input(self.input_deposit,'100',170)),
+                                                                    ft.Container(Input(self.input_deposit,depo_log,170)),
                                                                     ft.Container(ft.Text('Комиссия тейкер, %',size=12,text_align='center'),width=170),
-                                                                    Input(self.input_komission_taker,'0.1',170)
+                                                                    Input(self.input_komission_taker,komis_teyk_log,170)
                                                                 ]),
                                                                 ft.Container(ft.Column(controls=[
                                                                     ft.Container(ft.Text('Плечо',size=12,text_align='center'),width=170,padding=0),
-                                                                    ft.Container(Input(self.input_leverage,'20',170)),
+                                                                    ft.Container(Input(self.input_leverage,leverage_log,170)),
                                                                     
                                                                 ]),margin=ft.margin.only(bottom=66)),
                                                             ]

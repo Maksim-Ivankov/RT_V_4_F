@@ -32,6 +32,8 @@ class Component_tp(ft.UserControl):
         config.read(path_imports_config)
         self.btn_click = config.get('param_trade_historical_trade_svobodniy_freym', 'regim_tp')
 
+        tp_log = config.get('param_trade_historical_trade_svobodniy_freym', 'tp')
+
         min_menu = []
         for i in self.btn_mas:
             if i == self.btn_click:
@@ -40,7 +42,7 @@ class Component_tp(ft.UserControl):
                 min_menu.append(ft.Container(ft.Text(self.btn_translate[i],color=c_white,),padding=5,margin=ft.margin.only(bottom=-10),data=i,on_click=self.chech_fiks_dinamo))
         if self.btn_click == 'fiks':
             self.text_info = 'Процент от движения цены, %'
-            self.input_celka_text = '1.4'
+            self.input_celka_text = tp_log
         elif self.btn_click == 'dinamo':
             self.text_info = 'Процент от движения монеты за день, %'
             self.input_celka_text = '0.005'

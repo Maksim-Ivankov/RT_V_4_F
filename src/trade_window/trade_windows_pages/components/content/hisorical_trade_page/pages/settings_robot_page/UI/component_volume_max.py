@@ -32,6 +32,8 @@ class Component_volume_max(ft.UserControl):
         config.read(path_imports_config)
         self.btn_click = config.get('param_trade_historical_trade_svobodniy_freym', 'regim_volume_max')
 
+        volume_max_log = config.get('param_trade_historical_trade_svobodniy_freym', 'volume_max')
+
         min_menu = []
         for i in self.btn_mas:
             if i == self.btn_click:
@@ -40,7 +42,7 @@ class Component_volume_max(ft.UserControl):
                 min_menu.append(ft.Container(ft.Text(self.btn_translate[i],color=c_white,),padding=5,margin=ft.margin.only(bottom=-10),data=i,on_click=self.chech_fiks_dinamo))
         if self.btn_click == 'fiks':
             self.text_info = 'Объём торгов в свечке, $'
-            self.input_celka_text = '200000'
+            self.input_celka_text = volume_max_log
         elif self.btn_click == 'dinamo':
             self.text_info = 'Процент объёма в свечке от дневного, %'
             self.input_celka_text = '0.1'
