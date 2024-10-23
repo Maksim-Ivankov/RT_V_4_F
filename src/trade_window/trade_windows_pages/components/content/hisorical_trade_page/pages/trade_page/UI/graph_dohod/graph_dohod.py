@@ -57,9 +57,15 @@ class Graph_dohod(ft.UserControl):
         self.trade_balance_procent = round(((depo-self.depo_start)/self.depo_start)*100,2)
         self.price_max = max(self.depo_max_min_stat_arr) # максимальное депо
         if self.price_max<self.depo_start:self.price_max = self.depo_start
-        self.price_min = min(self.depo_max_min_stat_arr) # минимальное депо
         
+        for i in self.depo_max_min_stat_arr:
+            if i>self.depo_start:
+                self.price_min = self.depo_start
+            else: 
+                self.price_min = min(self.depo_max_min_stat_arr) # минимальное депо
+                break
         
+        # print(f'min = {self.price_min} | max = {self.price_max}')
         # рисуем график
         self.OldRange = (self.price_max - self.price_min) # старая высота = 39,78
         self.NewRange = self.height_graph # новая высота = 200
@@ -85,16 +91,17 @@ class Graph_dohod(ft.UserControl):
         # прайс
         self.price_value_line = cv.Text(5,5,'111',ft.TextStyle(size=12,color='#b6b8b1'))
         
-        
+        if int(self.OldRange/5)!=0:
         # рисуем цену
-        step_price_arr = []
-        for i in range(int(self.price_min),int(self.price_max),int(self.OldRange/5)):
-            step_price_arr.append(i)
-        for index in range(len(step_price_arr)):
-            y = self.height_graph - (((step_price_arr[index] - self.price_min) * self.NewRange) / self.OldRange) - 10
-            self.print_canvas_arr.append(cv.Text(5,y,step_price_arr[index],ft.TextStyle(size=12,color='#b6b8b1')))
+            step_price_arr = []
+            for i in range(int(self.price_min),int(self.price_max),int(self.OldRange/5)):
+                step_price_arr.append(i)
+            for index in range(len(step_price_arr)):
+                y = self.height_graph - (((step_price_arr[index] - self.price_min) * self.NewRange) / self.OldRange) - 10
+                self.print_canvas_arr.append(cv.Text(5,y,step_price_arr[index],ft.TextStyle(size=12,color='#b6b8b1')))
             
         self.y0 = self.height_graph - (((self.depo_start - self.price_min) * self.NewRange) / self.OldRange)
+        # self.y0 = self.height_graph - (((self.depo_start - self.price_min) * self.NewRange) / self.OldRange)
         
         
         # рисуем свечи доходности
@@ -106,7 +113,18 @@ class Graph_dohod(ft.UserControl):
                 self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_green))
             else:
                 self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_red))
+            # print(f' x {self.x} | y {self.y} | y0 {self.y0} ||| self.y0-self.y = {self.y0-self.y}')
             self.y0 = self.y   
+        # # рисуем свечи доходности
+        # for index in range(len(self.array_data_row)):
+        #     self.value = float(self.array_data_row[index].split('|')[2])
+        #     self.x = ((index) * self.NewRange1)
+        #     self.y = self.height_graph - (((self.value - self.price_min) * self.NewRange) / self.OldRange)
+        #     if float(self.array_data_row[index].split('|')[3])>=0:
+        #         self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_green))
+        #     else:
+        #         self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_red))
+        #     self.y0 = self.y   
         
         self.graph_profit = cv.Canvas(self.print_canvas_arr,width=self.width_graph,height=self.height_graph,content=ft.GestureDetector(
             # on_pan_start=self.pan_start,
