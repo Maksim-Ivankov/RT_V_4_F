@@ -153,8 +153,12 @@ def def_print_log(number_folder):
                         )))
     return log_mas
 
+
+
+    
+
 # данные для отрисовки сделок в окне сделок
-def def_print_trade(number_folder):
+def def_print_trade(number_folder,click_trade):
     trade_mas = []
     path_settings = f'{path_save_trade}\\{number_folder}\\trade.txt'
     if os.path.isfile(path_settings):
@@ -163,10 +167,10 @@ def def_print_trade(number_folder):
             count_trade_table = 0
             for i in array_data_row:
                 if float(i.split('|')[3]) > 0: 
-                    trade_mas.append(ft.Container(ft.Text(f'{i.split('|')[0]} | Результат {i.split('|')[3]} | Монета {i.split('|')[6]}',color=c_blue,text_align='center'),data=str(count_trade_table),height=30,bgcolor=c_green,width=400))
+                    trade_mas.append(ft.Container(ft.Text(f'{i.split('|')[0]} | Результат {i.split('|')[3]} | Монета {i.split('|')[6]}',color=c_blue,text_align='center'),data=str(count_trade_table),height=30,bgcolor=c_green,width=400,on_click=click_trade))
                     count_trade_table+=1
                 else: 
-                    trade_mas.append(ft.Container(ft.Text(f'{i.split('|')[0]} | Результат {i.split('|')[3]} | Монета {i.split('|')[6]}',color=c_blue,text_align='center'),data=str(count_trade_table),height=30,bgcolor=c_red,width=400))
+                    trade_mas.append(ft.Container(ft.Text(f'{i.split('|')[0]} | Результат {i.split('|')[3]} | Монета {i.split('|')[6]}',color=c_blue,text_align='center'),data=str(count_trade_table),height=30,bgcolor=c_red,width=400,on_click=click_trade))
                     count_trade_table+=1
     return trade_mas
 

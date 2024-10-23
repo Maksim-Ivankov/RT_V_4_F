@@ -39,7 +39,7 @@ class Output_info_trade(ft.UserControl):#1
     
     def print_itog_and_graph(self,number_graph='graph_1',print_trade=''):
         # print(f'{number_graph}|{print_trade}')
-        # готовим объект графика
+        # готовим объект графика1
         # cl_graph_trade = Graph_trade(self.number_folder,self.number_trade)
         # self.state_graph_print = {
         #     'graph_1': self.cl_graph_trade.print_page(self.number_trade),

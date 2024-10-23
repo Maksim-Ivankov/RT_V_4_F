@@ -4,7 +4,7 @@ from variable import *
 from imports import *
 
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.UI.trade_page.trade_page import Trade_page
-
+#11
 class Table_trade(ft.UserControl):
     def __init__(self):
         super().__init__()
@@ -162,7 +162,7 @@ class Table_trade(ft.UserControl):
                             ft.Column(controls=[
                                 # ft.Text('Таблица',size=12,color=c_white,text_align='CENTER',color=c_blue),
                                 ft.Container(#11
-                                    ft.Column(controls=self.mas_trade),
+                                    ft.Column(controls=self.mas_trade,scroll=ft.ScrollMode.ALWAYS,height=560),
                                     width=850,
                                     # height=80,
                                     # margin=ft.margin.only(left=90),

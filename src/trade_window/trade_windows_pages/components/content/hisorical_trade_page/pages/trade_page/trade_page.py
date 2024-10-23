@@ -43,7 +43,7 @@ class Trade_page(ft.UserControl):#1
         self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[0].content.content.controls[0].controls[1].content.content.controls.insert(0,ft.Text(data))
         self.update()
 
-    # обработка нажатия по сделке в окне сделок
+    # обработка нажатия по сделке в окне сделок1
     def click_trade(self,e):
         self.change_trade_from_table = e.control.data
         self.controls[0].content.content.content.controls.pop()
