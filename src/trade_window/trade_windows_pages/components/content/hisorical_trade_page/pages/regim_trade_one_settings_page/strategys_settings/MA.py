@@ -25,9 +25,13 @@ class MA(ft.UserControl):
 
 
     def print_component(self):
-        # config = configparser.ConfigParser()         
-        # config.read(path_imports_config)
-        # self.strategys = config.get('param_trade_historical_trade_svobodniy_freym', 'strategys')
+        config = configparser.ConfigParser()         
+        config.read(path_imports_config)
+        self.strat_ma_koef_bistro = config.get('param_trade_historical_trade_svobodniy_freym', 'strat_ma_koef_bistro')
+        self.strat_ma_koef_medleno = config.get('param_trade_historical_trade_svobodniy_freym', 'strat_ma_koef_medleno')
+        self.strat_ma_sovpad_last = config.get('param_trade_historical_trade_svobodniy_freym', 'strat_ma_sovpad_last')
+        self.strat_ma_up_chanal = config.get('param_trade_historical_trade_svobodniy_freym', 'strat_ma_up_chanal')
+        self.strat_ma_down_chanal = config.get('param_trade_historical_trade_svobodniy_freym', 'strat_ma_down_chanal')
         
 
         self.MA = ft.Container(
@@ -43,19 +47,19 @@ class MA(ft.UserControl):
                                     ft.Container(
                                         ft.Column(controls=[
                                         ft.Container(ft.Text('Коэф. быстрой скольз. средней',size=12,color=c_white,text_align='center'),width=170),
-                                        Input(self.input_koef_bistro,'6',170),
+                                        Input(self.input_koef_bistro,self.strat_ma_koef_bistro,170),
                                         ft.Container(ft.Text('Коэф. медленной скольз. средней',size=12,color=c_white,text_align='center'),width=170),
-                                        Input(self.input_koef_medleno,'12',170),
+                                        Input(self.input_koef_medleno,self.strat_ma_koef_medleno,170),
                                     ]),
                                     padding=ft.padding.only(bottom=50)
                                     ),
                                     ft.Column(controls=[
                                         ft.Container(ft.Text('Кол-во совпадений в прошлом',size=12,color=c_white,text_align='center'),width=170),
-                                        Input(self.input_sovpad_last,'3',170),
+                                        Input(self.input_sovpad_last,self.strat_ma_sovpad_last,170),
                                         ft.Container(ft.Text('Прижатие к верху коридора',size=12,color=c_white,text_align='center'),width=170),
-                                        Input(self.input_up_chanal,'0.85',170),
+                                        Input(self.input_up_chanal,self.strat_ma_up_chanal,170),
                                         ft.Container(ft.Text('Прижатие к низу коридора',size=12,color=c_white,text_align='center'),width=170),
-                                        Input(self.input_down_chanal,'0.15',170),
+                                        Input(self.input_down_chanal,self.strat_ma_down_chanal,170),
                                     ])
                                 ]),
                                 width=396,

@@ -21,9 +21,12 @@ class One(ft.UserControl):
 
 
     def print_component(self):
-        # config = configparser.ConfigParser()         
-        # config.read(path_imports_config)
-        # self.strategys = config.get('param_trade_historical_trade_svobodniy_freym', 'strategys')
+        config = configparser.ConfigParser()         
+        config.read(path_imports_config)
+        self.strat_one_up_chanal = config.get('param_trade_historical_trade_svobodniy_freym', 'strat_one_up_chanal')
+        self.strat_one_down_chanal = config.get('param_trade_historical_trade_svobodniy_freym', 'strat_one_down_chanal')
+        self.strat_one_corner_long = config.get('param_trade_historical_trade_svobodniy_freym', 'strat_one_corner_long')
+        self.strat_one_corner_short = config.get('param_trade_historical_trade_svobodniy_freym', 'strat_one_corner_short')
         
 
         self.one = ft.Container(
@@ -38,15 +41,15 @@ class One(ft.UserControl):
                                 ft.Row(controls=[
                                     ft.Column(controls=[
                                         ft.Container(ft.Text('Верх канала, %',size=12,color=c_white,text_align='center'),width=170),
-                                        Input(self.input_up_chanal,'85',170),
+                                        Input(self.input_up_chanal,self.strat_one_up_chanal,170),
                                         ft.Container(ft.Text('Низ канала, %',size=12,color=c_white,text_align='center'),width=170),
-                                        Input(self.input_down_chanal,'15',170),
+                                        Input(self.input_down_chanal,self.strat_one_down_chanal,170),
                                     ]),
                                     ft.Column(controls=[
                                         ft.Container(ft.Text('Угол тренда лонг',size=12,color=c_white,text_align='center'),width=170),
-                                        Input(self.input_corner_long,'20',170),
+                                        Input(self.input_corner_long,self.strat_one_corner_long,170),
                                         ft.Container(ft.Text('Угол тренда шорт',size=12,color=c_white,text_align='center'),width=170),
-                                        Input(self.input_corner_short,'70',170),
+                                        Input(self.input_corner_short,self.strat_one_corner_short,170),
                                     ])
                                 ]),
                                 width=396,
