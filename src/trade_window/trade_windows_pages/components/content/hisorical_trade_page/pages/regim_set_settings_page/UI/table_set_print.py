@@ -105,7 +105,7 @@ class Table_set_print(ft.UserControl):
                                 border = ft.border.only(right=ft.border.BorderSide(1, c_white),left=ft.border.BorderSide(1, c_white),top=ft.border.BorderSide(1, c_white),bottom=ft.border.BorderSide(1, c_white)),
                                 # border = ft.border.all(1, c_white),
                                 # padding=14,
-                                height = 200,
+                                height = 210,
                                 # padding=ft.padding.only(left=-1,top=-1,bottom=-1)
                                 
                     )]),     

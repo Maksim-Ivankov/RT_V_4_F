@@ -24,8 +24,8 @@ class Regim_set_settings_page(ft.UserControl):
             'MA':'Скользящие средние'
         }
         self.card_set = {
-            'one':MA_set(self.click_neral_set),
-            'MA':One_set(self.click_neral_set)
+            'one':One_set(self.click_neral_set),
+            'MA':MA_set(self.click_neral_set),
         }
         self.open_page_get_set = {
             'Общие настройки':Generate_general_set(self.update_page),
@@ -80,7 +80,7 @@ class Regim_set_settings_page(ft.UserControl):
                                     ft.Container(
                                         ft.Row(controls=[
                                         ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                                        ft.Container(ft.ElevatedButton(content = ft.Text('Запустить торговлю',size=12,),data='Запустить торговлю',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                        ft.Container(ft.ElevatedButton(content = ft.Text('Запустить торговлю',size=12,),data='Запустить торговлю сет',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
                                     ]),padding=ft.padding.only(left=290,top=10)
                                     ),
                                     width=860,

@@ -119,9 +119,42 @@ def print_set_settings():
             width=350,height=140),padding=10
     )
 
+# ВОЗВРАЩАЕТ НАСТРОЙКИ ДЛЯ ОТРИСОВКИ ОБЩИХ НАСТРОЕК СЕТА НАСТРОЕК
+def print_mach_our_settings():
+    config = configparser.ConfigParser()  
+    config.read(path_imports_config)
 
-
-
+    return  ft.Container(
+        ft.Row(controls=[
+            ft.Container(
+                ft.Column(controls=[
+                    ft.Text(f'Имя робота для логов: {config.get('param_trade_historical_trade_svobodniy_freym', 'name_bot')}',size=12),
+                    ft.Text(f'Режим монеты: {config.get('param_trade_historical_trade_svobodniy_freym', 'strategi_coin')}',size=12),
+                ],scroll=ft.ScrollMode.ALWAYS,),
+                width=230,height=140),
+            ft.Container(width=1,height=140,bgcolor=c_white),
+            ft.Container(
+                ft.Column(controls=[
+                    ft.Text(f'Комиссия мейкер: {config.get('param_trade_historical_trade_svobodniy_freym', 'komission_mayker')}',size=12),
+                    ft.Text(f'Комиссия тейкер: {config.get('param_trade_historical_trade_svobodniy_freym', 'komission_taker')}',size=12),
+                ],scroll=ft.ScrollMode.ALWAYS,),
+                width=150,height=140),
+            ft.Container(width=1,height=140,bgcolor=c_white),
+            ft.Container(
+                ft.Column(controls=[
+                    ft.Text(f'Сколько монет торговать: {config.get('param_trade_historical_trade_svobodniy_freym', 'how_mach_money')}',size=12),
+                    ft.Text(f'Таймфрейм: {config.get('param_trade_historical_trade_svobodniy_freym', 'work_tf')}',size=12),
+                ],scroll=ft.ScrollMode.ALWAYS,),
+                width=200,height=140),
+            ft.Container(width=1,height=140,bgcolor=c_white),
+            ft.Container(
+                ft.Column(controls=[
+                    ft.Text(f'Длительность торговли: {config.get('param_trade_historical_trade_svobodniy_freym', 'dlitelnost')}',size=12),
+                    ft.Text(f'Кол-во настроек в сете: ',size=12),
+                ],scroll=ft.ScrollMode.ALWAYS,),
+                width=200,height=140),
+        ]),padding=10
+    )
 
 
 
