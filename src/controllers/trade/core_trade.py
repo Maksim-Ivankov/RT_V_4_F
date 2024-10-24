@@ -103,12 +103,14 @@ class Core_trade():
                                 self.df_see = pd.read_csv(f'{path_svoboda_freym}\\{self.var.number_trade}\\see\\{coin}.csv')
                                 add_logi_trade(f'{index}|Сигнал {self.trade_param['trend']}, монета {coin}, цена входа - {self.trade_param['price_treyd']}')
                                 break
-                            else: add_logi_trade(f'{index}|Монета {coin} - Нет сигнала')
+                            # else: add_logi_trade(f'{index}|Монета {coin} - Нет сигнала')
                             # add_logi_trade(f'')
+                    add_logi_trade(f'{index} Нет сигнала')
                 else:
                     try:
                         self.trade_param['df_see'] = self.df_see.iloc[int(self.search_step_see(self.trade_param['index_trade'])):int(self.search_step_see(self.trade_param['index_trade'])+self.trade_param['timeframe'])] # получили датафрейм мини из файла
                     except Exception as e:
+                        add_logi_trade(f'{index}| Закончили торговлю')
                         print(f'Находимся в конце фрейма, не успеваем выйти из сделки - {e}')
                     for nonindex, row in self.trade_param['df_see'].iterrows():
                         self.trade_param['close_time_trade'] = int(row['open_time'])
