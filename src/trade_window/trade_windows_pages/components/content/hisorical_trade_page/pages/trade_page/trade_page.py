@@ -15,6 +15,7 @@ class Trade_page(ft.UserControl):#1
         self.output_info_trade = Output_info_trade(self.open_mini_graph_trade)
         self.change_trade_from_table = ''
         self.count_trade_table = 0
+        self.count_trade_now = 0
         
     def open_mini_graph_trade(self,number_graph):
         # print(f'Внутри графика по кнопке сделка и график сделки- {self.change_trade_from_table}')
@@ -34,7 +35,11 @@ class Trade_page(ft.UserControl):#1
         self.content.scroll_to(key="pb", duration=1000)
         self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end), args=(), daemon=True)
         self.myThread.start()
-        
+        if self.count_trade_now == 0:
+            data_add = ft.Container(ft.Text('Нет сделок',color=c_white,text_align='center'),height=30,bgcolor=c_blue_binance,width=400)
+            self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
+            self.update()
+
     def change_pb(self,procent):
         self.output_info_trade.pb.value = procent
     
@@ -52,6 +57,7 @@ class Trade_page(ft.UserControl):#1
         
     # добавление сделок в окно сделок
     def add_trade_table(self,data):
+        self.count_trade_now += 1
         if data['result'] == '+': 
             data_add = ft.Container(ft.Text(data['data'],color=c_blue,text_align='center'),data=str(self.count_trade_table),height=30,bgcolor=c_green,width=400,on_click=self.click_trade)
             self.count_trade_table+=1

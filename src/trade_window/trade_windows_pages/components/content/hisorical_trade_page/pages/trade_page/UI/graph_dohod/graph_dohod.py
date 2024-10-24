@@ -38,103 +38,106 @@ class Graph_dohod(ft.UserControl):
         if os.path.isfile(self.path_save_trade_log):
             with open(self.path_save_trade_log) as file:
                 self.array_data_row = [row.strip() for row in file]
-        for trade_once in self.array_data_row:
-            self.depo_start = float(trade_once.split('|')[1])
-            depo = float(trade_once.split('|')[2])
-            result = float(trade_once.split('|')[3])
-            komission = float(trade_once.split('|')[4])
-            result_none_komission = float(trade_once.split('|')[5])
-            if result>0:
-                self.trade_plus+=1
-                self.trade_plus_dolar+=result_none_komission
-            else: 
-                self.trade_minus+=1
-                self.trade_minus_dolar += result_none_komission
-            self.trade_balance_dolar = round(depo,2)
-            self.trade_komission+=komission
-            self.depo_max_min_stat_arr.append(depo)
+
+            for trade_once in self.array_data_row:
+                self.depo_start = float(trade_once.split('|')[1])
+                depo = float(trade_once.split('|')[2])
+                result = float(trade_once.split('|')[3])
+                komission = float(trade_once.split('|')[4])
+                result_none_komission = float(trade_once.split('|')[5])
+                if result>0:
+                    self.trade_plus+=1
+                    self.trade_plus_dolar+=result_none_komission
+                else: 
+                    self.trade_minus+=1
+                    self.trade_minus_dolar += result_none_komission
+                self.trade_balance_dolar = round(depo,2)
+                self.trade_komission+=komission
+                self.depo_max_min_stat_arr.append(depo)
             
-        self.trade_balance_procent = round(((depo-self.depo_start)/self.depo_start)*100,2)
-        self.price_max = max(self.depo_max_min_stat_arr) # максимальное депо
-        if self.price_max<self.depo_start:self.price_max = self.depo_start
+            self.trade_balance_procent = round(((depo-self.depo_start)/self.depo_start)*100,2)
+            self.price_max = max(self.depo_max_min_stat_arr) # максимальное депо
+            if self.price_max<self.depo_start:self.price_max = self.depo_start
+
+            for i in self.depo_max_min_stat_arr:
+                if i>self.depo_start:
+                    self.price_min = self.depo_start
+                else: 
+                    self.price_min = min(self.depo_max_min_stat_arr) # минимальное депо
+                    break
         
-        for i in self.depo_max_min_stat_arr:
-            if i>self.depo_start:
-                self.price_min = self.depo_start
-            else: 
-                self.price_min = min(self.depo_max_min_stat_arr) # минимальное депо
-                break
+            # print(f'min = {self.price_min} | max = {self.price_max}')
+            # рисуем график
+            self.OldRange = (self.price_max - self.price_min) # старая высота = 39,78
+            self.NewRange = self.height_graph # новая высота = 200
+            self.x0 = 30
+            self.NewRange1 = ((self.width_graph-self.x0)/(len(self.array_data_row))) # новая ширина = 36,81
+            self.y0 = self.height_graph - (((self.depo_start - self.price_min) * self.NewRange) / self.OldRange)
+
+            # стили для фигур
+            line_depo_start = ft.Paint(stroke_width=2, style=ft.PaintingStyle.STROKE,color=c_gray_binance)
+            fill_rect_price = ft.Paint(style=ft.PaintingStyle.FILL,color=c_gray_binance)
+            fill_green = ft.Paint(style=ft.PaintingStyle.FILL,color=c_green_binance)
+            fill_red = ft.Paint(style=ft.PaintingStyle.FILL,color=c_red_binance)
+            fill_blue = ft.Paint(style=ft.PaintingStyle.FILL,color=c_blue)
+
+            # добавляем элементы легенды для цены
+            self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0, 0, 30, 200)],0, 0)],paint=fill_blue))
+            self.print_canvas_arr.append(cv.Line(0,self.y0,self.width_graph,self.y0, line_depo_start))
+
+            # линия прайса
+            self.line_price = cv.Line(0,0,self.width_graph,0, line_depo_start)
+            # прямоугольник прайса
+            self.line_price_rect = cv.Path([cv.Path.SubPath([cv.Path.Rect(0, 0, 30, 20)],0, 0)],paint=fill_rect_price)
+            # прайс
+            self.price_value_line = cv.Text(5,5,'111',ft.TextStyle(size=12,color='#b6b8b1'))
         
-        # print(f'min = {self.price_min} | max = {self.price_max}')
-        # рисуем график
-        self.OldRange = (self.price_max - self.price_min) # старая высота = 39,78
-        self.NewRange = self.height_graph # новая высота = 200
-        self.x0 = 30
-        self.NewRange1 = ((self.width_graph-self.x0)/(len(self.array_data_row))) # новая ширина = 36,81
-        self.y0 = self.height_graph - (((self.depo_start - self.price_min) * self.NewRange) / self.OldRange)
-        
-        # стили для фигур
-        line_depo_start = ft.Paint(stroke_width=2, style=ft.PaintingStyle.STROKE,color=c_gray_binance)
-        fill_rect_price = ft.Paint(style=ft.PaintingStyle.FILL,color=c_gray_binance)
-        fill_green = ft.Paint(style=ft.PaintingStyle.FILL,color=c_green_binance)
-        fill_red = ft.Paint(style=ft.PaintingStyle.FILL,color=c_red_binance)
-        fill_blue = ft.Paint(style=ft.PaintingStyle.FILL,color=c_blue)
-        
-        # добавляем элементы легенды для цены
-        self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(0, 0, 30, 200)],0, 0)],paint=fill_blue))
-        self.print_canvas_arr.append(cv.Line(0,self.y0,self.width_graph,self.y0, line_depo_start))
-        
-        # линия прайса
-        self.line_price = cv.Line(0,0,self.width_graph,0, line_depo_start)
-        # прямоугольник прайса
-        self.line_price_rect = cv.Path([cv.Path.SubPath([cv.Path.Rect(0, 0, 30, 20)],0, 0)],paint=fill_rect_price)
-        # прайс
-        self.price_value_line = cv.Text(5,5,'111',ft.TextStyle(size=12,color='#b6b8b1'))
-        
-        if int(self.OldRange/5)!=0:
-        # рисуем цену
-            step_price_arr = []
-            for i in range(int(self.price_min),int(self.price_max),int(self.OldRange/5)):
-                step_price_arr.append(i)
-            for index in range(len(step_price_arr)):
-                y = self.height_graph - (((step_price_arr[index] - self.price_min) * self.NewRange) / self.OldRange) - 10
-                self.print_canvas_arr.append(cv.Text(5,y,step_price_arr[index],ft.TextStyle(size=12,color='#b6b8b1')))
-            
-        self.y0 = self.height_graph - (((self.depo_start - self.price_min) * self.NewRange) / self.OldRange)
-        # self.y0 = self.height_graph - (((self.depo_start - self.price_min) * self.NewRange) / self.OldRange)
-        
-        
-        # рисуем свечи доходности
-        for index in range(len(self.array_data_row)):
-            self.value = float(self.array_data_row[index].split('|')[2])
-            self.x = ((index) * self.NewRange1)
-            self.y = self.height_graph - (((self.value - self.price_min) * self.NewRange) / self.OldRange)
-            if float(self.array_data_row[index].split('|')[3])>=0:
-                self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_green))
-            else:
-                self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_red))
-            # print(f' x {self.x} | y {self.y} | y0 {self.y0} ||| self.y0-self.y = {self.y0-self.y}')
-            self.y0 = self.y   
-        # # рисуем свечи доходности
-        # for index in range(len(self.array_data_row)):
-        #     self.value = float(self.array_data_row[index].split('|')[2])
-        #     self.x = ((index) * self.NewRange1)
-        #     self.y = self.height_graph - (((self.value - self.price_min) * self.NewRange) / self.OldRange)
-        #     if float(self.array_data_row[index].split('|')[3])>=0:
-        #         self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_green))
-        #     else:
-        #         self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_red))
-        #     self.y0 = self.y   
-        
-        self.graph_profit = cv.Canvas(self.print_canvas_arr,width=self.width_graph,height=self.height_graph,content=ft.GestureDetector(
-            # on_pan_start=self.pan_start,
-            on_hover=self.pan_start,
-            drag_interval=10,
-        ))
-        
-        self.print_canvas_arr.append(self.line_price)
-        self.print_canvas_arr.append(self.line_price_rect)
-        self.print_canvas_arr.append(self.price_value_line)
+            if int(self.OldRange/5)!=0:
+            # рисуем цену
+                step_price_arr = []
+                for i in range(int(self.price_min),int(self.price_max),int(self.OldRange/5)):
+                    step_price_arr.append(i)
+                for index in range(len(step_price_arr)):
+                    y = self.height_graph - (((step_price_arr[index] - self.price_min) * self.NewRange) / self.OldRange) - 10
+                    self.print_canvas_arr.append(cv.Text(5,y,step_price_arr[index],ft.TextStyle(size=12,color='#b6b8b1')))
+
+            self.y0 = self.height_graph - (((self.depo_start - self.price_min) * self.NewRange) / self.OldRange)
+            # self.y0 = self.height_graph - (((self.depo_start - self.price_min) * self.NewRange) / self.OldRange)
+
+
+            # рисуем свечи доходности
+            for index in range(len(self.array_data_row)):
+                self.value = float(self.array_data_row[index].split('|')[2])
+                self.x = ((index) * self.NewRange1)
+                self.y = self.height_graph - (((self.value - self.price_min) * self.NewRange) / self.OldRange)
+                if float(self.array_data_row[index].split('|')[3])>=0:
+                    self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_green))
+                else:
+                    self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_red))
+                # print(f' x {self.x} | y {self.y} | y0 {self.y0} ||| self.y0-self.y = {self.y0-self.y}')
+                self.y0 = self.y   
+            # # рисуем свечи доходности
+            # for index in range(len(self.array_data_row)):
+            #     self.value = float(self.array_data_row[index].split('|')[2])
+            #     self.x = ((index) * self.NewRange1)
+            #     self.y = self.height_graph - (((self.value - self.price_min) * self.NewRange) / self.OldRange)
+            #     if float(self.array_data_row[index].split('|')[3])>=0:
+            #         self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_green))
+            #     else:
+            #         self.print_canvas_arr.append(cv.Path([cv.Path.SubPath([cv.Path.Rect(self.x0, 0, self.NewRange1, self.y0-self.y)],self.x, self.y)],paint=fill_red))
+            #     self.y0 = self.y   
+
+            self.graph_profit = cv.Canvas(self.print_canvas_arr,width=self.width_graph,height=self.height_graph,content=ft.GestureDetector(
+                # on_pan_start=self.pan_start,
+                on_hover=self.pan_start,
+                drag_interval=10,
+            ))
+
+            self.print_canvas_arr.append(self.line_price)
+            self.print_canvas_arr.append(self.line_price_rect)
+            self.print_canvas_arr.append(self.price_value_line)
+        else:
+            self.graph_profit = ft.Container(ft.Text('Нет сделок',text_align='CENTER'),width=self.width_graph,height=self.height_graph,padding=ft.padding.only(top=100))
             
         self.trade_page = ft.Container(
             ft.Container(ft.Column(controls=[

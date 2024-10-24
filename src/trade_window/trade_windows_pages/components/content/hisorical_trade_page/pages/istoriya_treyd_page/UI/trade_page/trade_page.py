@@ -15,6 +15,7 @@ class Trade_page(ft.UserControl):
         self.number_folder = number_folder
         # self.colback = colback
         self.number_trade = 0
+        self.change_trade_from_table = ''
         self.state_graph_btn = 'graph_1'
         self.state_graph_btn_print = {
             'graph_1': ft.Row(controls=[
