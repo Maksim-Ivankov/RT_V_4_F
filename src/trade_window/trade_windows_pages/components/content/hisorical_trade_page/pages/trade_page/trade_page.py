@@ -2,7 +2,7 @@
 import flet as ft
 from variable import *
 from imports import *
-
+#1
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.data_settings import print_our_settings,print_set_settings
 from src.controllers.trade.core_trade import Core_trade
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.output_info_trade import Output_info_trade

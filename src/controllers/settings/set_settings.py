@@ -53,8 +53,13 @@ class HisTrade_Svoboda_OneSettings():
         "объем торгов за свечку макс"
         self.COINS = config.get('param_trade_historical_trade_svobodniy_freym', 'coins_trade').split('|') # монеты для торговли
         "монеты для торговли"
-        self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade')) # номер папки с датафеймами в хранилище
-        "номер папки с датафеймами в хранилище"
+        if config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost') == 'True':
+            self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')) # номер папки с датафеймами в хранилище
+            "номер папки с датафеймами в хранилище"
+        else:
+            self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade')) # номер папки с датафеймами в хранилище
+            "номер папки с датафеймами в хранилище"
+            
         
         # Сохраняем общие настройки в папку с трейдом
         if len(os.listdir(path_save_trade)) == 0:

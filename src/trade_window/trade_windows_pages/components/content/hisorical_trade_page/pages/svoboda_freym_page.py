@@ -219,6 +219,11 @@ class Svoboda_freym_page(ft.UserControl):
         self.controls = []
         self.controls.append(self.print_page())
         self.update()
+        # СЮДА ДОБАВИТЬ ОБРАБОТКУ, КОГДА ВЫБИРАЕШЬ СТАРЫЕ ДАННЫЕ, НАСТРОЙКИ В КОНФИГЕ ДОЛЖНЫ МЕНЯТЬСЯ НА ЭТИ СТАРЫЕ ДАННЫЕ
+        # config = configparser.ConfigParser()         
+        # config.read(path_imports_config)
+        # self.number_trade = config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade')
+
 
     # кнопка - использовать прошлые данные
     def open_modal_last_data(self,e):
@@ -297,6 +302,24 @@ class Svoboda_freym_page(ft.UserControl):
             ]
             # записываем монеты из выбранного шага и- использовать прошлые данные
             self.coins_trade = literal_eval(self.coin_mas_last)
+            data_save = {
+               'work_tf':config.get(self.use_last_number, 'tf_work'), 
+               'sledim_money':config.get(self.use_last_number, 'tf_see'), 
+               'dlitelnost':config.get(self.use_last_number, 'how_mach_time'), 
+               'coins_trade':'|'.join(literal_eval(config.get(self.use_last_number, 'coin_mas'))), 
+               'strategi_coin':config.get(self.use_last_number, 'strategy_coin'), 
+               'how_mach_money':config.get(self.use_last_number, 'how_mach_coin'), 
+            }
+            Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
+            # work_tf  таймфрейм
+            # sledim_money  таймфрейм слежения
+            # dlitelnost
+            # coins_trade монеты
+
+            # how_mach_coin
+            # volume
+            # see_volume
+
             
         coins_print = []
         for i in self.coins_trade:
