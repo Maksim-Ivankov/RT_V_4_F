@@ -6,7 +6,8 @@ from imports import *
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.data_settings import print_our_settings,print_set_settings,print_mach_our_settings
 from src.controllers.trade.core_trade import Core_trade
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.output_info_trade import Output_info_trade
-from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.UI.table_set_print import Table_set_print
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.one_settings.one_settings import One_settings_def
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.set_settings import Set_settings_def
 
 class Trade_page(ft.UserControl):#1
     def __init__(self,change_page,regime='one_set'):
@@ -18,7 +19,8 @@ class Trade_page(ft.UserControl):#1
         self.change_trade_from_table = ''
         self.count_trade_table = 0
         self.count_trade_now = 0
-        
+    
+    #ОТКРЫТЬ МИНИ ГРАФИК 
     def open_mini_graph_trade(self,number_graph):
         # print(f'Внутри графика по кнопке сделка и график сделки- {self.change_trade_from_table}')
         self.controls[0].content.content.content.controls.pop()
@@ -26,6 +28,7 @@ class Trade_page(ft.UserControl):#1
         self.update()
         # print(self.controls[0].content.content.content.content.controls[0].content.controls[1].content.content.controls[0].controls[0].controls)
 
+    # КЛИК ПО КНОПКЕ - НАЧАЛО ТОРГОВЛИ
     def start_trade(self,e):
         regime = 'Историческая торговля|Свободный фрейм|Ода настройка'
         config = configparser.ConfigParser()  
@@ -41,7 +44,8 @@ class Trade_page(ft.UserControl):#1
             data_add = ft.Container(ft.Text('Нет сделок',color=c_white,text_align='center'),height=30,bgcolor=c_blue_binance,width=400)
             self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
             self.update()
-
+    
+    # ДЛЯ ПРОГРЕССБАРА
     def change_pb(self,procent):
         self.output_info_trade.pb.value = procent
     
@@ -68,124 +72,21 @@ class Trade_page(ft.UserControl):#1
             self.count_trade_table+=1
         self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
     
+    # print('Отрисовали низ 1 раз после логов и сделок')
     def print_trade_end(self):
-        # print('Отрисовали низ 1 раз после логов и сделок')
         self.controls[0].content.content.content.controls.append(self.output_info_trade.print_itog_and_graph('graph_1'))
         self.content.scroll_to(key="itog", duration=1000)
 
 
-
+    # One_settings()
     def print_page(self):
         # ЕСЛИ РЕЖИМ - ОДНА НАСТРОЙКА
         if self.regime=='one_set':
-            self.content = ft.Column(controls=[
-                ft.Container(ft.Text('Проверьте настройки и запустите торговлю',size=12,color=c_white,text_align='center'),padding=ft.padding.only(left=320)),
-                ft.Container(
-                    ft.Row(controls=[
-                    ft.Container(
-                    ft.Container(
-                        ft.Column(controls=[
-                            ft.Column(
-                                controls=[
-                                    ft.Container(
-                                        ft.Container(ft.Text('Общие настройки робота',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
-                                        ft.Container(
-                                            ft.Container(
-                                                print_our_settings(),
-                                                width=500,
-                                                height=148,
-                                                border = ft.border.all(1, c_white),
-                                                bgcolor=c_blue,
-                                            ),
-                                            width=500,
-                                            height = 148,
-                                            padding=ft.padding.only(left=-1,top=-1,bottom=-1)
-                
-                                        )]),     
-                    ])),
-                    width=500,
-                    ),
-                    ft.Container(
-                        ft.Container(
-                            ft.Column(controls=[
-                                ft.Column(
-                                    controls=[
-                                        ft.Container(
-                                            ft.Container(ft.Text('Настройки стратегий',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
-                                        ft.Container(
-                                            ft.Container(
-                                                print_set_settings(),
-                                                width=350,
-                                                height=148,
-                                                border = ft.border.all(1, c_white),
-                                                bgcolor=c_blue,
-                                            ),
-                                            width=350,
-                                            height = 148,
-                                            padding=ft.padding.only(left=-1,top=-1,bottom=-1)    
-                                )]),     
-                        ])),
-                        width=400,
-                    ),
-                    ]),
-                width=900,padding=ft.padding.only(left=20)),
-                ft.Container(
-                    ft.Container(
-                        ft.Row(controls=[
-                        ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                        ft.Container(ft.ElevatedButton(content = ft.Text('Запустить торговлю',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=self.start_trade,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                    ]),padding=ft.padding.only(left=320,top=10)
-                    ),
-                    width=500,
-                ),
-
-            ],scroll=ft.ScrollMode.ALWAYS)
+            self.content = One_settings_def(print_our_settings,print_set_settings,self.change_page,self.start_trade)
             
         # ЕСЛИ РЕЖИМ - СЕТ НАСТРОЕК
         elif self.regime=='much_set':
-            self.content = ft.Column(controls=[
-                ft.Container(ft.Text('Проверьте настройки и запустите торговлю',size=12,color=c_white,text_align='center'),padding=ft.padding.only(left=320)),
-                ft.Container(
-                    ft.Row(controls=[
-                    ft.Container(
-                    ft.Container(
-                        ft.Column(controls=[
-                            ft.Column(
-                                controls=[
-                                    ft.Container(
-                                        ft.Container(ft.Text('Общие настройки робота',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
-                                        ft.Container(
-                                            ft.Container(
-                                                print_mach_our_settings(),
-                                                width=860,
-                                                height=70,
-                                                border = ft.border.all(1, c_white),
-                                                bgcolor=c_blue,
-                                            ),
-                                            width=860,
-                                            height = 70,
-                                            padding=ft.padding.only(left=-1,top=-1,bottom=-1)
-                
-                                        )]),     
-                    ])),
-                    width=860,
-                    ),
-                    # Table_set_print(),
-                    ]),
-                width=900,padding=ft.padding.only(left=20)),
-                ft.Container(Table_set_print(),width=900,padding=ft.padding.only(left=20,top=20)),
-                
-                ft.Container(
-                    ft.Container(
-                        ft.Row(controls=[
-                        ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                        ft.Container(ft.ElevatedButton(content = ft.Text('Запустить торговлю',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=self.start_trade,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                    ]),padding=ft.padding.only(left=320,top=10)
-                    ),
-                    width=500,
-                ),
-
-            ],scroll=ft.ScrollMode.ALWAYS)
+            self.content = Set_settings_def(print_mach_our_settings,self.change_page,self.start_trade)
             
             
             
