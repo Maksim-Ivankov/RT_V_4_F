@@ -8,6 +8,7 @@ from src.controllers.trade.core_trade import Core_trade
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.output_info_trade import Output_info_trade
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.one_settings.one_settings import One_settings_def
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.set_settings import Set_settings_def
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.flex_card import Flex_card
 
 class Trade_page(ft.UserControl):#1
     def __init__(self,change_page,regime='one_set'):
@@ -16,6 +17,7 @@ class Trade_page(ft.UserControl):#1
         self.change_page = change_page
         self.count_pb = 0
         self.output_info_trade = Output_info_trade(self.open_mini_graph_trade)
+        self.flex_card = Flex_card()
         self.change_trade_from_table = ''
         self.count_trade_table = 0
         self.count_trade_now = 0
@@ -30,19 +32,30 @@ class Trade_page(ft.UserControl):#1
 
     # КЛИК ПО КНОПКЕ - НАЧАЛО ТОРГОВЛИ
     def start_trade(self,e):
-        regime = 'Историческая торговля|Свободный фрейм|Ода настройка'
-        config = configparser.ConfigParser()  
-        config.read(path_imports_config)
-        strategy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
-        core_trade_ob = Core_trade(regime,strategy)
-        self.controls[0].content.content.content.controls.append(self.output_info_trade.print_page())
-        self.controls[0].content.content.content.height=600
-        self.content.scroll_to(key="pb", duration=1000)
-        self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end), args=(), daemon=True)
-        self.myThread.start()
-        if self.count_trade_now == 0:
-            data_add = ft.Container(ft.Text('Нет сделок',color=c_white,text_align='center'),height=30,bgcolor=c_blue_binance,width=400)
-            self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
+        if self.regime=='one_set':
+            regime = 'Историческая торговля|Свободный фрейм|Ода настройка'
+            config = configparser.ConfigParser()  
+            config.read(path_imports_config)
+            strategy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
+            core_trade_ob = Core_trade(regime,strategy)
+            self.controls[0].content.content.content.controls.append(self.output_info_trade.print_page())
+            self.controls[0].content.content.content.height=600
+            self.content.scroll_to(key="pb", duration=1000)
+            self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end), args=(), daemon=True)
+            self.myThread.start()
+            if self.count_trade_now == 0:
+                data_add = ft.Container(ft.Text('Нет сделок',color=c_white,text_align='center'),height=30,bgcolor=c_blue_binance,width=400)
+                self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
+                self.update()
+        elif self.regime=='much_set':
+            # получаем кол-во настроек в сете
+            config_set = configparser.ConfigParser()  
+            config_set.read(path_ini_general_set)
+            count_set_trade = len(config_set.sections())
+            # Flex_card
+            self.controls[0].content.content.content.controls.append(self.flex_card.print_page(count_set_trade))
+            self.controls[0].content.content.content.height=600
+            # self.content.scroll_to(key="pb", duration=1000)
             self.update()
     
     # ДЛЯ ПРОГРЕССБАРА
@@ -78,7 +91,6 @@ class Trade_page(ft.UserControl):#1
         self.content.scroll_to(key="itog", duration=1000)
 
 
-    # One_settings()
     def print_page(self):
         # ЕСЛИ РЕЖИМ - ОДНА НАСТРОЙКА
         if self.regime=='one_set':
@@ -88,17 +100,12 @@ class Trade_page(ft.UserControl):#1
         elif self.regime=='much_set':
             self.content = Set_settings_def(print_mach_our_settings,self.change_page,self.start_trade)
             
-            
-            
-            
         self.trade_page = ft.Container(
             ft.Container(ft.Container(
                             self.content,
                             alignment=ft.alignment.center),
                             padding=ft.padding.only(top=10)
             ),expand=2)
-        
-        
         return self.trade_page
 
    

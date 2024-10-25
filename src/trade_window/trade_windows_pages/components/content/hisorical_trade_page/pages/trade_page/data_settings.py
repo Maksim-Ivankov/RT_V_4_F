@@ -123,6 +123,8 @@ def print_set_settings():
 def print_mach_our_settings():
     config = configparser.ConfigParser()  
     config.read(path_imports_config)
+    config_set = configparser.ConfigParser()  
+    config_set.read(path_ini_general_set)
 
     return  ft.Container(
         ft.Row(controls=[
@@ -150,7 +152,7 @@ def print_mach_our_settings():
             ft.Container(
                 ft.Column(controls=[
                     ft.Text(f'Длительность торговли: {config.get('param_trade_historical_trade_svobodniy_freym', 'dlitelnost')}',size=12),
-                    ft.Text(f'Кол-во настроек в сете: ',size=12),
+                    ft.Text(f'Кол-во настроек в сете: {len(config_set.sections())}',size=12),
                 ],scroll=ft.ScrollMode.ALWAYS,),
                 width=200,height=140),
         ]),padding=10
