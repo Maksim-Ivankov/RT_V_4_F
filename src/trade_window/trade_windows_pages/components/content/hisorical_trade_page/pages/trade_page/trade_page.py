@@ -57,10 +57,64 @@ class Trade_page(ft.UserControl):#1
             self.controls[0].content.content.content.height=600
             # self.content.scroll_to(key="pb", duration=1000)
             self.update()
+            regime = 'Историческая торговля|Свободный фрейм|Сет настроек'
+            config = configparser.ConfigParser()  
+            config.read(path_imports_config)
+            strategy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
+            core_trade_ob = Core_trade(regime,strategy)
+            # print(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls)
+            # print(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)
+            # print(len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls))
+            for number_trade in range(1,count_set_trade+1):
+                self.number_trade_in_set_settings = number_trade
+                # Получаем карточку, с которой будем работать на текущем шаге
+                count_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls) # [Row(), Row()]
+                if float(self.number_trade_in_set_settings/count_td)<1.00001:
+                    self.count_element_tr = 0
+                    if self.number_trade_in_set_settings%count_td == 0:
+                        self.count_element_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)-1 # заходим в первый row и получаем длину ряда
+                    else:self.count_element_td = int(self.number_trade_in_set_settings)-1
+                else: 
+                    self.count_element_tr = int((int(self.number_trade_in_set_settings)-1)/count_td)
+                    if self.number_trade_in_set_settings%count_td == 0:
+                        self.count_element_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)-1 # заходим в первый row и получаем длину ряда
+                    else:self.count_element_td = int(self.number_trade_in_set_settings%count_td)-1
+                # print(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content)
+                # print(number_trade)
+                self.treyd_polosa = []
+                self.treyd_polosa[:] = []
+                self.content.scroll_to(key=str(number_trade), duration=1000)
+                self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end,number_trade), args=(), daemon=True)
+                self.myThread.start()
+
+                
     
     # ДЛЯ ПРОГРЕССБАРА
-    def change_pb(self,procent):
-        self.output_info_trade.pb.value = procent
+    def change_pb(self,procent,data={}):
+        if self.regime=='one_set':
+            self.output_info_trade.pb.value = procent
+        elif self.regime=='much_set':
+            # print(procent)
+            
+            if data!={}:
+                if data['result'] == '+':
+                    self.treyd_polosa.append(ft.Container(ft.Text(data['data'],color=c_blue,text_align='CENTER',size=12),bgcolor=c_green,width=150,height=20))
+                else:
+                    self.treyd_polosa.append(ft.Container(ft.Text(data['data'],color=c_white,text_align='CENTER',size=12),bgcolor=c_red,width=150,height=20))
+                
+            self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.bgcolor=c_blue
+            self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.padding=10
+            self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content = ft.Column(controls=[
+                ft.Container(ft.Column(controls=self.treyd_polosa,scroll=ft.ScrollMode.ALWAYS),height=150),
+                ft.Container(ft.ProgressBar(width=150,bgcolor=c_blue,color=c_yelow,value=procent))
+            ])
+            if procent>0.99:
+                self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content.controls.pop()
+            # print(data)
+            self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].update()
+            
+        
+            
     
     # добавление текста в окно логов
     def add_logi_table(self,data):

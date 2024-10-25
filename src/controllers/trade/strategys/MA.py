@@ -4,12 +4,15 @@ from imports import *
 from src.controllers.settings.strategys.set_strategys import MA as MA_strat
 
 class MA():
-    def __init__(self,df):
+    def __init__(self,df,regime='one_set',number_set = 0):
         super().__init__()
         self.df = df
         self.index_trade = len(self.df)
         self.data_mas = []
-        self.var = MA_strat()
+        if regime=='one_set':
+            self.var = MA_strat()
+        elif regime=='much_set':
+            self.var = MA_strat(regime,number_set)
         
     def check_cignal(self):
         sum_price = 0

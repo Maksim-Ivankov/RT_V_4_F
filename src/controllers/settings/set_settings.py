@@ -110,12 +110,67 @@ class HisTrade_Svoboda_OneSettings():
 
 
 
+class HisTrade_Svoboda_SetSettings():
+    def __init__(self):
+        super().__init__()
+        self.strat_set = {}
+        config = configparser.ConfigParser()  
+        config.read(path_imports_config)
+        
+        settings_strat = {
+            'one': One(),
+            'MA': MA(),
+        }
+        
+        sledim_sa_cenoy = {"1m":1,"5m":5} # соедим за ценой
+        change_work_tf = {'1m':1,'5m':5,'15m':15,'30m':30,'1h':60,'4h':240} # рабочий таймфрейм в минутах
+        change_how_mach_time = {'12h':720,'24h':1440,'48h':2880} # сколько времени торгуем в минутах
+        
+        self.TF = change_work_tf[config.get('param_trade_historical_trade_svobodniy_freym', 'work_tf')] # таймфрейм
+        "рабочий таймфрейм в минутах"
+        self.TF_slegenie = sledim_sa_cenoy[config.get('param_trade_historical_trade_svobodniy_freym', 'sledim_money')] # таймфрейм слежения
+        "таймфрейм слежения в минутах"
+        self.COMMISSION_MAKER = float(config.get('param_trade_historical_trade_svobodniy_freym', 'komission_mayker'))/100 # комиссия на вход
+        "комиссия на вход"
+        self.COMMISSION_TAKER = float(config.get('param_trade_historical_trade_svobodniy_freym', 'komission_taker'))/100 # комиссия на выхд
+        "комиссия на выхд"
+        self.VOLUME = int(change_how_mach_time[config.get('param_trade_historical_trade_svobodniy_freym', 'dlitelnost')]/self.TF) # сколько свечей получить при запросе к бирже
+        "сколько свечей получить при запросе к бирже"
+        self.VOLUME_5MIN = int(change_how_mach_time[config.get('param_trade_historical_trade_svobodniy_freym', 'dlitelnost')]/self.TF_slegenie) # сколько свечей получить в режиме слежения за ценой
+        "сколько свечей получить в режиме слежения за ценой"
+        self.COINS = config.get('param_trade_historical_trade_svobodniy_freym', 'coins_trade').split('|') # монеты для торговли
+        "монеты для торговли"
+        if config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost') == 'True':
+            self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')) # номер папки с датафеймами в хранилище
+            "номер папки с датафеймами в хранилище"
+        else:
+            self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade')) # номер папки с датафеймами в хранилище
+            "номер папки с датафеймами в хранилище"
 
 
-
-
-
-
+        config_set = configparser.ConfigParser()  
+        config_set.read(path_ini_general_set)
+        count_set_trade = len(config_set.sections())
+        self.data_set = {}
+        for i in range(1,count_set_trade+1):
+            self.data_set[str(i)] = {
+                'start_time': config_set.get(f'{str(i)}_section', 'start_time'),
+                'stop_time': config_set.get(f'{str(i)}_section', 'stop_time'),
+                'depo': int(config_set.get(f'{str(i)}_section', 'depo')),
+                'leveradg': int(config_set.get(f'{str(i)}_section', 'leveradg')),
+                'diapazon_tp': float(config_set.get(f'{str(i)}_section', 'diapazon_tp'))/100,
+                'diapazon_sl': float(config_set.get(f'{str(i)}_section', 'diapazon_sl'))/100,
+                'diapazon_volume_min': float(config_set.get(f'{str(i)}_section', 'diapazon_volume_min')),
+                'diapazon_volume_max': float(config_set.get(f'{str(i)}_section', 'diapazon_volume_max')),
+            }
+        self.strategys = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
+        "Стратегии торговли в массиве"
+        for strat in self.strategys:
+            strat_obj = settings_strat[strat]
+            for i in range(1,count_set_trade+1):
+                 self.strat_set[i] = {strat:strat_obj.get_set_settings(i)
+                 }
+            
 
 
 

@@ -5,15 +5,20 @@ from src.controllers.trade.strategys.one import One
 from src.controllers.trade.strategys.MA import MA
 
 class Check_if_signal():
-    def __init__(self,df,strategys):
+    def __init__(self,df,strategys,regime='one_set',number_set=0):
         super().__init__()
         self.df = df
         self.strategys = strategys
-        
-        self.strategys_start = {
-            'one':One(self.df),
-            'MA':MA(self.df)
-        }
+        if regime=='one_set':
+            self.strategys_start = {
+                'one':One(self.df),
+                'MA':MA(self.df)
+            }
+        elif regime=='much_set':
+            self.strategys_start = {
+                'one':One(self.df,regime,number_set),
+                'MA':MA(self.df,regime,number_set)
+            }
         
         
     
