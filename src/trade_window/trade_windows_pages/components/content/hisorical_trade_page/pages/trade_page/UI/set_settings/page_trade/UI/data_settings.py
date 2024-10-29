@@ -128,20 +128,20 @@ def def_print_our_settings(number_folder,number_trade_folder,strategy_now):
 # собираем данные для отрисовки логов в окне логов
 def def_print_log(number_folder,number_trade_folder,strategy_now):
     log_mas = []
-    # path_settings = f'{path_save_trade}\\{number_folder}\\log_trade.txt'
-    # if os.path.isfile(path_settings):
-    #     with open(path_settings) as file:
-    #         array_data_row = [row.strip() for row in file]
-    #         for i in array_data_row:
-    #             if int(i.split('|')[0])>20:
-    #                 if i.split('|')[3]=='no':
-    #                     log_mas.append(ft.Container(ft.Text(
-    #                         f'{i.split('|')[0]} | Депозит {i.split('|')[1]} | нет сигнала',
-    #                     )))
-    #                 else:
-    #                     log_mas.append(ft.Container(ft.Text(
-    #                         f'{i.split('|')[0]} | Депозит {i.split('|')[1]} | Сделка {i.split('|')[3]} {i.split('|')[4]}',
-    #                     )))
+    path_settings = f'{path_save_trade}\\{number_folder}\\folder_trade\\{number_trade_folder}\\log_trade.txt'
+    if os.path.isfile(path_settings):
+        with open(path_settings) as file:
+            array_data_row = [row.strip() for row in file]
+            for i in array_data_row:
+                if int(i.split('|')[0])>20:
+                    if i.split('|')[3]=='no':
+                        log_mas.append(ft.Container(ft.Text(
+                            f'{i.split('|')[0]} | Депозит {i.split('|')[1]} | нет сигнала',
+                        )))
+                    else:
+                        log_mas.append(ft.Container(ft.Text(
+                            f'{i.split('|')[0]} | Депозит {i.split('|')[1]} | Сделка {i.split('|')[3]} {i.split('|')[4]}',
+                        )))
     return log_mas
 
 

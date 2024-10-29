@@ -89,7 +89,7 @@ class Core_trade():
             self.trade_param['index_exit'] = 0
             for index in range(self.var.VOLUME):
                 change_pb(index/self.var.VOLUME)
-                data_numbers.append(index) # добавляем в массив номера итераций - 0,1,2,3 - имитируем реальную торговлю
+                data_numbers.append(index) # добавляем в массив номера итераций - 0,1,2,3 - имитируем реальную торговлю1
                 if index>self.INDEX_START: # начинаем не с нуля, а с 20-ой свечи
                     self.trade_param['index_trade'] = index
                     if self.trade_param['position'] == False: # если не стоим в позиции
@@ -235,7 +235,7 @@ class Core_trade():
                                 # print(f'{self.number_trade_now} Вышли из сделки - {self.trade_param['index_exit']}')
                                 break # чекаем монету по шагам итерации между большим и мальеньким фреймомd
             #                 else: add_logi_trade(f'{index}|Стоим в сделке')
-            #     self.print_file_log(f'{index}|{self.DEPOSIT_GLOBAL}|{self.trend_mas}|{self.trade_param['trend']}|{self.trade_param['coin']}|{self.trade_param['open_time_trade']}\n',self.path_save_log)
+                self.print_file_log(f'{index}|{self.DEPOSIT_GLOBAL}|{self.trend_mas}|{self.trade_param['trend']}|{self.trade_param['coin']}|{self.trade_param['open_time_trade']}\n',self.path_save_log)
             # add_logi_trade(f'Закончили торговлю')
             # print_trade_end()
 

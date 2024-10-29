@@ -98,7 +98,7 @@ class Trade_page(ft.UserControl):#1
             # Сохраянем сеты настроек в папку торговли
             shutil.copy(
                os.path.join(path_appdata, 'general_set.ini'),
-               os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}') # путь сохранения логов в папке трейда)
+               os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}') # путь сохранения логов в папке трейда)1
             )
             for i in strategy:
                 shutil.copy(

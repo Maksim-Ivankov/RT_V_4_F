@@ -1,4 +1,5 @@
 
+
 import flet as ft
 from variable import *
 from imports import *
@@ -14,6 +15,20 @@ class Table_trade(ft.UserControl):
             'one':'Канал,тренд,локаль,объём',
             'MA':'Скользящие средние'
         }
+        self.state_number_str = {}
+        self.str_comopoent = []
+        
+        
+        len_td_our = len(os.listdir(path_save_trade))
+        self.how_td_in_one_str = 20 # сколько делаем строк на однйо тсранице
+        count_str = int(len_td_our/self.how_td_in_one_str)
+        # print(count_str)
+        self.number_td_start = 0+count_str*self.how_td_in_one_str
+        self.number_td_end = 20+count_str*self.how_td_in_one_str
+        
+        for i in range(0,count_str):
+            self.state_number_str[str(i)] = False
+        self.state_number_str[str(count_str)] = True
         
     def open_page_trade(self,e):
         self.controls[:] = []
@@ -50,30 +65,22 @@ class Table_trade(ft.UserControl):
             e.control.content.controls[21].content.color=c_white
         self.update()
 
+    def change_number_pages(self,e):
+        # print(e.control.data)
+        for key in self.state_number_str:
+            if key == e.control.data:self.state_number_str[key]=True
+            else:self.state_number_str[key]=False
+        self.number_td_start = 0+int(e.control.data)*self.how_td_in_one_str
+        self.number_td_end = 20+int(e.control.data)*self.how_td_in_one_str
+        self.controls.pop()
+        self.controls.append(self.print_page())
+        self.update()
+
     def print_page(self):
+        self.str_comopoent[:] = []
+        self.mas_trade[:] = []
         self.palka_table = ft.Container(width=1,height=15,bgcolor=c_white,margin=0,padding=0)
         self.palka_horizont_table = ft.Container(width=850,height=1,bgcolor=c_white,margin=0)
-        # self.mas_trade.append(self.palka_horizont_table)
-        # print(len(os.listdir(path_save_trade)))
-        # легенда
-        self.mas_trade.append(
-                        ft.Container(
-                            ft.Row(controls=[self.palka_table,
-                                ft.Container(ft.Text('№',text_align='CENTER',color=c_blue),width=36,),self.palka_table,
-                                ft.Container(ft.Text('Дата',text_align='CENTER',color=c_blue),width=50,),self.palka_table,
-                                ft.Container(ft.Text('Результат',text_align='CENTER',color=c_blue),width=160,),self.palka_table,
-                                ft.Container(ft.Text('Сделок',text_align='CENTER',color=c_blue),width=56,),self.palka_table,
-                                ft.Container(ft.Text('в +',text_align='CENTER',color=c_blue),width=36,),self.palka_table,
-                                ft.Container(ft.Text('В + $',text_align='CENTER',color=c_blue),width=60,),self.palka_table,
-                                ft.Container(ft.Text('в -',text_align='CENTER',color=c_blue),width=36,),self.palka_table,
-                                ft.Container(ft.Text('В - $',text_align='CENTER',color=c_blue),width=60,),self.palka_table,
-                                ft.Container(ft.Text('Комиссия',text_align='CENTER',color=c_blue),width=68,),self.palka_table,
-                                ft.Container(ft.Text('Стратегия',text_align='CENTER',color=c_blue),width=220,),self.palka_table,
-                                ft.Container(ft.Text('Монет',text_align='CENTER',color=c_blue),width=56,),self.palka_table,
-                            ],spacing=0,run_spacing=0,),bgcolor=c_yelow,height=34
-                            # margin=ft.margin.only(top=-10,bottom=-10)
-                        )
-                    )
         for i in range((len(os.listdir(path_save_trade))),0,-1):
             strat_mas=[]
             strat_mas[:] = []
@@ -83,6 +90,8 @@ class Table_trade(ft.UserControl):
             for file in folder_strat:
                 if file!='log_trade.txt' and file!='settings_our.txt' and file!='trade.txt':
                     strat_mas.append(file.rstrip('.txt'))
+                # elif file == 'folder_trade':
+                    
             if len(strat_mas) == 1: strategy_trade = self.strategys[strat_mas[0]]
             else: strategy_trade = 'Несколько'
             # print(strategy_trade)
@@ -156,13 +165,45 @@ class Table_trade(ft.UserControl):
                         )
                     )
         # print(self.mas_trade)
+        self.mas_trade = sorted(self.mas_trade,key=lambda i:int(i.data))
+        # print(self.mas_trade)
+        # делаем нижние цирф для выбора страниц
+        
+        for key in self.state_number_str:
+            if self.state_number_str[key] == False:
+                self.str_comopoent.append(ft.Container(ft.Text(str(int(key)+1),text_align='CENTER',color=c_white),bgcolor=c_blue,width=20,height=24,border=ft.border.all(1,c_white),data=key,on_click=self.change_number_pages))
+            else:
+                self.str_comopoent.append(ft.Container(ft.Text(str(int(key)+1),text_align='CENTER',color=c_blue),bgcolor=c_yelow,width=20,height=24,border=ft.border.all(1,c_white),data=key,on_click=self.change_number_pages))
+            
+            
         self.ferst_page = ft.Container(
             ft.Container(
                         ft.Container(
                             ft.Column(controls=[
                                 # ft.Text('Таблица',size=12,color=c_white,text_align='CENTER',color=c_blue),
                                 ft.Container(#11
-                                    ft.Column(controls=self.mas_trade,scroll=ft.ScrollMode.ALWAYS,height=560),
+                                    ft.Column(controls=[
+                                            # ft.Container(ft.Row(controls=str_comopoent),bgcolor='red'),
+                                            ft.Container(
+                                                ft.Row(controls=[self.palka_table,
+                                                    ft.Container(ft.Text('№',text_align='CENTER',color=c_blue),width=36,),self.palka_table,
+                                                    ft.Container(ft.Text('Дата',text_align='CENTER',color=c_blue),width=50,),self.palka_table,
+                                                    ft.Container(ft.Text('Результат',text_align='CENTER',color=c_blue),width=160,),self.palka_table,
+                                                    ft.Container(ft.Text('Сделок',text_align='CENTER',color=c_blue),width=56,),self.palka_table,
+                                                    ft.Container(ft.Text('в +',text_align='CENTER',color=c_blue),width=36,),self.palka_table,
+                                                    ft.Container(ft.Text('В + $',text_align='CENTER',color=c_blue),width=60,),self.palka_table,
+                                                    ft.Container(ft.Text('в -',text_align='CENTER',color=c_blue),width=36,),self.palka_table,
+                                                    ft.Container(ft.Text('В - $',text_align='CENTER',color=c_blue),width=60,),self.palka_table,
+                                                    ft.Container(ft.Text('Комиссия',text_align='CENTER',color=c_blue),width=68,),self.palka_table,
+                                                    ft.Container(ft.Text('Стратегия',text_align='CENTER',color=c_blue),width=220,),self.palka_table,
+                                                    ft.Container(ft.Text('Монет',text_align='CENTER',color=c_blue),width=56,),self.palka_table,
+                                                ],spacing=0,run_spacing=0,),bgcolor=c_yelow,height=34
+                                                # margin=ft.margin.only(top=-10,bottom=-10)
+                                            ),
+                                        
+                                            ft.Container(ft.Column(controls=self.mas_trade[self.number_td_start:self.number_td_end],scroll=ft.ScrollMode.ALWAYS,height=410)),
+                                            ft.Container(ft.Row(controls=self.str_comopoent),margin=ft.margin.only(left=250)),
+                                        ]),
                                     width=850,
                                     # height=80,
                                     # margin=ft.margin.only(left=90),
