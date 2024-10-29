@@ -9,6 +9,7 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.one_settings.one_settings import One_settings_def
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.set_settings import Set_settings_def
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.flex_card import Flex_card
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.UI.table_result import Table_result
 
 class Trade_page(ft.UserControl):#1
     def __init__(self,change_page,regime='one_set'):
@@ -48,6 +49,7 @@ class Trade_page(ft.UserControl):#1
                 self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
                 self.update()
         elif self.regime=='much_set':
+            self.table_result = Table_result(self.reptint_table_result)
             # получаем кол-во настроек в сете
             config_set = configparser.ConfigParser()  
             config_set.read(path_ini_general_set)
@@ -86,8 +88,20 @@ class Trade_page(ft.UserControl):#1
                 self.content.scroll_to(key=str(number_trade), duration=1000)
                 self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end,number_trade), args=(), daemon=True)
                 self.myThread.start()
+            self.controls[0].content.content.content.controls.append(self.table_result.print_page(self.update_component))
+            self.content.scroll_to(key="table_result", duration=1000)
+            self.update()
 
-                
+    
+    # перерисовывает таблицу результатов
+    def reptint_table_result(self,regime):
+        self.controls[0].content.content.content.controls.pop()
+        self.controls[0].content.content.content.controls.append(self.table_result.print_page(self.update_component,regime))
+        self.update()
+    
+    # просто обновляет self
+    def update_component(self):
+        self.update()
     
     # ДЛЯ ПРОГРЕССБАРА
     def change_pb(self,procent,data={}):
@@ -101,7 +115,7 @@ class Trade_page(ft.UserControl):#1
                     self.treyd_polosa.append(ft.Container(ft.Text(data['data'],color=c_blue,text_align='CENTER',size=12),bgcolor=c_green,width=150,height=20))
                 else:
                     self.treyd_polosa.append(ft.Container(ft.Text(data['data'],color=c_white,text_align='CENTER',size=12),bgcolor=c_red,width=150,height=20))
-                
+                self.treyd_polosa = list(reversed(self.treyd_polosa))
             self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.bgcolor=c_blue
             self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.padding=10
             self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content = ft.Column(controls=[
@@ -110,7 +124,9 @@ class Trade_page(ft.UserControl):#1
             ])
             if procent>0.99:
                 self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content.controls.pop()
-            # print(data)
+                if len(self.treyd_polosa) == 0:
+                    self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content = ft.Container(ft.Container(ft.Text('Нет сделок',color=c_white,text_align='CENTER'),bgcolor=c_blue_binance,padding=ft.padding.only(top=90)),width=170,height=200,margin=-10)
+                    
             self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].update()
             
         

@@ -299,8 +299,8 @@ class Core_trade():
             self.DEPOSIT_GLOBAL = round(self.DEPOSIT_GLOBAL,2)
             self.place_open_position_profit = round(-LEVERAGE*self.DEPOSIT_GLOBAL*procent-LEVERAGE*self.DEPOSIT_GLOBAL*(COMMISSION_MAKER+COMMISSION_TAKER),2)
         
-            self.trade_param['index_exit'] = self.trade_param['index_trade']
-            self.trade_param['position'] = False
+        self.trade_param['index_exit'] = self.trade_param['index_trade']
+        self.trade_param['position'] = False
         if self.regime == 'Историческая торговля|Свободный фрейм|Ода настройка':
             self.print_file_log(f'{self.trade_param['trend']}|{self.var.DEPOSIT}|{self.DEPOSIT_GLOBAL}|{round(self.profit,2)}|{round(self.comission,2)}|{round(self.local_profit,2)}|{self.trade_param['coin']}|{self.trade_param['take_profit_price']}|{self.trade_param['stop_loss_price']}|{self.trade_param['price_treyd']}|{self.trade_param['open_time_trade']}|{self.trade_param['close_time_trade']}|{self.trade_param['path_df']}|{self.trade_param['index_entry']}|{self.trade_param['index_exit']}\n',self.path_save_trade_log)
             if self.profit>0: self.add_trade_table({'result':'+','data':f'{self.trade_param['coin']}| {self.trade_param['trend']} | Депозит: {round(self.DEPOSIT_GLOBAL,2)} | Профит: {round(self.local_profit,2)}'})
@@ -311,12 +311,12 @@ class Core_trade():
                 # self.add_trade_table({'result':'+','data':f'{self.trade_param['coin']}| {self.trade_param['trend']} | Депозит: {round(self.DEPOSIT_GLOBAL,2)} | Профит: {round(self.local_profit,2)}'})
                 self.logger_and_progress_bar(int(self.trade_param['index_trade'])/self.var.VOLUME,{
                     'result':'+',
-                    'data':f'{self.trade_param['coin']}| Профит: {round(self.local_profit,2)}'
+                    'data':f'Депо {self.DEPOSIT_GLOBAL}| Рез: {round(self.local_profit,2)}'
                                     })
             else: 
                 self.logger_and_progress_bar(int(self.trade_param['index_trade'])/self.var.VOLUME,{
                     'result':'-',
-                    'data':f'{self.trade_param['coin']}| Профит: {round(self.local_profit,2)}'
+                    'data':f'Депо {self.DEPOSIT_GLOBAL}| Рез: {round(self.local_profit,2)}'
                                     })
                 # self.add_trade_table({'result':'-','data':f'{self.trade_param['coin']}| {self.trade_param['trend']} | Депозит: {round(self.DEPOSIT_GLOBAL,2)} | Убыток: {round(self.local_profit,2)}'})
             

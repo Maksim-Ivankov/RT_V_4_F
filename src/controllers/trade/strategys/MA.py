@@ -15,52 +15,55 @@ class MA():
             self.var = MA_strat(regime,number_set)
         
     def check_cignal(self):
-        sum_price = 0
-        # вычисляем основную скользящую среднюю в текущей точкеf
-        for i in range(self.index_trade-int(self.var.strat_ma_koef_bistro),self.index_trade):
-            sum_price=sum_price+self.df['close'][i]*(1-(2/(self.index_trade-i+1))*0.01)
-        save_middle_price_1 = sum_price/int(self.var.strat_ma_koef_bistro)
-        sum_price = 0
-        # вычесляем отстающую скользящую среднюю в текущей точке
-        for i in range(self.index_trade-int(self.var.strat_ma_koef_medleno),self.index_trade):
-            sum_price=sum_price+self.df['close'][i]*(1-(2/(self.index_trade-i+1))*0.01)
-        save_middle_price_2 = sum_price/int(self.var.strat_ma_koef_medleno)
-        data_once = save_middle_price_1<save_middle_price_2
-        # закинуть в массив сравнение скользящих средних ха последние N точек
-        for j in range(int(self.index_trade-self.var.strat_ma_sovpad_last),self.index_trade):
+        try:
             sum_price = 0
-            for l in range(j-int(self.var.strat_ma_koef_bistro),j):
-                sum_price=sum_price+self.df['close'][l]*(1-(2/(j-l+1))*0.01)
-            save_middle_price_11 = sum_price/int(self.var.strat_ma_koef_bistro)
+            # вычисляем основную скользящую среднюю в текущей точкеf
+            for i in range(self.index_trade-int(self.var.strat_ma_koef_bistro),self.index_trade):
+                sum_price=sum_price+self.df['close'][i]*(1-(2/(self.index_trade-i+1))*0.01)
+            save_middle_price_1 = sum_price/int(self.var.strat_ma_koef_bistro)
             sum_price = 0
-            for l in range(j-int(self.var.strat_ma_koef_medleno),j):
-                sum_price=sum_price+self.df['close'][l]*(1-(2/(j-l+1))*0.01)
-            save_middle_price_21 = sum_price/int(self.var.strat_ma_koef_medleno)
-            self.data_mas.append(save_middle_price_11<save_middle_price_21) 
+            # вычесляем отстающую скользящую среднюю в текущей точке
+            for i in range(self.index_trade-int(self.var.strat_ma_koef_medleno),self.index_trade):
+                sum_price=sum_price+self.df['close'][i]*(1-(2/(self.index_trade-i+1))*0.01)
+            save_middle_price_2 = sum_price/int(self.var.strat_ma_koef_medleno)
+            data_once = save_middle_price_1<save_middle_price_2
+            # закинуть в массив сравнение скользящих средних ха последние N точек
+            for j in range(int(self.index_trade-self.var.strat_ma_sovpad_last),self.index_trade):
+                sum_price = 0
+                for l in range(j-int(self.var.strat_ma_koef_bistro),j):
+                    sum_price=sum_price+self.df['close'][l]*(1-(2/(j-l+1))*0.01)
+                save_middle_price_11 = sum_price/int(self.var.strat_ma_koef_bistro)
+                sum_price = 0
+                for l in range(j-int(self.var.strat_ma_koef_medleno),j):
+                    sum_price=sum_price+self.df['close'][l]*(1-(2/(j-l+1))*0.01)
+                save_middle_price_21 = sum_price/int(self.var.strat_ma_koef_medleno)
+                self.data_mas.append(save_middle_price_11<save_middle_price_21) 
 
-        prepared_df = self.PrepareDF(self.df)
-        i=self.index_trade-2
-        if self.all_the_same(self.data_mas)==True:
-            # если в массиве все одинаковые
-            if self.data_mas[0] == True and data_once==False:
-                if prepared_df['position_in_channel'][i-1]<self.var.strat_ma_down_chanal: # проверяем, прижаты ли мы к верхней границе канала
-                    self.data_mas[:] = []
-                    return 'long'
-                else:
-                    self.data_mas[:] = []
-                    return 'no'
-            elif self.data_mas[0] == False and data_once==True:
-                if prepared_df['position_in_channel'][i-1]>self.var.strat_ma_up_chanal: # проверяем, прижаты ли мы к нижней границе канала
-                    self.data_mas[:] = []
-                    return 'short'
+            prepared_df = self.PrepareDF(self.df)
+            i=self.index_trade-2
+            if self.all_the_same(self.data_mas)==True:
+                # если в массиве все одинаковые
+                if self.data_mas[0] == True and data_once==False:
+                    if prepared_df['position_in_channel'][i-1]<self.var.strat_ma_down_chanal: # проверяем, прижаты ли мы к верхней границе канала
+                        self.data_mas[:] = []
+                        return 'long'
+                    else:
+                        self.data_mas[:] = []
+                        return 'no'
+                elif self.data_mas[0] == False and data_once==True:
+                    if prepared_df['position_in_channel'][i-1]>self.var.strat_ma_up_chanal: # проверяем, прижаты ли мы к нижней границе канала
+                        self.data_mas[:] = []
+                        return 'short'
+                    else:
+                        self.data_mas[:] = []
+                        return 'no'
                 else:
                     self.data_mas[:] = []
                     return 'no'
             else:
                 self.data_mas[:] = []
                 return 'no'
-        else:
-            self.data_mas[:] = []
+        except Exception as e:
             return 'no'
     
     
