@@ -6,9 +6,11 @@ from imports import *
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.graph_trade.print_graph import Print_graph
 
 class Graph_trade(ft.UserControl):
-    def __init__(self,number_folder):
+    def __init__(self,number_folder,regime_set = 'none',number_trade_folder='0'):
         super().__init__()
         # self.form_graph = form_graph
+        self.number_trade_folder = number_trade_folder
+        self.regime_set = regime_set
         self.number_folder = number_folder
         # self.number_trade = int(number_trade)
         self.settings_print_graph = {}
@@ -25,7 +27,10 @@ class Graph_trade(ft.UserControl):
         # print(f'Номер папки = {self.number_folder}| Номер трейда = {self.number_trade}')
         # print(self.form_graph)
         # штука ниже вытаскивает из файла с трейдом все данные и делает статистику
-        self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\trade.txt' # путь сохранения логов в папке трейда
+        if self.regime_set == 'none':
+            self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\trade.txt' # путь сохранения логов в папке трейда
+        elif self.regime_set == 'set':
+            self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\folder_trade\\{self.number_trade_folder}\\trade.txt' # путь сохранения логов в папке трейдаc
         if os.path.isfile(self.path_save_trade_log):
             with open(self.path_save_trade_log) as file:
                 self.array_data_row = [row.strip() for row in file]

@@ -4,7 +4,7 @@ from variable import *
 from imports import *
 
 class Graph_dohod(ft.UserControl):
-    def __init__(self,number_folder):
+    def __init__(self,number_folder,regime_trade = 'none',number_trade_folder='0'):
         super().__init__()
         self.number_folder = number_folder
         self.array_data_row = []
@@ -15,6 +15,8 @@ class Graph_dohod(ft.UserControl):
         self.trade_plus_dolar = 0
         self.trade_minus_dolar = 0
         self.trade_komission = 0
+        self.regime_trade = regime_trade
+        self.number_trade_folder = number_trade_folder
         
         self.depo_max_min_stat_arr = []
         # график
@@ -34,7 +36,11 @@ class Graph_dohod(ft.UserControl):
     def print_page(self):
         
         # штука ниже вытаскивает из файла с трейдом все данные и делает статистику
-        self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\trade.txt' # путь сохранения логов в папке трейда
+        if self.regime_trade=='none':
+            self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\trade.txt' # путь сохранения логов в папке трейда
+        elif self.regime_trade=='set':
+            self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\folder_trade\\{self.number_trade_folder}\\trade.txt' # путь сохранения логов в папке трейда
+            # self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\folder_trade\\{self.number_trade_folder}\\trade.txt'
         if os.path.isfile(self.path_save_trade_log):
             with open(self.path_save_trade_log) as file:
                 self.array_data_row = [row.strip() for row in file]

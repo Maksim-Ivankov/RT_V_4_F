@@ -5,9 +5,11 @@ from imports import *
 
 
 class Table_result(ft.UserControl):
-    def __init__(self,reptint_table_result):
+    def __init__(self,reptint_table_result,change_page,print_page_one_trade_oura_set):
         super().__init__()
         self.reptint_table_result = reptint_table_result
+        self.print_page_one_trade_oura_set = print_page_one_trade_oura_set
+        self.change_page = change_page
         self.mas_trade = []
         self.sort_list_arr = []
         self.sort_list = ['Результат','Сделок','В +','В -']
@@ -47,7 +49,11 @@ class Table_result(ft.UserControl):
     
         # self.update()
         self.update_component()
-        
+    
+    # открыть страницу торговли
+    def open_page_trade(self,e):
+        self.print_page_one_trade_oura_set(e.control.data)
+    
     def clcik_sort(self,e):
         for key in self.sort_change:
             if key == e.control.data:self.sort_change[key] = True
@@ -103,7 +109,7 @@ class Table_result(ft.UserControl):
                                 ft.Container(ft.Text(f'{count_trade_minus}',text_align='CENTER',color=c_white),width=36,),self.palka_table,
                                 ft.Container(ft.Text(f'{round(money_trade_minus,2)}$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
                                 ft.Container(ft.Text(f'{round(comission,2)}$',text_align='CENTER',color=c_white),width=68,),
-                            ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20
+                            ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=str(file)
                         )
                     )
             else:
@@ -118,7 +124,7 @@ class Table_result(ft.UserControl):
                                 ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
                                 ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
                                 ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=68,),
-                            ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20
+                            ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=str(file)
                         )
                     )
         

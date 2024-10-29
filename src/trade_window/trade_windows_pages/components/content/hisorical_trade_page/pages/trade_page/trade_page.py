@@ -10,6 +10,7 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.set_settings import Set_settings_def
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.flex_card import Flex_card
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.UI.table_result import Table_result
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.page_trade.result_trqade_page import Result_trqade_page
 
 class Trade_page(ft.UserControl):#1
     def __init__(self,change_page,regime='one_set'):
@@ -22,6 +23,7 @@ class Trade_page(ft.UserControl):#1
         self.change_trade_from_table = ''
         self.count_trade_table = 0
         self.count_trade_now = 0
+        self.our_frame = []
     
     #ОТКРЫТЬ МИНИ ГРАФИК 
     def open_mini_graph_trade(self,number_graph):
@@ -49,11 +51,12 @@ class Trade_page(ft.UserControl):#1
                 self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
                 self.update()
         elif self.regime=='much_set':
-            self.table_result = Table_result(self.reptint_table_result)
+            self.table_result = Table_result(self.reptint_table_result,self.change_page,self.print_page_one_trade_oura_set)
             # получаем кол-во настроек в сете
             config_set = configparser.ConfigParser()  
             config_set.read(path_ini_general_set)
             count_set_trade = len(config_set.sections())
+            
             # Flex_card
             self.controls[0].content.content.content.controls.append(self.flex_card.print_page(count_set_trade))
             self.controls[0].content.content.content.height=600
@@ -91,6 +94,20 @@ class Trade_page(ft.UserControl):#1
             self.controls[0].content.content.content.controls.append(self.table_result.print_page(self.update_component))
             self.content.scroll_to(key="table_result", duration=1000)
             self.update()
+            
+            # Сохраянем сеты настроек в папку торговли
+            shutil.copy(
+               os.path.join(path_appdata, 'general_set.ini'),
+               os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}') # путь сохранения логов в папке трейда)
+            )
+            for i in strategy:
+                shutil.copy(
+                       os.path.join(path_appdata, f'{i}_set.ini'),
+                       os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}') # путь сохранения логов в папке трейда)
+                )
+            self.strategy_now = strategy
+                    
+                    
 
     
     # перерисовывает таблицу результатов
@@ -101,6 +118,22 @@ class Trade_page(ft.UserControl):#1
     
     # просто обновляет self
     def update_component(self):
+        self.update()
+        
+    # возвращаемся на страницу торговли по сету настроек после клика по таблице результатов
+    def return_old_data(self,e):
+        self.controls[:] = []
+        self.controls.append(self.trade_page)
+        self.update()
+        self.content.scroll_to(key="table_result", duration=1000)
+        
+        
+    # открыть страницу с трейдом из таблицы результатов торговли по сету настроек
+    def print_page_one_trade_oura_set(self,number_trade):
+        # self.our_frame = self.controls.copy()
+        self.our_frame = list(self.controls)
+        self.controls[:] = []
+        self.controls.append(Result_trqade_page(self.return_old_data,number_trade,self.strategy_now))
         self.update()
     
     # ДЛЯ ПРОГРЕССБАРА

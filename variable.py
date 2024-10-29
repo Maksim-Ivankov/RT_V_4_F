@@ -32,6 +32,7 @@ path_data_user_tg_chat = appdata + '\\channel_users_tg.json'
 path_data_message_tg_chat = appdata + '\\channel_messages_tg.json'
 path_JSON_coins_info_our = appdata + '\\coins_info_our.json'
 path_svoboda_freym = appdata + '\\svoboda_freym' # начало пути для сохранения датафреймов - историческая торговля/свободный фрейм
+path_appdata = appdata
 #--------------------------------------------------
 # проверяем есть ли папка в директории
 if os.path.isdir(f'{appdata}\\trade'): 

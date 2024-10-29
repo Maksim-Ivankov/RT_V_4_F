@@ -5,6 +5,7 @@ from email_validator import validate_email, EmailNotValidError
 import json
 import configparser
 import os.path
+import shutil
 import time
 import threading
 import matplotlib.pyplot as plt
