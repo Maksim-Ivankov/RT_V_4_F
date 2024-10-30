@@ -5,6 +5,7 @@ from variable import *
 from imports import *
 
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.UI.trade_page.trade_page import Trade_page
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.UI.trade_page.trade_page_set import Trade_page_set
 #11
 class Table_trade(ft.UserControl):
     def __init__(self):
@@ -31,9 +32,12 @@ class Table_trade(ft.UserControl):
         self.state_number_str[str(count_str)] = True
         
     def open_page_trade(self,e):
-        self.controls[:] = []
-        self.controls.append(Trade_page(e.control.data))
-        # print(e.control.data)
+        if e.control.key != 'Сет настроек':
+            self.controls[:] = []
+            self.controls.append(Trade_page(e.control.data))
+        elif e.control.key == 'Сет настроек':
+            self.controls[:] = []
+            self.controls.append(Trade_page_set(e.control.data))
         self.update()
     
     def hover_str(self,e):
@@ -148,7 +152,7 @@ class Table_trade(ft.UserControl):
                                     ft.Container(ft.Text(f'{round(comission,2)}$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
                                     ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
                                     ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                                ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i
+                                ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade,
                                 # margin=ft.margin.only(top=-10,bottom=-10)
                             )
                         )
@@ -168,7 +172,7 @@ class Table_trade(ft.UserControl):
                                     ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
                                     ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
                                     ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                                ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i
+                                ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade
                                 # margin=ft.margin.only(top=-10,bottom=-10)
                             )
                         )
@@ -227,7 +231,7 @@ class Table_trade(ft.UserControl):
                                         ft.Container(ft.Text(f'{round(comission,2)}$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
                                         ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
                                         ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                                    ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i
+                                    ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade
                                     # margin=ft.margin.only(top=-10,bottom=-10)
                                 )
                             )
@@ -246,7 +250,7 @@ class Table_trade(ft.UserControl):
                                 ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
                                 ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
                                 ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                            ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i
+                            ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade
                             # margin=ft.margin.only(top=-10,bottom=-10)
                         )
                     )
@@ -265,7 +269,7 @@ class Table_trade(ft.UserControl):
                                 ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
                                 ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
                                 ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                            ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i
+                            ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade
                             # margin=ft.margin.only(top=-10,bottom=-10)
                         )
                     )
