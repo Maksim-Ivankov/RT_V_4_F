@@ -51,7 +51,7 @@ class Trade_page(ft.UserControl):#1
                 self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
                 self.update()
         elif self.regime=='much_set':
-            self.table_result = Table_result(self.reptint_table_result,self.change_page,self.print_page_one_trade_oura_set)
+            self.table_result = Table_result(self.reptint_table_result,self.print_page_one_trade_oura_set)
             # получаем кол-во настроек в сете
             config_set = configparser.ConfigParser()  
             config_set.read(path_ini_general_set)
@@ -95,7 +95,7 @@ class Trade_page(ft.UserControl):#1
             self.content.scroll_to(key="table_result", duration=1000)
             self.update()
             
-            # Сохраянем сеты настроек в папку торговли
+            # Сохраянем сеты настроек в папку торговли1
             shutil.copy(
                os.path.join(path_appdata, 'general_set.ini'),
                os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}') # путь сохранения логов в папке трейда)

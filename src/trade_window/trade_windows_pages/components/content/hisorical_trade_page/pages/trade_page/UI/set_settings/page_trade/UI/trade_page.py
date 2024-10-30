@@ -251,7 +251,8 @@ class Trade_page(ft.UserControl):
                         ft.Container(
                             self.content,
                             alignment=ft.alignment.center),
-                            padding=ft.padding.only(top=10)
+                            padding=ft.padding.only(top=10),
+                            
                     ),expand=2
         )
         

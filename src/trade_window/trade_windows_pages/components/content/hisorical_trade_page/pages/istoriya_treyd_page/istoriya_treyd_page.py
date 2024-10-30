@@ -9,8 +9,6 @@ class Istoriya_treyd_page(ft.UserControl):
     def __init__(self,change_page):
         super().__init__()
         self.change_page = change_page
-        
-
 
     def build(self):
         self.ferst_page = ft.Container(
@@ -22,7 +20,6 @@ class Istoriya_treyd_page(ft.UserControl):
                                 ft.Container(#11
                                     Table_trade(),
                                     width=850,
-                                    # height=80,
                                     # margin=ft.margin.only(left=90),
                                 ),
                             ]),

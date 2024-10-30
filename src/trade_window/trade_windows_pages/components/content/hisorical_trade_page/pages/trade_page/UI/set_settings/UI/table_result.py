@@ -5,11 +5,10 @@ from imports import *
 
 
 class Table_result(ft.UserControl):
-    def __init__(self,reptint_table_result,change_page,print_page_one_trade_oura_set):
+    def __init__(self,reptint_table_result,print_page_one_trade_oura_set):
         super().__init__()
         self.reptint_table_result = reptint_table_result
         self.print_page_one_trade_oura_set = print_page_one_trade_oura_set
-        self.change_page = change_page
         self.mas_trade = []
         self.sort_list_arr = []
         self.sort_list = ['Результат','Сделок','В +','В -']
@@ -61,22 +60,20 @@ class Table_result(ft.UserControl):
         self.reptint_table_result(e.control.data)
 
 
-    def print_page(self,update_component,sort_result = 'basa'):
+    def print_page(self,update_component,sort_result = 'basa',number_trade=(len(os.listdir(path_save_trade))+1)):
         self.mas_trade[:] = []
         self.update_component  = update_component
         self.palka_table = ft.Container(width=1,height=15,bgcolor=c_white,margin=0,padding=0)
         self.palka_horizont_table = ft.Container(width=850,height=1,bgcolor=c_white,margin=0)
-        folder_strat = os.listdir(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\folder_trade')
+        folder_strat = os.listdir(f'{path_save_trade}\\{number_trade}\\folder_trade')
         int_folder_strat = []
-        # 'Результат','Сделок','В +','В -'
-        # if sort_result == 'basa':
         for i in folder_strat:
             int_folder_strat.append(int(i))
         
         for file in sorted(int_folder_strat):
             # print(file)
-            if os.path.isfile(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\folder_trade\\{str(file)}\\trade.txt'):
-                with open(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\folder_trade\\{str(file)}\\trade.txt') as file2:
+            if os.path.isfile(f'{path_save_trade}\\{number_trade}\\folder_trade\\{str(file)}\\trade.txt'):
+                with open(f'{path_save_trade}\\{number_trade}\\folder_trade\\{str(file)}\\trade.txt') as file2:
                     self.array_data_row = [row.strip() for row in file2] # сюда сохраняем, что в ней лежит
                     for data in self.array_data_row:
                         

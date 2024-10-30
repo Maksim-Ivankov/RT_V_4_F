@@ -24,7 +24,6 @@ def def_print_set_settings(number_folder,number_trade_folder,strategy_now):
         folder_strat = f'{path_save_trade}\\{number_folder}\\{strat_mas[0]}_set.ini'
         config_set = configparser.ConfigParser()  
         config_set.read(folder_strat)
-
         if strat_mas[0] == 'one':
             strat_set_print = ft.Container(ft.Column(controls=[
                 ft.Text(f'Верх канала - {config_set.get(f'{str(number_trade_folder)}_section', 'up_chanal')}',size=12),
@@ -33,6 +32,8 @@ def def_print_set_settings(number_folder,number_trade_folder,strategy_now):
                 ft.Text(f'Угол тренда шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'corner_short')}',size=12),
             ]))
         elif strat_mas[0] == 'MA':
+            # print(f'{str(number_trade_folder)}_section')
+            # print(config_set.get(f'{str(number_trade_folder)}_section', 'koef_bistro'))
             strat_set_print = ft.Container(ft.Column(controls=[
                 ft.Text(f'Коэф. быстрой скольз. средней - {config_set.get(f'{str(number_trade_folder)}_section', 'koef_bistro')}',size=12),
                 ft.Text(f'Коэф. медленной скольз. средней - {config_set.get(f'{str(number_trade_folder)}_section', 'koef_medleno')}',size=12),
