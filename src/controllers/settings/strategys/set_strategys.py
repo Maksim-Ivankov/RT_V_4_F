@@ -13,6 +13,7 @@ class One():
             self.strat_one_corner_long = float(config.get('param_trade_historical_trade_svobodniy_freym', 'strat_one_corner_long')) # угол лонг
             self.strat_one_corner_short = float(config.get('param_trade_historical_trade_svobodniy_freym', 'strat_one_corner_short')) # угол шорт
         elif regime=='much_set':
+            # print('Рабюотаем в ОНЕ')
             config_set = configparser.ConfigParser()  
             config_set.read(path_ini_one_set)
             self.strat_one_up_chanal = float(config_set.get(f'{str(number_trade)}_section', 'up_chanal')) # верх канала
@@ -49,6 +50,7 @@ class MA():
             self.strat_ma_up_chanal = float(config.get('param_trade_historical_trade_svobodniy_freym', 'strat_ma_up_chanal')) # верх канала
             self.strat_ma_down_chanal = float(config.get('param_trade_historical_trade_svobodniy_freym', 'strat_ma_down_chanal')) # низ канала
         elif regime=='much_set':
+            # print('Рабюотаем в МА')
             config_set = configparser.ConfigParser()  
             config_set.read(path_ini_MA_set)
             self.strat_ma_koef_bistro = float(config_set.get(f'{str(number_trade)}_section', 'koef_bistro'))

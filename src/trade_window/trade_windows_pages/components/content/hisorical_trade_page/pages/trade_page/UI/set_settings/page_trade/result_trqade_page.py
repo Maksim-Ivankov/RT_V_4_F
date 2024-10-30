@@ -6,7 +6,7 @@ from imports import *
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.page_trade.UI.trade_page import Trade_page
 
 class Result_trqade_page(ft.UserControl):
-    def __init__(self,back_trade_page,number_trade,strategy_now,regime='None',number_trade_folder=len(os.listdir(path_save_trade))):
+    def __init__(self,back_trade_page,number_trade,strategy_now,regime='None',number_trade_folder=(len(os.listdir(path_save_trade)))):
         super().__init__()
         self.back_trade_page = back_trade_page
         self.number_trade = number_trade

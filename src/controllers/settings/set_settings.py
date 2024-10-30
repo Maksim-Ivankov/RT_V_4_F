@@ -150,7 +150,7 @@ class HisTrade_Svoboda_SetSettings():
 
         config_set = configparser.ConfigParser()  
         config_set.read(path_ini_general_set)
-        count_set_trade = len(config_set.sections())
+        count_set_trade = len(config_set.sections()) # например, 3
         self.data_set = {}
         for i in range(1,count_set_trade+1):
             self.data_set[str(i)] = {
@@ -165,10 +165,11 @@ class HisTrade_Svoboda_SetSettings():
             }
         self.strategys = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
         "Стратегии торговли в массиве"
+        # print(f'Стратегии - {self.strategys}')
         for strat in self.strategys:
             strat_obj = settings_strat[strat]
-            for i in range(1,count_set_trade+1):
-                 self.strat_set[i] = {strat:strat_obj.get_set_settings(i)
+            for i in range(1,count_set_trade+1): # тогда здесь идем по 1,2,3
+                 self.strat_set[i] = {strat:strat_obj.get_set_settings(i) # strat_set[1] = {'one':one.get_set_settings(1)} - здесь формируется сет настроек для торговли
                  }
             
 

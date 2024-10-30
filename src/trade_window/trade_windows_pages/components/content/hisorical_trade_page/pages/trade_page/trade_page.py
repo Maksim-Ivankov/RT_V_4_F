@@ -56,6 +56,7 @@ class Trade_page(ft.UserControl):#1
             config_set = configparser.ConfigParser()  
             config_set.read(path_ini_general_set)
             count_set_trade = len(config_set.sections())
+            # print(f'Количество настроек в сете - {count_set_trade}')
             
             # Flex_card
             self.controls[0].content.content.content.controls.append(self.flex_card.print_page(count_set_trade))
@@ -71,6 +72,7 @@ class Trade_page(ft.UserControl):#1
             # print(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)
             # print(len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls))
             for number_trade in range(1,count_set_trade+1):
+                # print(f'Номер трейда - {number_trade}')
                 self.number_trade_in_set_settings = number_trade
                 # Получаем карточку, с которой будем работать на текущем шаге
                 count_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls) # [Row(), Row()]
@@ -91,7 +93,7 @@ class Trade_page(ft.UserControl):#1
                 self.content.scroll_to(key=str(number_trade), duration=1000)
                 self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end,number_trade), args=(), daemon=True)
                 self.myThread.start()
-            self.controls[0].content.content.content.controls.append(self.table_result.print_page(self.update_component))
+            self.controls[0].content.content.content.controls.append(self.table_result.print_page(self.update_component,'basa',len(os.listdir(path_save_trade))))
             self.content.scroll_to(key="table_result", duration=1000)
             self.update()
             
@@ -113,7 +115,7 @@ class Trade_page(ft.UserControl):#1
     # перерисовывает таблицу результатов
     def reptint_table_result(self,regime):
         self.controls[0].content.content.content.controls.pop()
-        self.controls[0].content.content.content.controls.append(self.table_result.print_page(self.update_component,regime))
+        self.controls[0].content.content.content.controls.append(self.table_result.print_page(self.update_component,regime,len(os.listdir(path_save_trade))))
         self.update()
     
     # просто обновляет self
@@ -133,7 +135,7 @@ class Trade_page(ft.UserControl):#1
         # self.our_frame = self.controls.copy()
         self.our_frame = list(self.controls)
         self.controls[:] = []
-        self.controls.append(Result_trqade_page(self.return_old_data,number_trade,self.strategy_now))
+        self.controls.append(Result_trqade_page(self.return_old_data,number_trade,self.strategy_now,'None',len(os.listdir(path_save_trade))))
         self.update()
     
     # ДЛЯ ПРОГРЕССБАРА

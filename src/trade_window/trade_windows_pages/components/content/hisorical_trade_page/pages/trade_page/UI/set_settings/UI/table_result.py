@@ -51,6 +51,7 @@ class Table_result(ft.UserControl):
     
     # открыть страницу торговли
     def open_page_trade(self,e):
+        # print(f'Открыть страницу трейда - {e.control.data}')
         self.print_page_one_trade_oura_set(e.control.data)
     
     def clcik_sort(self,e):
@@ -60,7 +61,8 @@ class Table_result(ft.UserControl):
         self.reptint_table_result(e.control.data)
 
 
-    def print_page(self,update_component,sort_result = 'basa',number_trade=(len(os.listdir(path_save_trade))+1)):
+    def print_page(self,update_component,sort_result = 'basa',number_trade=(len(os.listdir(path_save_trade)))):
+        # print(f'Номер папки для таблицы - {number_trade}')
         self.mas_trade[:] = []
         self.update_component  = update_component
         self.palka_table = ft.Container(width=1,height=15,bgcolor=c_white,margin=0,padding=0)
