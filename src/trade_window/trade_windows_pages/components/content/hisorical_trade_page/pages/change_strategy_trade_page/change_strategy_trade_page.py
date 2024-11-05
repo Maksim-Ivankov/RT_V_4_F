@@ -4,6 +4,7 @@ from variable import *
 from imports import *
 #1
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_strategy_trade_page.UI.component_info_strat import Component_info_strat
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_strategy_trade_page.UI.print_info_strategy_component import Print_info_strategy_component
 from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
 
 class Change_strategy_trade_page(ft.UserControl):
@@ -229,28 +230,35 @@ class Change_strategy_trade_page(ft.UserControl):
             'CDLTHRUSTING':self.ref_CDLTHRUSTING,
             'CDLUPSIDEGAP2CROWS':self.ref_CDLUPSIDEGAP2CROWS,
         }
+        self.print_info_strategy_component = Print_info_strategy_component()
 
     # выбор чекбокса
     def checed_var(self,e):
-        # print(e.control.check_color)
+        # print(self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls)
         try:
             if e.control.check_color:
                 self.change_coin = e.control.data
                 if self.flags_this[self.change_coin] == False: # если сейчас 0
-                #    e.control.content.controls[0].value=True 
                    self.flags_this[self.change_coin] = True
+                   self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.pop()
+                   self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.append(self.print_info_strategy_component.print_component(self.change_coin))
                 else: 
-                    # e.control.content.controls[0].value=False 
                     self.flags_this[self.change_coin] = False
+                    self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.pop()
+                    self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.append(self.print_info_strategy_component.print_component(self.changed_strategys[0]))
             
         except:
             self.change_coin = e.control.content.controls[1].content.data # выбранная стратегия1
             if self.flags_this[e.control.content.controls[1].content.data] == False: # если сейчас 0
-               e.control.content.controls[0].value=True 
-               self.flags_this[e.control.content.controls[1].content.data] = True
+                e.control.content.controls[0].value=True 
+                self.flags_this[e.control.content.controls[1].content.data] = True
+                self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.pop()
+                self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.append(self.print_info_strategy_component.print_component(self.change_coin))
             else: 
                 e.control.content.controls[0].value=False 
                 self.flags_this[e.control.content.controls[1].content.data] = False
+                self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.pop()
+                self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.append(self.print_info_strategy_component.print_component(self.changed_strategys[0]))
         self.update()
         self.changed_strategys = []
         for i in self.flags_this.keys():
@@ -258,6 +266,10 @@ class Change_strategy_trade_page(ft.UserControl):
                 self.changed_strategys.append(i)
         Save_config('param_trade_historical_trade_svobodniy_freym',{'strategys':str(self.changed_strategys)})
         self.print_info_strategy.update_component()
+        if len(self.changed_strategys) == 0:
+            self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.pop()
+            self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.append(self.print_info_strategy_component)
+            self.update()
 
     # кнопка удаления стратегии в правом окне
     def delete_strat_btn(self,e):
@@ -275,6 +287,15 @@ class Change_strategy_trade_page(ft.UserControl):
                 self.changed_strategys.append(i)
         Save_config('param_trade_historical_trade_svobodniy_freym',{'strategys':str(self.changed_strategys)})
         self.print_info_strategy.update_component()
+        if len(self.changed_strategys) == 0:
+            self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.pop()
+            self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.append(self.print_info_strategy_component)
+            self.update()
+        
+    def open_strat_btn(self,e):
+        self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.pop()
+        self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[1].content.controls.append(self.print_info_strategy_component.print_component(e.control.data))
+        self.update()
 
     def build(self):
         item_strategy = []
@@ -286,7 +307,7 @@ class Change_strategy_trade_page(ft.UserControl):
                         ft.Container(ft.Text(self.strategy_translate[i],color=c_white,data=i),margin = ft.margin.only(left=-15))
                     ]),on_click=self.checed_var,padding=ft.padding.only(bottom=-10,top=-10),width=300,data=i))
 
-        self.print_info_strategy = Component_info_strat(self.delete_strat_btn)
+        self.print_info_strategy = Component_info_strat(self.delete_strat_btn,self.open_strat_btn)
 
         self.change_strategy_trade_page = ft.Container(
             ft.Container(
@@ -310,11 +331,15 @@ class Change_strategy_trade_page(ft.UserControl):
                                                                 padding=ft.padding.only(left=10,top=20),
                                                             ),
                                                             ft.Container(
-                                                                ft.Column(controls=[self.print_info_strategy,],scroll=ft.ScrollMode.ALWAYS),
+                                                                ft.Column(controls=[
+                                                                    self.print_info_strategy,
+                                                                    ft.Container(height=1,bgcolor=c_yelow),
+                                                                    self.print_info_strategy_component,
+                                                                    ],scroll=ft.ScrollMode.ALWAYS),
                                                                 width=560,
                                                                 height = 460,
                                                                 border = ft.border.all(1, c_white),
-                                                                padding=ft.padding.only(left=10,top=20),
+                                                                padding=ft.padding.only(left=10,top=20,right=10,bottom=20),
                                                                 margin=ft.margin.only(left=-11)
                                                             ),
                                                         ]), 
