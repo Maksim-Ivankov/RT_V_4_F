@@ -2,7 +2,7 @@
 import flet as ft
 from variable import *
 from imports import *
-#1
+#12
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_strategy_trade_page.UI.component_info_strat import Component_info_strat
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_strategy_trade_page.UI.print_info_strategy_component import Print_info_strategy_component
 from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
@@ -12,7 +12,7 @@ class Change_strategy_trade_page(ft.UserControl):
         super().__init__()
         self.change_page = change_page
         self.strategy_translate = {
-            'MIN':'Канал, тренд, локаль, объём',
+            'one':'Канал, тренд, локаль, объём',
             'MA':'Скользящие средние',
             'BBANDS':'Полосы Боллинджера',
             'EMA':'Эксп скользящая средняя',
@@ -55,7 +55,7 @@ class Change_strategy_trade_page(ft.UserControl):
             
         }
         self.flags_this = {
-            'MIN':False,
+            'one':False,
             'MA':False,
             'BBANDS':False,
             'EMA':False,
@@ -141,7 +141,7 @@ class Change_strategy_trade_page(ft.UserControl):
         self.ref_CDLSPINNINGTOP = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLTASUKIGAP = ft.Ref[ft.CupertinoCheckbox]()
         self.refs_this = {
-            'MIN':self.ref_one,
+            'one':self.ref_one,
             'MA':self.ref_MA,
             'BBANDS':self.ref_BBANDS,
             'EMA':self.ref_EMA,

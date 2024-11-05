@@ -2,12 +2,53 @@
 import flet as ft
 from variable import *
 from imports import *
-
+#122
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_strategy_trade_page.UI.component_info_strat import Component_info_strat
 from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
 
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.MA import MA
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.one import One
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.BBANDS import BBANDS
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.EMA import EMA
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.DEMA import DEMA
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.KAMA import KAMA
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.MAVP import MAVP
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.SAR import SAR
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.TEMA import TEMA
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.TRIMA import TRIMA
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.WMA import WMA
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDL2CROWS import CDL2CROWS
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDL3BLACKCROWS import CDL3BLACKCROWS
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDL3INSIDE import CDL3INSIDE
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDL3LINESTRIKE import CDL3LINESTRIKE
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDL3OUTSIDE import CDL3OUTSIDE
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDL3STARSINSOUTH import CDL3STARSINSOUTH
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDL3WHITESOLDIERS import CDL3WHITESOLDIERS
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLABANDONEDBABY import CDLABANDONEDBABY
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLADVANCEBLOCK import CDLADVANCEBLOCK
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLBELTHOLD import CDLBELTHOLD
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLCLOSINGMARUBOZU import CDLCLOSINGMARUBOZU
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLCOUNTERATTACK import CDLCOUNTERATTACK
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLDARKCLOUDCOVER import CDLDARKCLOUDCOVER
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLENGULFING import CDLENGULFING
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLEVENINGDOJISTAR import CDLEVENINGDOJISTAR
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLGRAVESTONEDOJI import CDLGRAVESTONEDOJI
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLHAMMER import CDLHAMMER
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLHANGINGMAN import CDLHANGINGMAN
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLHARAMI import CDLHARAMI
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLHARAMICROSS import CDLHARAMICROSS
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLHOMINGPIGEON import CDLHOMINGPIGEON
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLINVERTEDHAMMER import CDLINVERTEDHAMMER
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLLADDERBOTTOM import CDLLADDERBOTTOM
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLLONGLEGGEDDOJI import CDLLONGLEGGEDDOJI
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLMATCHINGLOW import CDLMATCHINGLOW
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLMORNINGSTAR import CDLMORNINGSTAR
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLRICKSHAWMAN import CDLRICKSHAWMAN
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLSPINNINGTOP import CDLSPINNINGTOP
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLTASUKIGAP import CDLTASUKIGAP
+
+
+
 
 class Regim_trade_one_settings_page(ft.UserControl):
     def __init__(self,change_page):
@@ -15,11 +56,87 @@ class Regim_trade_one_settings_page(ft.UserControl):
         self.change_page = change_page
         self.strategy_translate = {
             'one':'Канал, тренд, локаль, объём',
-            'MA':'Скользящие средние'
+            'MA':'Скользящие средние',
+            'BBANDS':'Полосы Боллинджера',
+            'EMA':'Эксп скользящая средняя',
+            'DEMA':'Двойная эксп скользящая средняя',
+            'KAMA':'Адаптивная скользящая Кауфмана',
+            'MAVP':'Сколь средняя с пер периодом',
+            'SAR':'Параболический SAR',
+            'TEMA':'Тройная эксп сколь средняя',
+            'TRIMA':'Треугольная скользящая средняя',
+            'WMA':'Взвешенная скользящая средняя',
+            'CDL2CROWS':'Две вороны',
+            'CDL3BLACKCROWS':'Три черных ворона',
+            'CDL3INSIDE':'Три внутри Вверх / вниз',
+            'CDL3LINESTRIKE':'Трехстрочный удар',
+            'CDL3OUTSIDE':'Три внешних элемента Вверх / вниз',
+            'CDL3STARSINSOUTH':'Три звезды на юге',
+            'CDL3WHITESOLDIERS':'Трое наступающих белых солдат',
+            'CDLABANDONEDBABY':'Брошенный ребенок',
+            'CDLADVANCEBLOCK':'Предварительный блок',
+            'CDLBELTHOLD':'Удержание за ремень',
+            'CDLCLOSINGMARUBOZU':'Marubozu',
+            'CDLCOUNTERATTACK':'Контратака',
+            'CDLDARKCLOUDCOVER':'Темный облачный покров',
+            'CDLENGULFING':'Шаблон поглощения',
+            'CDLEVENINGDOJISTAR':'Вечерняя звезда Доджи',
+            'CDLGRAVESTONEDOJI':'Надгробный камень Доджи',
+            'CDLHAMMER':'Молоток',
+            'CDLHANGINGMAN':'Висельник',
+            'CDLHARAMI':'шаблон Харами',
+            'CDLHARAMICROSS':'Шаблон пересечения Харами',
+            'CDLHOMINGPIGEON':'Почтовый голубь',
+            'CDLINVERTEDHAMMER':'Перевернутый молоток',
+            'CDLLADDERBOTTOM':'Основание лестницы',
+            'CDLLONGLEGGEDDOJI':'Длинноногий доджи',
+            'CDLMATCHINGLOW':'Низкий уровень соответствия',
+            'CDLMORNINGSTAR':'Утренняя звезда',
+            'CDLRICKSHAWMAN':'Рикша',
+            'CDLSPINNINGTOP':'Волчок',
+            'CDLTASUKIGAP':'Разрыв Тасуки',
         }
         self.strategy_print = {
             'one':One(),
-            'MA':MA()
+            'MA':MA(),
+            'BBANDS':BBANDS(),
+            'EMA':EMA(),
+            'DEMA':DEMA(),
+            'KAMA':KAMA(),
+            'MAVP':MAVP(),
+            'SAR':SAR(),
+            'TEMA':TEMA(),
+            'TRIMA':TRIMA(),
+            'WMA':WMA(),
+            'CDL2CROWS':CDL2CROWS(),
+            'CDL3BLACKCROWS':CDL3BLACKCROWS(),
+            'CDL3INSIDE':CDL3INSIDE(),
+            'CDL3LINESTRIKE':CDL3LINESTRIKE(),
+            'CDL3OUTSIDE':CDL3OUTSIDE(),
+            'CDL3STARSINSOUTH':CDL3STARSINSOUTH(),
+            'CDL3WHITESOLDIERS':CDL3WHITESOLDIERS(),
+            'CDLABANDONEDBABY':CDLABANDONEDBABY(),
+            'CDLADVANCEBLOCK':CDLADVANCEBLOCK(),
+            'CDLBELTHOLD':CDLBELTHOLD(),
+            'CDLCLOSINGMARUBOZU':CDLCLOSINGMARUBOZU(),
+            'CDLCOUNTERATTACK':CDLCOUNTERATTACK(),
+            'CDLDARKCLOUDCOVER':CDLDARKCLOUDCOVER(),
+            'CDLENGULFING':CDLENGULFING(),
+            'CDLEVENINGDOJISTAR':CDLEVENINGDOJISTAR(),
+            'CDLGRAVESTONEDOJI':CDLGRAVESTONEDOJI(),
+            'CDLHAMMER':CDLHAMMER(),
+            'CDLHANGINGMAN':CDLHANGINGMAN(),
+            'CDLHARAMI':CDLHARAMI(),
+            'CDLHARAMICROSS':CDLHARAMICROSS(),
+            'CDLHOMINGPIGEON':CDLHOMINGPIGEON(),
+            'CDLINVERTEDHAMMER':CDLINVERTEDHAMMER(),
+            'CDLLADDERBOTTOM':CDLLADDERBOTTOM(),
+            'CDLLONGLEGGEDDOJI':CDLLONGLEGGEDDOJI(),
+            'CDLMATCHINGLOW':CDLMATCHINGLOW(),
+            'CDLMORNINGSTAR':CDLMORNINGSTAR(),
+            'CDLRICKSHAWMAN':CDLRICKSHAWMAN(),
+            'CDLSPINNINGTOP':CDLSPINNINGTOP(),
+            'CDLTASUKIGAP':CDLTASUKIGAP(),
         }
 
 

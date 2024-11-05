@@ -83,10 +83,16 @@ class Component_info_strat(ft.UserControl):
                 if strat=='CDLTHRUSTING': width_count = 142
                 if strat=='CDLUPSIDEGAP2CROWS': width_count = 196
 
-                self.changes_strat_mas.append(ft.Container(ft.Row(controls=[
-                    ft.Container(ft.Text(strat,color=c_blue),data=strat,on_click=self.open_strat_btn),
-                    ft.Container(ft.Text('X',color=c_yelow,text_align='CENTER'),bgcolor=c_blue,width=20,data=strat,on_click=self.delete_strat),
-                ],expand=True),padding=5,bgcolor=c_yelow,height=30,width=width_count,data=strat))
+                if strat == 'one':
+                    self.changes_strat_mas.append(ft.Container(ft.Row(controls=[
+                        ft.Container(ft.Text('MIN',color=c_blue),data=strat,on_click=self.open_strat_btn),
+                        ft.Container(ft.Text('X',color=c_yelow,text_align='CENTER'),bgcolor=c_blue,width=20,data=strat,on_click=self.delete_strat),
+                    ],expand=True),padding=5,bgcolor=c_yelow,height=30,width=width_count,data=strat))
+                else:
+                    self.changes_strat_mas.append(ft.Container(ft.Row(controls=[
+                        ft.Container(ft.Text(strat,color=c_blue),data=strat,on_click=self.open_strat_btn),
+                        ft.Container(ft.Text('X',color=c_yelow,text_align='CENTER'),bgcolor=c_blue,width=20,data=strat,on_click=self.delete_strat),
+                    ],expand=True),padding=5,bgcolor=c_yelow,height=30,width=width_count,data=strat))
     
         
         self.component_info_strat = ft.Row(
