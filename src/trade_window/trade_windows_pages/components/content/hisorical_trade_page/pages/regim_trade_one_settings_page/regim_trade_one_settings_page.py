@@ -48,7 +48,7 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_trade_one_settings_page.strategys_settings.CDLTASUKIGAP import CDLTASUKIGAP
 
 
-
+#1
 
 class Regim_trade_one_settings_page(ft.UserControl):
     def __init__(self,change_page):

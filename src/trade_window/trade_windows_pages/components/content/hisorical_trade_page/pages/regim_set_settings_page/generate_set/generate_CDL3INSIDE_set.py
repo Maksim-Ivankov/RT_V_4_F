@@ -10,7 +10,7 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.UI.component_volume_max import Component_volume_max
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.UI.component_volume_min import Component_volume_min
 
-class Generate_MA_set(ft.UserControl):
+class Generate_CDL3INSIDE_set(ft.UserControl):
     def __init__(self,btn_close):
         super().__init__()
         self.btn_close = btn_close
@@ -35,14 +35,14 @@ class Generate_MA_set(ft.UserControl):
     
 
     def btn_generate(self,e):
-        if os.path.exists(path_ini_MA_set):
-            os.remove(path_ini_MA_set)
+        if os.path.exists(path_ini_CDL3INSIDE_set):
+            os.remove(path_ini_CDL3INSIDE_set)
         for i in range(1,int(self.how_mach_settings)+1):
-            Save_config(str(i)+'_section',{'koef_bistro':str(random.choice(self.koef_bistro.split(',')))},path_ini_MA_set)
-            Save_config(str(i)+'_section',{'koef_medleno':str(random.choice(self.koef_medleno.split(',')))},path_ini_MA_set)
-            Save_config(str(i)+'_section',{'sovpad_last':str(random.choice(self.sovpad_last.split(',')))},path_ini_MA_set)
-            Save_config(str(i)+'_section',{'up_chanal':str(random.choice(self.up_chanal.split(',')))},path_ini_MA_set)
-            Save_config(str(i)+'_section',{'down_chanal':str(random.choice(self.down_chanal.split(',')))},path_ini_MA_set)
+            Save_config(str(i)+'_section',{'koef_bistro':str(random.choice(self.koef_bistro.split(',')))},path_ini_CDL3INSIDE_set)
+            Save_config(str(i)+'_section',{'koef_medleno':str(random.choice(self.koef_medleno.split(',')))},path_ini_CDL3INSIDE_set)
+            Save_config(str(i)+'_section',{'sovpad_last':str(random.choice(self.sovpad_last.split(',')))},path_ini_CDL3INSIDE_set)
+            Save_config(str(i)+'_section',{'up_chanal':str(random.choice(self.up_chanal.split(',')))},path_ini_CDL3INSIDE_set)
+            Save_config(str(i)+'_section',{'down_chanal':str(random.choice(self.down_chanal.split(',')))},path_ini_CDL3INSIDE_set)
             self.progress_bar.value = i*(100/int(self.how_mach_settings))*0.01
             self.update()
         self.btn_close()
@@ -78,7 +78,7 @@ class Generate_MA_set(ft.UserControl):
                                                     ft.Column(
                                                         controls=[
                                                             ft.Container(
-                                                                ft.Container(ft.Text('Скользящие средние',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))
+                                                                ft.Container(ft.Text('Три внутри Вверх / вниз',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))
                                                             ),
                                                             ft.Container(
                                                                 ft.Row(controls=[
@@ -112,17 +112,14 @@ class Generate_MA_set(ft.UserControl):
                                                 alignment=ft.alignment.center
                                             ),
                                             width=860,
-                                            # bgcolor='red'
                                         )
                                         
                                     ],scroll=ft.ScrollMode.ADAPTIVE),
                                     width=880,
                                     height=280,
                                     padding=ft.padding.only(left=60),
-                                    # bgcolor='red'
                                 ),
                                 self.progress_bar,
-                                # Table_set_print(),
                                 ft.Container(
                                     ft.Container(
                                         ft.Row(controls=[
@@ -131,7 +128,6 @@ class Generate_MA_set(ft.UserControl):
                                     ]),padding=ft.padding.only(left=290,top=10)
                                     ),
                                     width=860,
-                                    # height=920
                                 )
                             ]),
                             alignment=ft.alignment.center),margin=ft.margin.only(top=2,left=-10,right=-10),padding=ft.padding.only(top=10)      
