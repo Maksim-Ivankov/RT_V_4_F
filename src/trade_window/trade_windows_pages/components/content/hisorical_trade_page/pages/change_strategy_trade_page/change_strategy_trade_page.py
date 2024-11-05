@@ -11,7 +11,7 @@ class Change_strategy_trade_page(ft.UserControl):
         super().__init__()
         self.change_page = change_page
         self.strategy_translate = {
-            'one':'Канал, тренд, локаль, объём',
+            'MIN':'Канал, тренд, локаль, объём',
             'MA':'Скользящие средние',
             'BBANDS':'Полосы Боллинджера',
             'EMA':'Эксп скользящая средняя',
@@ -66,7 +66,7 @@ class Change_strategy_trade_page(ft.UserControl):
             
         }
         self.flags_this = {
-            'one':False,
+            'MIN':False,
             'MA':False,
             'BBANDS':False,
             'EMA':False,
@@ -176,7 +176,7 @@ class Change_strategy_trade_page(ft.UserControl):
         self.ref_CDLTHRUSTING = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLUPSIDEGAP2CROWS = ft.Ref[ft.CupertinoCheckbox]()
         self.refs_this = {
-            'one':self.ref_one,
+            'MIN':self.ref_one,
             'MA':self.ref_MA,
             'BBANDS':self.ref_BBANDS,
             'EMA':self.ref_EMA,
@@ -232,7 +232,18 @@ class Change_strategy_trade_page(ft.UserControl):
 
     # выбор чекбокса
     def checed_var(self,e):
-        if e.control.data == None:
+        # print(e.control.check_color)
+        try:
+            if e.control.check_color:
+                self.change_coin = e.control.data
+                if self.flags_this[self.change_coin] == False: # если сейчас 0
+                #    e.control.content.controls[0].value=True 
+                   self.flags_this[self.change_coin] = True
+                else: 
+                    # e.control.content.controls[0].value=False 
+                    self.flags_this[self.change_coin] = False
+            
+        except:
             self.change_coin = e.control.content.controls[1].content.data # выбранная стратегия1
             if self.flags_this[e.control.content.controls[1].content.data] == False: # если сейчас 0
                e.control.content.controls[0].value=True 
@@ -240,14 +251,6 @@ class Change_strategy_trade_page(ft.UserControl):
             else: 
                 e.control.content.controls[0].value=False 
                 self.flags_this[e.control.content.controls[1].content.data] = False
-        else:
-            self.change_coin = e.control.data
-            if self.flags_this[self.change_coin] == False: # если сейчас 0
-            #    e.control.content.controls[0].value=True 
-               self.flags_this[self.change_coin] = True
-            else: 
-                # e.control.content.controls[0].value=False 
-                self.flags_this[self.change_coin] = False
         self.update()
         self.changed_strategys = []
         for i in self.flags_this.keys():
@@ -256,6 +259,22 @@ class Change_strategy_trade_page(ft.UserControl):
         Save_config('param_trade_historical_trade_svobodniy_freym',{'strategys':str(self.changed_strategys)})
         self.print_info_strategy.update_component()
 
+    # кнопка удаления стратегии в правом окне
+    def delete_strat_btn(self,e):
+        # print(self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[0].content.controls)
+        for i in self.controls[0].content.content.content.controls[1].content.content.controls[0].controls[1].content.controls[0].content.controls:
+            # print(i.data)
+            if i.data == e.control.data:
+                i.content.controls[0].value=False
+        # print(e.control.data)
+        self.flags_this[e.control.data] = False
+        self.update()
+        self.changed_strategys = []
+        for i in self.flags_this.keys():
+            if self.flags_this[i] == True:
+                self.changed_strategys.append(i)
+        Save_config('param_trade_historical_trade_svobodniy_freym',{'strategys':str(self.changed_strategys)})
+        self.print_info_strategy.update_component()
 
     def build(self):
         item_strategy = []
@@ -265,9 +284,9 @@ class Change_strategy_trade_page(ft.UserControl):
                     controls=[
                         ft.CupertinoCheckbox(data=i,value=self.flags_this[i],check_color=c_blue,active_color=c_yelow,inactive_color=c_white,ref=self.refs_this[i],on_change=self.checed_var),
                         ft.Container(ft.Text(self.strategy_translate[i],color=c_white,data=i),margin = ft.margin.only(left=-15))
-                    ]),on_click=self.checed_var,padding=ft.padding.only(bottom=-10,top=-10),width=300))
+                    ]),on_click=self.checed_var,padding=ft.padding.only(bottom=-10,top=-10),width=300,data=i))
 
-        self.print_info_strategy = Component_info_strat()
+        self.print_info_strategy = Component_info_strat(self.delete_strat_btn)
 
         self.change_strategy_trade_page = ft.Container(
             ft.Container(
@@ -291,7 +310,7 @@ class Change_strategy_trade_page(ft.UserControl):
                                                                 padding=ft.padding.only(left=10,top=20),
                                                             ),
                                                             ft.Container(
-                                                                self.print_info_strategy,
+                                                                ft.Column(controls=[self.print_info_strategy,],scroll=ft.ScrollMode.ALWAYS),
                                                                 width=560,
                                                                 height = 460,
                                                                 border = ft.border.all(1, c_white),
