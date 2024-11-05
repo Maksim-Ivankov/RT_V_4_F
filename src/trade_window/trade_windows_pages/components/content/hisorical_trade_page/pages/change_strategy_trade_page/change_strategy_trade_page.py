@@ -18,7 +18,6 @@ class Change_strategy_trade_page(ft.UserControl):
             'EMA':'Эксп скользящая средняя',
             'DEMA':'Двойная эксп скользящая средняя',
             'KAMA':'Адаптивная скользящая Кауфмана',
-            'AMA':'Адаптивная скользящая средняя',
             'MAVP':'Сколь средняя с пер периодом',
             'SAR':'Параболический SAR',
             'TEMA':'Тройная эксп сколь средняя',
@@ -34,36 +33,25 @@ class Change_strategy_trade_page(ft.UserControl):
             'CDLABANDONEDBABY':'Брошенный ребенок',
             'CDLADVANCEBLOCK':'Предварительный блок',
             'CDLBELTHOLD':'Удержание за ремень',
-            'CDLBREAKAWAY':'Отколовшийся',
-            'CDLCLOSINGMARUBOZU':'закрытие Marubozu',
+            'CDLCLOSINGMARUBOZU':'Marubozu',
             'CDLCOUNTERATTACK':'Контратака',
             'CDLDARKCLOUDCOVER':'Темный облачный покров',
-            'CDLDOJI':'Доджи',
-            'CDLDOJISTAR':'Звезда доджи',
             'CDLENGULFING':'шаблон поглощения',
             'CDLEVENINGDOJISTAR':'Вечерняя звезда Доджи',
-            'CDLEVENINGSTAR':'Вечерняя звезда',
-            'CDLGAPSIDESIDEWHITE':'линии с промежутками вверх/вниз',
             'CDLGRAVESTONEDOJI':'Надгробный камень Доджи',
             'CDLHAMMER':'Молоток',
             'CDLHANGINGMAN':'Висельник',
             'CDLHARAMI':'шаблон Харами',
             'CDLHARAMICROSS':'Шаблон пересечения Харами',
-            'CDLHIGHWAVE':'Свеча с высокой волной',
             'CDLHOMINGPIGEON':'Почтовый голубь',
             'CDLINVERTEDHAMMER':'Перевернутый молоток',
-            'CDLKICKING':'Пинать ногами',
             'CDLLADDERBOTTOM':'Основание лестницы',
             'CDLLONGLEGGEDDOJI':'Длинноногий доджи',
-            'CDLLONGLINE':'Свеча длинной строки',
             'CDLMATCHINGLOW':'низкий уровень соответствия',
             'CDLMORNINGSTAR':'Утренняя звезда',
             'CDLRICKSHAWMAN':'рикша',
             'CDLSPINNINGTOP':'Волчок',
-            'CDLSTALLEDPATTERN':'остановленный шаблон',
             'CDLTASUKIGAP':'разрыв Тасуки',
-            'CDLTHRUSTING':'шаблон перемещения',
-            'CDLUPSIDEGAP2CROWS':'Две вороны',
             
         }
         self.flags_this = {
@@ -73,7 +61,6 @@ class Change_strategy_trade_page(ft.UserControl):
             'EMA':False,
             'DEMA':False,
             'KAMA':False,
-            'AMA':False,
             'MAVP':False,
             'SAR':False,
             'TEMA':False,
@@ -89,36 +76,25 @@ class Change_strategy_trade_page(ft.UserControl):
             'CDLABANDONEDBABY':False,
             'CDLADVANCEBLOCK':False,
             'CDLBELTHOLD':False,
-            'CDLBREAKAWAY':False,
             'CDLCLOSINGMARUBOZU':False,
             'CDLCOUNTERATTACK':False,
             'CDLDARKCLOUDCOVER':False,
-            'CDLDOJI':False,
-            'CDLDOJISTAR':False,
             'CDLENGULFING':False,
             'CDLEVENINGDOJISTAR':False,
-            'CDLEVENINGSTAR':False,
-            'CDLGAPSIDESIDEWHITE':False,
             'CDLGRAVESTONEDOJI':False,
             'CDLHAMMER':False,
             'CDLHANGINGMAN':False,
             'CDLHARAMI':False,
             'CDLHARAMICROSS':False,
-            'CDLHIGHWAVE':False,
             'CDLHOMINGPIGEON':False,
             'CDLINVERTEDHAMMER':False,
-            'CDLKICKING':False,
             'CDLLADDERBOTTOM':False,
             'CDLLONGLEGGEDDOJI':False,
-            'CDLLONGLINE':False,
             'CDLMATCHINGLOW':False,
             'CDLMORNINGSTAR':False,
             'CDLRICKSHAWMAN':False,
             'CDLSPINNINGTOP':False,
-            'CDLSTALLEDPATTERN':False,
             'CDLTASUKIGAP':False,
-            'CDLTHRUSTING':False,
-            'CDLUPSIDEGAP2CROWS':False,
         }
         config = configparser.ConfigParser()         
         config.read(path_imports_config)
@@ -130,7 +106,6 @@ class Change_strategy_trade_page(ft.UserControl):
         self.ref_DEMA = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_EMA = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_KAMA = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_AMA = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_MAVP = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_SAR = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_TEMA = ft.Ref[ft.CupertinoCheckbox]()
@@ -146,36 +121,25 @@ class Change_strategy_trade_page(ft.UserControl):
         self.ref_CDLABANDONEDBABY = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLADVANCEBLOCK = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLBELTHOLD = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLBREAKAWAY = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLCLOSINGMARUBOZU = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLCOUNTERATTACK = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLDARKCLOUDCOVER = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLDOJI = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLDOJISTAR = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLENGULFING = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLEVENINGDOJISTAR = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLEVENINGSTAR = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLGAPSIDESIDEWHITE = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLGRAVESTONEDOJI = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLHAMMER = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLHANGINGMAN = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLHARAMI = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLHARAMICROSS = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLHIGHWAVE = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLHOMINGPIGEON = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLINVERTEDHAMMER = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLKICKING = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLLADDERBOTTOM = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLLONGLEGGEDDOJI = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLLONGLINE = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLMATCHINGLOW = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLMORNINGSTAR = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLRICKSHAWMAN = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLSPINNINGTOP = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLSTALLEDPATTERN = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLTASUKIGAP = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLTHRUSTING = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLUPSIDEGAP2CROWS = ft.Ref[ft.CupertinoCheckbox]()
         self.refs_this = {
             'MIN':self.ref_one,
             'MA':self.ref_MA,
@@ -183,7 +147,6 @@ class Change_strategy_trade_page(ft.UserControl):
             'EMA':self.ref_EMA,
             'DEMA':self.ref_DEMA,
             'KAMA':self.ref_KAMA,
-            'AMA':self.ref_AMA,
             'MAVP':self.ref_MAVP,
             'SAR':self.ref_SAR,
             'TEMA':self.ref_TEMA,
@@ -199,36 +162,25 @@ class Change_strategy_trade_page(ft.UserControl):
             'CDLABANDONEDBABY':self.ref_CDLABANDONEDBABY,
             'CDLADVANCEBLOCK':self.ref_CDLADVANCEBLOCK,
             'CDLBELTHOLD':self.ref_CDLBELTHOLD,
-            'CDLBREAKAWAY':self.ref_CDLBREAKAWAY,
             'CDLCLOSINGMARUBOZU':self.ref_CDLCLOSINGMARUBOZU,
             'CDLCOUNTERATTACK':self.ref_CDLCOUNTERATTACK,
             'CDLDARKCLOUDCOVER':self.ref_CDLDARKCLOUDCOVER,
-            'CDLDOJI':self.ref_CDLDOJI,
-            'CDLDOJISTAR':self.ref_CDLDOJISTAR,
             'CDLENGULFING':self.ref_CDLENGULFING,
             'CDLEVENINGDOJISTAR':self.ref_CDLEVENINGDOJISTAR,
-            'CDLEVENINGSTAR':self.ref_CDLEVENINGSTAR,
-            'CDLGAPSIDESIDEWHITE':self.ref_CDLGAPSIDESIDEWHITE,
             'CDLGRAVESTONEDOJI':self.ref_CDLGRAVESTONEDOJI,
             'CDLHAMMER':self.ref_CDLHAMMER,
             'CDLHANGINGMAN':self.ref_CDLHANGINGMAN,
             'CDLHARAMI':self.ref_CDLHARAMI,
             'CDLHARAMICROSS':self.ref_CDLHARAMICROSS,
-            'CDLHIGHWAVE':self.ref_CDLHIGHWAVE,
             'CDLHOMINGPIGEON':self.ref_CDLHOMINGPIGEON,
             'CDLINVERTEDHAMMER':self.ref_CDLINVERTEDHAMMER,
-            'CDLKICKING':self.ref_CDLKICKING,
             'CDLLADDERBOTTOM':self.ref_CDLLADDERBOTTOM,
             'CDLLONGLEGGEDDOJI':self.ref_CDLLONGLEGGEDDOJI,
-            'CDLLONGLINE':self.ref_CDLLONGLINE,
             'CDLMATCHINGLOW':self.ref_CDLMATCHINGLOW,
             'CDLMORNINGSTAR':self.ref_CDLMORNINGSTAR,
             'CDLRICKSHAWMAN':self.ref_CDLRICKSHAWMAN,
             'CDLSPINNINGTOP':self.ref_CDLSPINNINGTOP,
-            'CDLSTALLEDPATTERN':self.ref_CDLSTALLEDPATTERN,
             'CDLTASUKIGAP':self.ref_CDLTASUKIGAP,
-            'CDLTHRUSTING':self.ref_CDLTHRUSTING,
-            'CDLUPSIDEGAP2CROWS':self.ref_CDLUPSIDEGAP2CROWS,
         }
         self.print_info_strategy_component = Print_info_strategy_component()
 
@@ -298,6 +250,10 @@ class Change_strategy_trade_page(ft.UserControl):
         self.update()
 
     def build(self):
+        self.changed_strategys = []
+        for i in self.flags_this.keys():
+            if self.flags_this[i] == True:
+                self.changed_strategys.append(i)
         item_strategy = []
         for i in self.strategy_translate.keys():
             item_strategy.append(
@@ -335,7 +291,8 @@ class Change_strategy_trade_page(ft.UserControl):
                                                                     self.print_info_strategy,
                                                                     ft.Container(height=1,bgcolor=c_yelow),
                                                                     self.print_info_strategy_component,
-                                                                    ],scroll=ft.ScrollMode.ALWAYS),
+                                                                    ]),
+                                                                    # ],scroll=ft.ScrollMode.ALWAYS),
                                                                 width=560,
                                                                 height = 460,
                                                                 border = ft.border.all(1, c_white),
