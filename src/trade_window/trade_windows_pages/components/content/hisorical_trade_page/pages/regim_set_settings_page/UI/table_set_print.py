@@ -1,4 +1,4 @@
-# страница выбора стратегии торговли
+# страница выбора стратегии торговли1
 import flet as ft
 from variable import *
 from imports import *
@@ -13,7 +13,45 @@ class Table_set_print(ft.UserControl):
         self.strategy_translate = {
             'general':'Общие настройки',
             'one':'Канал, тренд, локаль, объём',
-            'MA':'Скользящие средние'
+            'MA':'Скользящие средние',
+            'BBANDS':'Полосы Боллинджера',
+            'EMA':'Эксп скользящая средняя',
+            'DEMA':'Двойная эксп скользящая средняя',
+            'KAMA':'Адаптивная скользящая Кауфмана',
+            'MAVP':'Сколь средняя с пер периодом',
+            'SAR':'Параболический SAR',
+            'TEMA':'Тройная эксп сколь средняя',
+            'TRIMA':'Треугольная скользящая средняя',
+            'WMA':'Взвешенная скользящая средняя',
+            'CDL2CROWS':'Две вороны',
+            'CDL3BLACKCROWS':'Три черных ворона',
+            'CDL3INSIDE':'Три внутри Вверх / вниз',
+            'CDL3LINESTRIKE':'Трехстрочный удар',
+            'CDL3OUTSIDE':'Три внешних элемента Вверх / вниз',
+            'CDL3STARSINSOUTH':'Три звезды на юге',
+            'CDL3WHITESOLDIERS':'Трое наступающих белых солдат',
+            'CDLABANDONEDBABY':'Брошенный ребенок',
+            'CDLADVANCEBLOCK':'Предварительный блок',
+            'CDLBELTHOLD':'Удержание за ремень',
+            'CDLCLOSINGMARUBOZU':'Marubozu',
+            'CDLCOUNTERATTACK':'Контратака',
+            'CDLDARKCLOUDCOVER':'Темный облачный покров',
+            'CDLENGULFING':'Шаблон поглощения',
+            'CDLEVENINGDOJISTAR':'Вечерняя звезда Доджи',
+            'CDLGRAVESTONEDOJI':'Надгробный камень Доджи',
+            'CDLHAMMER':'Молоток',
+            'CDLHANGINGMAN':'Висельник',
+            'CDLHARAMI':'шаблон Харами',
+            'CDLHARAMICROSS':'Шаблон пересечения Харами',
+            'CDLHOMINGPIGEON':'Почтовый голубь',
+            'CDLINVERTEDHAMMER':'Перевернутый молоток',
+            'CDLLADDERBOTTOM':'Основание лестницы',
+            'CDLLONGLEGGEDDOJI':'Длинноногий доджи',
+            'CDLMATCHINGLOW':'Низкий уровень соответствия',
+            'CDLMORNINGSTAR':'Утренняя звезда',
+            'CDLRICKSHAWMAN':'Рикша',
+            'CDLSPINNINGTOP':'Волчок',
+            'CDLTASUKIGAP':'Разрыв Тасуки',
         }
         self.strategy_component = {
             'general':General_table(),

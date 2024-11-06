@@ -1,6 +1,6 @@
 # Параметры функции CDL3BLACKCROWS в библиотеке talib — это значения для параметров «открыть», «высокий», «низкий» и «закрыть»
 
-# Inputs:
+# Inputs:1
 # prices: ['open', 'high', 'low', 'close']
 
 # Outputs:

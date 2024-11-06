@@ -1,4 +1,4 @@
-# страница выбора стратегии торговли
+# страница выбора стратегии торговли1
 import flet as ft
 from variable import *
 from imports import *
@@ -15,22 +15,13 @@ class Generate_CDLINVERTEDHAMMER_set(ft.UserControl):
         super().__init__()
         self.btn_close = btn_close
         
-
-    def input_koef_bistro(self,e):
-        self.koef_bistro = e.control.value
-        Save_config('param_trade_historical_trade_svobodniy_freym',{'set_MA_input_koef_bistro':str(e.control.value)})
-    def input_koef_medleno(self,e):
-        self.koef_medleno = e.control.value
-        Save_config('param_trade_historical_trade_svobodniy_freym',{'set_MA_input_koef_medleno':str(e.control.value)})
-    def input_sovpad_last(self,e):
-        self.sovpad_last = e.control.value
-        Save_config('param_trade_historical_trade_svobodniy_freym',{'set_MA_input_sovpad_last':str(e.control.value)})
-    def input_up_chanal(self,e):
-        self.up_chanal = e.control.value
-        Save_config('param_trade_historical_trade_svobodniy_freym',{'set_MA_input_up_chanal':str(e.control.value)})
-    def input_down_chanal(self,e):
-        self.down_chanal = e.control.value
-        Save_config('param_trade_historical_trade_svobodniy_freym',{'set_MA_input_down_chanal':str(e.control.value)})
+        
+    def input_CDLINVERTEDHAMMER_long(self,e):
+        self.set_CDLINVERTEDHAMMER_long = e.control.value
+        Save_config('param_trade_historical_trade_svobodniy_freym',{'set_CDLINVERTEDHAMMER_long':str(e.control.value)})
+    def input_CDLINVERTEDHAMMER_short(self,e):
+        self.set_CDLINVERTEDHAMMER_short = e.control.value
+        Save_config('param_trade_historical_trade_svobodniy_freym',{'set_CDLINVERTEDHAMMER_short':str(e.control.value)})
         
     
 
@@ -38,11 +29,8 @@ class Generate_CDLINVERTEDHAMMER_set(ft.UserControl):
         if os.path.exists(path_ini_CDLINVERTEDHAMMER_set):
             os.remove(path_ini_CDLINVERTEDHAMMER_set)
         for i in range(1,int(self.how_mach_settings)+1):
-            Save_config(str(i)+'_section',{'koef_bistro':str(random.choice(self.koef_bistro.split(',')))},path_ini_CDLINVERTEDHAMMER_set)
-            Save_config(str(i)+'_section',{'koef_medleno':str(random.choice(self.koef_medleno.split(',')))},path_ini_CDLINVERTEDHAMMER_set)
-            Save_config(str(i)+'_section',{'sovpad_last':str(random.choice(self.sovpad_last.split(',')))},path_ini_CDLINVERTEDHAMMER_set)
-            Save_config(str(i)+'_section',{'up_chanal':str(random.choice(self.up_chanal.split(',')))},path_ini_CDLINVERTEDHAMMER_set)
-            Save_config(str(i)+'_section',{'down_chanal':str(random.choice(self.down_chanal.split(',')))},path_ini_CDLINVERTEDHAMMER_set)
+            Save_config(str(i)+'_section',{'long':str(random.choice(self.set_CDLINVERTEDHAMMER_long.split(',')))},path_ini_CDLINVERTEDHAMMER_set)
+            Save_config(str(i)+'_section',{'short':str(random.choice(self.set_CDLINVERTEDHAMMER_short.split(',')))},path_ini_CDLINVERTEDHAMMER_set)
             self.progress_bar.value = i*(100/int(self.how_mach_settings))*0.01
             self.update()
         self.btn_close()
@@ -54,11 +42,8 @@ class Generate_CDLINVERTEDHAMMER_set(ft.UserControl):
     def print_page(self):
         config = configparser.ConfigParser()         
         config.read(path_imports_config)
-        self.koef_bistro = config.get('param_trade_historical_trade_svobodniy_freym', 'set_MA_input_koef_bistro')
-        self.koef_medleno = config.get('param_trade_historical_trade_svobodniy_freym', 'set_MA_input_koef_medleno')
-        self.sovpad_last = config.get('param_trade_historical_trade_svobodniy_freym', 'set_MA_input_sovpad_last')
-        self.up_chanal = config.get('param_trade_historical_trade_svobodniy_freym', 'set_MA_input_up_chanal')
-        self.down_chanal = config.get('param_trade_historical_trade_svobodniy_freym', 'set_MA_input_down_chanal')
+        self.set_CDLINVERTEDHAMMER_long = config.get('param_trade_historical_trade_svobodniy_freym', 'set_CDLINVERTEDHAMMER_long')
+        self.set_CDLINVERTEDHAMMER_short = config.get('param_trade_historical_trade_svobodniy_freym', 'set_CDLINVERTEDHAMMER_short')
         self.how_mach_settings = config.get('param_trade_historical_trade_svobodniy_freym', 'set_general_input_how_mach_settings')
    
 
@@ -81,25 +66,13 @@ class Generate_CDLINVERTEDHAMMER_set(ft.UserControl):
                                                                 ft.Container(ft.Text('Перевернутый молоток',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))
                                                             ),
                                                             ft.Container(
-                                                                ft.Row(controls=[
-                                                                    ft.Container(
+                                                                ft.Container(
                                                                         ft.Column(controls=[
-                                                                        ft.Container(ft.Text('Коэф. быстрой скольз. средней',size=12,color=c_white,text_align='center'),width=250),
-                                                                        Input(self.input_koef_bistro,self.koef_bistro,250),
-                                                                        ft.Container(ft.Text('Коэф. медленной скольз. средней',size=12,color=c_white,text_align='center'),width=250),
-                                                                        Input(self.input_koef_medleno,self.koef_medleno,250),
-                                                                    ]),
-                                                                    padding=ft.padding.only(bottom=66)
-                                                                    ),
-                                                                    ft.Column(controls=[
-                                                                        ft.Container(ft.Text('Кол-во совпадений в прошлом',size=12,color=c_white,text_align='center'),width=250),
-                                                                        Input(self.input_sovpad_last,self.sovpad_last,250),
-                                                                        ft.Container(ft.Text('Прижатие к верху коридора',size=12,color=c_white,text_align='center'),width=250),
-                                                                        Input(self.input_up_chanal,self.up_chanal,250),
-                                                                        ft.Container(ft.Text('Прижатие к низу коридора',size=12,color=c_white,text_align='center'),width=250),
-                                                                        Input(self.input_down_chanal,self.down_chanal,250),
-                                                                    ])
-                                                                ]),
+                                                                        ft.Container(ft.Text('Процент сигнала в лонг',size=12,color=c_white,text_align='center'),width=510),
+                                                                        Input(self.input_CDLINVERTEDHAMMER_long,self.set_CDLINVERTEDHAMMER_long,510),
+                                                                        ft.Container(ft.Text('Процент сигнала в шорт',size=12,color=c_white,text_align='center'),width=510),
+                                                                        Input(self.input_CDLINVERTEDHAMMER_short,self.set_CDLINVERTEDHAMMER_short,510),
+                                                                ])),
                                                                 width=550,
                                                                 border = ft.border.all(1, c_white),
                                                                 padding=ft.padding.only(top=14,bottom=14,left=20),

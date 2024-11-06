@@ -1,7 +1,7 @@
 # DEMA([input_arrays], [timeperiod=30])
 
 # Double Exponential Moving Average (Overlap Studies)
-# Inputs:
+# Inputs:1
 # price: (any ndarray)
 
 # Parameters:

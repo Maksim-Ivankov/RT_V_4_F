@@ -1,7 +1,7 @@
 # KAMA([input_arrays], [timeperiod=30])
 
 # Kaufman Adaptive Moving Average (Overlap Studies)
-# Inputs:
+# Inputs:1
 # price: (any ndarray)
 
 # Parameters:

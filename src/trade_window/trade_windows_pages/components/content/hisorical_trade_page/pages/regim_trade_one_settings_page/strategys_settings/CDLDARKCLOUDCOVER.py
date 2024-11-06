@@ -1,7 +1,7 @@
 # CDLDARKCLOUDCOVER([input_arrays], [penetration=0.5])
 
 # Dark Cloud Cover (Pattern Recognition)
-# Inputs:
+# Inputs:1
 # prices: ['open', 'high', 'low', 'close']
 
 # Parameters:

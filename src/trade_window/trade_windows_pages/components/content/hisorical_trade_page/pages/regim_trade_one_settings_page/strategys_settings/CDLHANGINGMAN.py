@@ -1,7 +1,7 @@
 # CDLHANGINGMAN([input_arrays])
 
 # Hanging Man (Pattern Recognition)
-# Inputs:
+# Inputs:1
 # prices: ['open', 'high', 'low', 'close']
 
 # Outputs:

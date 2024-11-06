@@ -1,7 +1,7 @@
 # CDLEVENINGDOJISTAR([input_arrays], [penetration=0.3])
 
 # Evening Doji Star (Pattern Recognition)
-# Inputs:
+# Inputs:1
 # prices: ['open', 'high', 'low', 'close']
 
 # Parameters:

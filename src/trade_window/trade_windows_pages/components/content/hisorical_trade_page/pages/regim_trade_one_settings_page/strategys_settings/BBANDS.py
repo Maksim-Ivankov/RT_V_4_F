@@ -6,7 +6,7 @@
 # verbose — показ логов (по умолчанию — False). 2
 
 
-# Inputs:
+# Inputs:11
 # price: (any ndarray)
 
 # Parameters:

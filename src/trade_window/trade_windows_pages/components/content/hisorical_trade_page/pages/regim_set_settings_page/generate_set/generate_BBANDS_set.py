@@ -1,4 +1,4 @@
-# страница выбора стратегии торговли
+# страница выбора стратегии торговли111
 import flet as ft
 from variable import *
 from imports import *
@@ -15,11 +15,18 @@ class Generate_BBANDS_set(ft.UserControl):
         super().__init__()
         self.btn_close = btn_close
         
-
-    def input_koef_bistro(self,e):
-        self.koef_bistro = e.control.value
-        Save_config('param_trade_historical_trade_svobodniy_freym',{'set_MA_input_koef_bistro':str(e.control.value)})
-
+    def input_BBANDS_nbdevup(self,e):
+        self.set_BBANDS_nbdevup = e.control.value
+        Save_config('param_trade_historical_trade_svobodniy_freym',{'set_BBANDS_nbdevup':str(e.control.value)})
+    def input_BBANDS_timeperiod(self,e):
+        self.set_BBANDS_timeperiod = e.control.value
+        Save_config('param_trade_historical_trade_svobodniy_freym',{'set_BBANDS_timeperiod':str(e.control.value)})
+    def input_BBANDS_nbdevdn(self,e):
+        self.set_BBANDS_nbdevdn = e.control.value
+        Save_config('param_trade_historical_trade_svobodniy_freym',{'set_BBANDS_nbdevdn':str(e.control.value)})
+    def input_BBANDS_matype(self,e):
+        self.set_BBANDS_matype = e.control.value
+        Save_config('param_trade_historical_trade_svobodniy_freym',{'set_BBANDS_matype':str(e.control.value)})
         
     
 
@@ -27,11 +34,10 @@ class Generate_BBANDS_set(ft.UserControl):
         if os.path.exists(path_ini_BBANDS_set):
             os.remove(path_ini_BBANDS_set)
         for i in range(1,int(self.how_mach_settings)+1):
-            Save_config(str(i)+'_section',{'koef_bistro':str(random.choice(self.koef_bistro.split(',')))},path_ini_BBANDS_set)
-            Save_config(str(i)+'_section',{'koef_medleno':str(random.choice(self.koef_medleno.split(',')))},path_ini_BBANDS_set)
-            Save_config(str(i)+'_section',{'sovpad_last':str(random.choice(self.sovpad_last.split(',')))},path_ini_BBANDS_set)
-            Save_config(str(i)+'_section',{'up_chanal':str(random.choice(self.up_chanal.split(',')))},path_ini_BBANDS_set)
-            Save_config(str(i)+'_section',{'down_chanal':str(random.choice(self.down_chanal.split(',')))},path_ini_BBANDS_set)
+            Save_config(str(i)+'_section',{'timeperiod':str(random.choice(self.set_BBANDS_timeperiod.split(',')))},path_ini_BBANDS_set)
+            Save_config(str(i)+'_section',{'nbdevup':str(random.choice(self.set_BBANDS_nbdevup.split(',')))},path_ini_BBANDS_set)
+            Save_config(str(i)+'_section',{'nbdevdn':str(random.choice(self.set_BBANDS_nbdevdn.split(',')))},path_ini_BBANDS_set)
+            Save_config(str(i)+'_section',{'matype':str(random.choice(self.set_BBANDS_matype.split(',')))},path_ini_BBANDS_set)
             self.progress_bar.value = i*(100/int(self.how_mach_settings))*0.01
             self.update()
         self.btn_close()
@@ -43,7 +49,10 @@ class Generate_BBANDS_set(ft.UserControl):
     def print_page(self):
         config = configparser.ConfigParser()         
         config.read(path_imports_config)
-        self.koef_bistro = config.get('param_trade_historical_trade_svobodniy_freym', 'set_MA_input_koef_bistro')
+        self.set_BBANDS_timeperiod = config.get('param_trade_historical_trade_svobodniy_freym', 'set_BBANDS_timeperiod')
+        self.set_BBANDS_nbdevup = config.get('param_trade_historical_trade_svobodniy_freym', 'set_BBANDS_nbdevup')
+        self.set_BBANDS_nbdevdn = config.get('param_trade_historical_trade_svobodniy_freym', 'set_BBANDS_nbdevdn')
+        self.set_BBANDS_matype = config.get('param_trade_historical_trade_svobodniy_freym', 'set_BBANDS_matype')
   
         self.how_mach_settings = config.get('param_trade_historical_trade_svobodniy_freym', 'set_general_input_how_mach_settings')
    
@@ -69,21 +78,18 @@ class Generate_BBANDS_set(ft.UserControl):
                                                             ft.Container(
                                                                 ft.Row(controls=[
                                                                     ft.Container(
-                                                                        ft.Column(controls=[
-                                                                        ft.Container(ft.Text('Коэф. быстрой скольз. средней',size=12,color=c_white,text_align='center'),width=250),
-                                                                        Input(self.input_koef_bistro,self.koef_bistro,250),
-                                                                        ft.Container(ft.Text('Коэф. медленной скольз. средней',size=12,color=c_white,text_align='center'),width=250),
-                                                                        Input(self.input_koef_medleno,self.koef_medleno,250),
+                                                                    ft.Column(controls=[
+                                                                        ft.Container(ft.Text('Отклонение для установки верхней полосы',size=12,color=c_white,text_align='center'),width=250),
+                                                                        Input(self.input_BBANDS_nbdevup,self.set_BBANDS_nbdevup,250),
+                                                                        ft.Container(ft.Text('Временной промежуток',size=12,color=c_white,text_align='center'),width=250),
+                                                                        Input(self.input_BBANDS_timeperiod,self.set_BBANDS_timeperiod,250),
                                                                     ]),
-                                                                    padding=ft.padding.only(bottom=66)
                                                                     ),
                                                                     ft.Column(controls=[
-                                                                        ft.Container(ft.Text('Кол-во совпадений в прошлом',size=12,color=c_white,text_align='center'),width=250),
-                                                                        Input(self.input_sovpad_last,self.sovpad_last,250),
-                                                                        ft.Container(ft.Text('Прижатие к верху коридора',size=12,color=c_white,text_align='center'),width=250),
-                                                                        Input(self.input_up_chanal,self.up_chanal,250),
-                                                                        ft.Container(ft.Text('Прижатие к низу коридора',size=12,color=c_white,text_align='center'),width=250),
-                                                                        Input(self.input_down_chanal,self.down_chanal,250),
+                                                                        ft.Container(ft.Text('Отклонение для установки нижней полосы',size=12,color=c_white,text_align='center'),width=250),
+                                                                        Input(self.input_BBANDS_nbdevdn,self.set_BBANDS_nbdevdn,250),
+                                                                        ft.Container(ft.Text('Тип движущейся средней',size=12,color=c_white,text_align='center'),width=250),
+                                                                        Input(self.input_BBANDS_matype,self.set_BBANDS_matype,250),
                                                                     ])
                                                                 ]),
                                                                 width=550,

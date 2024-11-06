@@ -1,7 +1,7 @@
 # SAR([input_arrays], [acceleration=0.02], [maximum=0.2])
 
 # Parabolic SAR (Overlap Studies)
-# Inputs:
+# Inputs:1
 # prices: ['high', 'low']
 
 # Parameters:

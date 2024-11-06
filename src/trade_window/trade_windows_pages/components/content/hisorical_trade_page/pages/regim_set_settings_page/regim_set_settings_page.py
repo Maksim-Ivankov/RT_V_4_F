@@ -53,6 +53,44 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_general_set import Generate_general_set
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_one_set import Generate_one_set
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_MA_set import Generate_MA_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_BBANDS_set import Generate_BBANDS_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_EMA_set import Generate_EMA_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_DEMA_set import Generate_DEMA_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_KAMA_set import Generate_KAMA_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_MAVP_set import Generate_MAVP_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_SAR_set import Generate_SAR_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_TEMA_set import Generate_TEMA_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_TRIMA_set import Generate_TRIMA_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_WMA_set import Generate_WMA_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDL2CROWS_set import Generate_CDL2CROWS_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDL3BLACKCROWS_set import Generate_CDL3BLACKCROWS_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDL3INSIDE_set import Generate_CDL3INSIDE_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDL3LINESTRIKE_set import Generate_CDL3LINESTRIKE_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDL3OUTSIDE_set import Generate_CDL3OUTSIDE_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDL3STARSINSOUTH_set import Generate_CDL3STARSINSOUTH_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDL3WHITESOLDIERS_set import Generate_CDL3WHITESOLDIERS_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLABANDONEDBABY_set import Generate_CDLABANDONEDBABY_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLADVANCEBLOCK_set import Generate_CDLADVANCEBLOCK_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLBELTHOLD_set import Generate_CDLBELTHOLD_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLCLOSINGMARUBOZU_set import Generate_CDLCLOSINGMARUBOZU_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLCOUNTERATTACK_set import Generate_CDLCOUNTERATTACK_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLDARKCLOUDCOVER_set import Generate_CDLDARKCLOUDCOVER_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLENGULFING_set import Generate_CDLENGULFING_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLEVENINGDOJISTAR_set import Generate_CDLEVENINGDOJISTAR_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLGRAVESTONEDOJI_set import Generate_CDLGRAVESTONEDOJI_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLHAMMER_set import Generate_CDLHAMMER_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLHANGINGMAN_set import Generate_CDLHANGINGMAN_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLHARAMI_set import Generate_CDLHARAMI_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLHARAMICROSS_set import Generate_CDLHARAMICROSS_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLHOMINGPIGEON_set import Generate_CDLHOMINGPIGEON_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLINVERTEDHAMMER_set import Generate_CDLINVERTEDHAMMER_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLLADDERBOTTOM_set import Generate_CDLLADDERBOTTOM_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLLONGLEGGEDDOJI_set import Generate_CDLLONGLEGGEDDOJI_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLMATCHINGLOW_set import Generate_CDLMATCHINGLOW_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLMORNINGSTAR_set import Generate_CDLMORNINGSTAR_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLRICKSHAWMAN_set import Generate_CDLRICKSHAWMAN_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLSPINNINGTOP_set import Generate_CDLSPINNINGTOP_set
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.regim_set_settings_page.generate_set.generate_CDLTASUKIGAP_set import Generate_CDLTASUKIGAP_set
 
 class Regim_set_settings_page(ft.UserControl):
     def __init__(self,change_page):
@@ -148,6 +186,44 @@ class Regim_set_settings_page(ft.UserControl):
             'Общие настройки':Generate_general_set(self.update_page),
             'MA':Generate_MA_set(self.update_page),
             'one':Generate_one_set(self.update_page),
+            'BBANDS':Generate_BBANDS_set(self.update_page),
+            'EMA':Generate_EMA_set(self.update_page),
+            'DEMA':Generate_DEMA_set(self.update_page),
+            'KAMA':Generate_KAMA_set(self.update_page),
+            'MAVP':Generate_MAVP_set(self.update_page),
+            'SAR':Generate_SAR_set(self.update_page),
+            'TEMA':Generate_TEMA_set(self.update_page),
+            'TRIMA':Generate_TRIMA_set(self.update_page),
+            'WMA':Generate_WMA_set(self.update_page),
+            'CDL2CROWS':Generate_CDL2CROWS_set(self.update_page),
+            'CDL3BLACKCROWS':Generate_CDL3BLACKCROWS_set(self.update_page),
+            'CDL3INSIDE':Generate_CDL3INSIDE_set(self.update_page),
+            'CDL3LINESTRIKE':Generate_CDL3LINESTRIKE_set(self.update_page),
+            'CDL3OUTSIDE':Generate_CDL3OUTSIDE_set(self.update_page),
+            'CDL3STARSINSOUTH':Generate_CDL3STARSINSOUTH_set(self.update_page),
+            'CDL3WHITESOLDIERS':Generate_CDL3WHITESOLDIERS_set(self.update_page),
+            'CDLABANDONEDBABY':Generate_CDLABANDONEDBABY_set(self.update_page),
+            'CDLADVANCEBLOCK':Generate_CDLADVANCEBLOCK_set(self.update_page),
+            'CDLBELTHOLD':Generate_CDLBELTHOLD_set(self.update_page),
+            'CDLCLOSINGMARUBOZU':Generate_CDLCLOSINGMARUBOZU_set(self.update_page),
+            'CDLCOUNTERATTACK':Generate_CDLCOUNTERATTACK_set(self.update_page),
+            'CDLDARKCLOUDCOVER':Generate_CDLDARKCLOUDCOVER_set(self.update_page),
+            'CDLENGULFING':Generate_CDLENGULFING_set(self.update_page),
+            'CDLEVENINGDOJISTAR':Generate_CDLEVENINGDOJISTAR_set(self.update_page),
+            'CDLGRAVESTONEDOJI':Generate_CDLGRAVESTONEDOJI_set(self.update_page),
+            'CDLHAMMER':Generate_CDLHAMMER_set(self.update_page),
+            'CDLHANGINGMAN':Generate_CDLHANGINGMAN_set(self.update_page),
+            'CDLHARAMI':Generate_CDLHARAMI_set(self.update_page),
+            'CDLHARAMICROSS':Generate_CDLHARAMICROSS_set(self.update_page),
+            'CDLHOMINGPIGEON':Generate_CDLHOMINGPIGEON_set(self.update_page),
+            'CDLINVERTEDHAMMER':Generate_CDLINVERTEDHAMMER_set(self.update_page),
+            'CDLLADDERBOTTOM':Generate_CDLLADDERBOTTOM_set(self.update_page),
+            'CDLLONGLEGGEDDOJI':Generate_CDLLONGLEGGEDDOJI_set(self.update_page),
+            'CDLMATCHINGLOW':Generate_CDLMATCHINGLOW_set(self.update_page),
+            'CDLMORNINGSTAR':Generate_CDLMORNINGSTAR_set(self.update_page),
+            'CDLRICKSHAWMAN':Generate_CDLRICKSHAWMAN_set(self.update_page),
+            'CDLSPINNINGTOP':Generate_CDLSPINNINGTOP_set(self.update_page),
+            'CDLTASUKIGAP':Generate_CDLTASUKIGAP_set(self.update_page),
         }
 
     def update_page(self):

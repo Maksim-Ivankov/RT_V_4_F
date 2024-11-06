@@ -1,7 +1,7 @@
 # Параметры функции CDL2CROWS из модуля talib: open, high, low, close. 
 
 
-# Inputs:
+# Inputs:1
 # prices: ['open', 'high', 'low', 'close']
 
 # Outputs:

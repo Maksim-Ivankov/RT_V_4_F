@@ -1,7 +1,7 @@
 # CDLHARAMICROSS([input_arrays])
 
 # Harami Cross Pattern (Pattern Recognition)
-# Inputs:
+# Inputs:1
 # prices: ['open', 'high', 'low', 'close']
 
 # Outputs:

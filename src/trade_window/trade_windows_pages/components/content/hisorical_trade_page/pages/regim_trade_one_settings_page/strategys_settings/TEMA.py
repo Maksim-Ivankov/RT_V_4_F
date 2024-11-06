@@ -1,7 +1,7 @@
 # TEMA([input_arrays], [timeperiod=30])
 
 # Triple Exponential Moving Average (Overlap Studies)
-# Inputs:
+# Inputs:1
 # price: (any ndarray)
 
 # Parameters:

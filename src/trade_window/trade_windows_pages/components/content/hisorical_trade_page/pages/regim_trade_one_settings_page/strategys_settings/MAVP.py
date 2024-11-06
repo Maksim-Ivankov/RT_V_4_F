@@ -1,7 +1,7 @@
 # MAVP([input_arrays], [minperiod=2], [maxperiod=30], [matype=0])
 
 # Moving average with variable period (Overlap Studies)
-# Inputs:
+# Inputs:1
 # price: (any ndarray) periods: (any ndarray)
 
 # Parameters:

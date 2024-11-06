@@ -1,7 +1,7 @@
 # CDLLONGLEGGEDDOJI([input_arrays])
 
 # Long Legged Doji (Pattern Recognition)
-# Inputs:
+# Inputs:1
 # prices: ['open', 'high', 'low', 'close']
 
 # Outputs:

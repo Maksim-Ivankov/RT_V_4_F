@@ -1,4 +1,4 @@
-# Inputs:
+# Inputs:1
 # prices: ['open', 'high', 'low', 'close']
 
 # Parameters:

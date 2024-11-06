@@ -1,7 +1,7 @@
 # EMA([input_arrays], [timeperiod=30])
 
 # Exponential Moving Average (Overlap Studies)
-# Inputs:
+# Inputs:1
 # price: (any ndarray)
 
 # Parameters:

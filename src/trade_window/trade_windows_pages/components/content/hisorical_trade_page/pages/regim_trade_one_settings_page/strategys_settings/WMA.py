@@ -1,7 +1,7 @@
 # WMA([input_arrays], [timeperiod=30])
 
 # Weighted Moving Average (Overlap Studies)
-# Inputs:
+# Inputs:1
 # price: (any ndarray)
 
 # Parameters:

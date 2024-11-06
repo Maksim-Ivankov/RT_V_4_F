@@ -1,7 +1,7 @@
 # TRIMA([input_arrays], [timeperiod=30])
 
 # Triangular Moving Average (Overlap Studies)
-# Inputs:
+# Inputs:1
 # price: (any ndarray)
 
 # Parameters:

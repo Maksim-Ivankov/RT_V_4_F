@@ -1,7 +1,7 @@
 # CDLHOMINGPIGEON([input_arrays])
 
 # Homing Pigeon (Pattern Recognition)
-# Inputs:
+# Inputs:1
 # prices: ['open', 'high', 'low', 'close']
 
 # Outputs:

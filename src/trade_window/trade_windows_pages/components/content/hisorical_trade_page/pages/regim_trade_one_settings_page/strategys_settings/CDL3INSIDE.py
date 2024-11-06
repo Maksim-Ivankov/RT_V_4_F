@@ -1,6 +1,6 @@
 # Параметры функции CDL3INSIDE в пакете talib: open, high, low, close.
 
-# Inputs:
+# Inputs:1
 # prices: ['open', 'high', 'low', 'close']
 
 # Outputs:
