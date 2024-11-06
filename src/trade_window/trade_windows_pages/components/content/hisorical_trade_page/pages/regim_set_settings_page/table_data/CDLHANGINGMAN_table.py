@@ -1,4 +1,4 @@
-# страница выбора стратегии торговли
+# страница выбора стратегии торговли1
 import flet as ft
 from variable import *
 from imports import *
@@ -18,7 +18,8 @@ class CDLHANGINGMAN_table(ft.UserControl):
             datas_print.append(
                 ft.DataRow(cells=[
                     ft.DataCell(ft.Text(count,text_align='center',color=c_white,size=12,width=20)),
-                    ft.DataCell(ft.Text(config_general_set.get(i, 'koef_bistro'),text_align='center',color=c_white,size=12,width=80)),   
+                    ft.DataCell(ft.Text(config_general_set.get(i, 'long'),text_align='center',color=c_white,size=12,width=80)),   
+                    ft.DataCell(ft.Text(config_general_set.get(i, 'short'),text_align='center',color=c_white,size=12,width=80)),   
                 ])
             )
             count+=1      
@@ -28,7 +29,8 @@ class CDLHANGINGMAN_table(ft.UserControl):
                 ft.Column(controls=[
                     ft.DataTable(columns=[
                         ft.DataColumn(ft.Text('№',text_align='center',color=c_white,size=12)),
-                        ft.DataColumn(ft.Text('Коэф. быстрой\nскольз. средней',text_align='center',color=c_white,size=12)),
+                        ft.DataColumn(ft.Text('Процент сигнала в лонг',text_align='center',color=c_white,size=12)),
+                        ft.DataColumn(ft.Text('Процент сигнала в шорт',text_align='center',color=c_white,size=12)),
                         
                         
                     ],rows = datas_print,

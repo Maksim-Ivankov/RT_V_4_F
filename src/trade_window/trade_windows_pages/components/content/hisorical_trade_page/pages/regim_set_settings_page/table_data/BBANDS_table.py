@@ -1,4 +1,4 @@
-# страница выбора стратегии торговли
+# страница выбора стратегии торговли1
 import flet as ft
 from variable import *
 from imports import *
@@ -18,7 +18,10 @@ class BBANDS_table(ft.UserControl):
             datas_print.append(
                 ft.DataRow(cells=[
                     ft.DataCell(ft.Text(count,text_align='center',color=c_white,size=12,width=20)),
-                    ft.DataCell(ft.Text(config_general_set.get(i, 'koef_bistro'),text_align='center',color=c_white,size=12,width=80)),
+                    ft.DataCell(ft.Text(config_general_set.get(i, 'timeperiod'),text_align='center',color=c_white,size=12,width=80)),
+                    ft.DataCell(ft.Text(config_general_set.get(i, 'nbdevup'),text_align='center',color=c_white,size=12,width=80)),
+                    ft.DataCell(ft.Text(config_general_set.get(i, 'nbdevdn'),text_align='center',color=c_white,size=12,width=80)),
+                    ft.DataCell(ft.Text(config_general_set.get(i, 'matype'),text_align='center',color=c_white,size=12,width=80)),
                 ])
             )
             count+=1      
@@ -28,7 +31,10 @@ class BBANDS_table(ft.UserControl):
                 ft.Column(controls=[
                     ft.DataTable(columns=[
                         ft.DataColumn(ft.Text('№',text_align='center',color=c_white,size=12)),
-                        ft.DataColumn(ft.Text('',text_align='center',color=c_white,size=12)),
+                        ft.DataColumn(ft.Text('Временной\nпромежуток',text_align='center',color=c_white,size=12)),
+                        ft.DataColumn(ft.Text('Отклонение для установки\nверхней полосы',text_align='center',color=c_white,size=12)),
+                        ft.DataColumn(ft.Text('Отклонение для установки\nнижней полосы',text_align='center',color=c_white,size=12)),
+                        ft.DataColumn(ft.Text('Тип движущейся\nсредней',text_align='center',color=c_white,size=12)),
                     ],rows = datas_print,
                     column_spacing = 54,
                     data_row_max_height = 30,

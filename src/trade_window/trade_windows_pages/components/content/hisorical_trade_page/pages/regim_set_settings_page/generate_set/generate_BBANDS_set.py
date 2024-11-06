@@ -1,4 +1,4 @@
-# страница выбора стратегии торговли111
+# страница выбора стратегии торговли1111
 import flet as ft
 from variable import *
 from imports import *
@@ -86,7 +86,7 @@ class Generate_BBANDS_set(ft.UserControl):
                                                                     ]),
                                                                     ),
                                                                     ft.Column(controls=[
-                                                                        ft.Container(ft.Text('Отклонение для установки нижней полосы',size=12,color=c_white,text_align='center'),width=250),
+                                                                        ft.Container(ft.Text('Отклонение для установки нижней\nполосы',size=12,color=c_white,text_align='center'),width=250),
                                                                         Input(self.input_BBANDS_nbdevdn,self.set_BBANDS_nbdevdn,250),
                                                                         ft.Container(ft.Text('Тип движущейся средней',size=12,color=c_white,text_align='center'),width=250),
                                                                         Input(self.input_BBANDS_matype,self.set_BBANDS_matype,250),
