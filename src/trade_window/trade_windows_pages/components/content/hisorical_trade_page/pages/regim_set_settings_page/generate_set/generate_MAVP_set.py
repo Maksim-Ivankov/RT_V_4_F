@@ -1,4 +1,4 @@
-# страница выбора стратегии торговли11
+# страница выбора стратегии торговли111
 import flet as ft
 from variable import *
 from imports import *
