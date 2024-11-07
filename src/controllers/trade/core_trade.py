@@ -12,13 +12,12 @@ class Core_trade():
         self.regime = regime
         self.strategy = strategy
         
-        get_settings_our = {
-            'Историческая торговля|Свободный фрейм|Ода настройка': HisTrade_Svoboda_OneSettings(),
-            'Историческая торговля|Свободный фрейм|Сет настроек': HisTrade_Svoboda_SetSettings(),
-        }
+        if regime == 'Историческая торговля|Свободный фрейм|Ода настройка': get_settings_our = HisTrade_Svoboda_OneSettings()
+        elif regime == 'Историческая торговля|Свободный фрейм|Сет настроек': get_settings_our = HisTrade_Svoboda_SetSettings()
+        
         self.INDEX_START = 20 # начинаем не с нуля, а с 20 свечи
         if self.regime == 'Историческая торговля|Свободный фрейм|Ода настройка':
-            self.var = get_settings_our[regime] # объект, хранящий все переменные общих настроек
+            self.var = get_settings_our # объект, хранящий все переменные общих настроек
             self.path_save_log = f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\log_trade.txt' # путь сохранения логов в папке трейда
             self.path_save_trade_log = f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\trade.txt' # путь сохранения логов в папке трейда
             self.DEPOSIT_GLOBAL = self.var.DEPOSIT
@@ -34,10 +33,7 @@ class Core_trade():
                 'stop_loss_price':'', # цена стоп лосса
             }
         elif self.regime == 'Историческая торговля|Свободный фрейм|Сет настроек':
-            self.var = get_settings_our[regime]
-            # print(self.var.data_set)
-            # print('-----------------')
-            # print(self.var.strat_set)
+            self.var = get_settings_our
             
         
     # пишем в файл результаты на каждом шаге
@@ -87,49 +83,106 @@ class Core_trade():
             add_logi_trade('Начали торговлю')
             self.trade_param['index_entry'] = 0
             self.trade_param['index_exit'] = 0
-            for index in range(self.var.VOLUME):
+            if self.var.change_time_settings=='0': # если торгуем без диапазона времени
+                start_index = self.INDEX_START+1
+                stop_index = self.var.VOLUME
+                for i in range(start_index):
+                    data_numbers.append(i)
+            elif self.var.change_time_settings=='1': # если торгуем с временем старта и стопа
+                df = pd.read_csv(f'{path_svoboda_freym}\\{self.var.number_trade}\\work\\{self.var.COINS[0]}.csv') 
+                day = time.strftime("%d", time.localtime(int(df.open_time.iloc[0]/1000)))
+                mounth = time.strftime("%m", time.localtime(int(df.open_time.iloc[0]/1000)))
+                year = time.strftime("%Y", time.localtime(int(df.open_time.iloc[0]/1000)))
+                Tn_var = int(time.strftime("%H", time.localtime(int(df.open_time.iloc[0]/1000))))
+                Tk_var = int(time.strftime("%H", time.localtime(int(df.open_time.iloc[-1]/1000))))
+                # int(self.var.time_on_work) = H
+                # int(self.var.time_off_work) = K
+                P1_var = -100
+                P2_var = -100
+                if Tn_var<=int(self.var.time_on_work):
+                    if int(self.var.time_on_work)<int(self.var.time_off_work):
+                        G_var = (int(self.var.time_off_work)-int(self.var.time_on_work))*60*60
+                        unix_start =int(str(datetime(int(year), int(mounth), int(day), int(self.var.time_on_work), 0).timestamp())[:-2]+'000')
+                        unix_stop = int(str(int(datetime(int(year), int(mounth), int(day), int(self.var.time_on_work), 0).timestamp())+int(G_var))+'000')
+                    else:
+                        if int(self.var.time_off_work)<=Tk_var:
+                            G_var = 24-int(self.var.time_on_work)+int(self.var.time_off_work)
+                            unix_start =int(str(datetime(int(year), int(mounth), int(day), int(self.var.time_on_work), 0).timestamp())[:-2]+'000')
+                            unix_stop = int(str(int(datetime(int(year), int(mounth), int(day), int(self.var.time_on_work), 0).timestamp())+int(G_var))+'000')
+                        else:
+                            P1_var = int(self.var.time_off_work)-Tn_var
+                            P2_var = 24 - int(self.var.time_on_work)+Tk_var
+                else:
+                    if int(self.var.time_on_work)<int(self.var.time_off_work):
+                        if int(self.var.time_off_work)<=Tk_var:
+                            G_var = (int(self.var.time_off_work)-int(self.var.time_on_work))*60*60
+                            unix_start =int(str(datetime(int(year), int(mounth), int(day)+1, int(self.var.time_on_work), 0).timestamp())[:-2]+'000')
+                            unix_stop = int(str(int(datetime(int(year), int(mounth), int(day)+1, int(self.var.time_on_work), 0).timestamp())+int(G_var))+'000')
+                        else: 
+                            P1_var = int(self.var.time_off_work)-Tn_var
+                            P2_var = Tk_var-int(self.var.time_on_work)
+                    else:
+                        P1_var = 24 - Tn_var+int(self.var.time_off_work)
+                        P2_var = Tk_var-int(self.var.time_on_work)
+                if P1_var!=-100 and P2_var!=-100:
+                    if P1_var > P2_var:
+                        unix_start = int(df.open_time.iloc[0])
+                        unix_stop = int(str(int(unix_start/1000)+P1_var*60*60)+'000')
+                    else:
+                        unix_start = int(str(int(df.open_time.iloc[-1]/1000)-P2_var*60*60)+'000')
+                        unix_stop = int(df.open_time.iloc[-1])
+                if unix_start<int(df.open_time.iloc[0]):unix_start = int(df.open_time.iloc[self.INDEX_START])
+                if unix_stop>int(df.open_time.iloc[-1]):unix_stop = int(df.open_time.iloc[-1])
+                start_index = df.index[df['open_time'] == unix_start].tolist()[0] # находим индексы старта и стопа
+                stop_index = df.index[df['open_time'] == unix_stop].tolist()[0] # находим индексы старта и стопа
+                print(f'start_index = {start_index}  stop_index = {stop_index}')
+                for i in range(start_index):
+                    data_numbers.append(i)
+            for index in range(start_index,stop_index,1):
                 change_pb(index/self.var.VOLUME)
                 data_numbers.append(index) # добавляем в массив номера итераций - 0,1,2,3 - имитируем реальную торговлю1
-                if index>self.INDEX_START: # начинаем не с нуля, а с 20-ой свечи
-                    self.trade_param['index_trade'] = index
-                    if self.trade_param['position'] == False: # если не стоим в позиции
-                        for coin in self.var.COINS:
-                            df = pd.read_csv(f'{path_svoboda_freym}\\{self.var.number_trade}\\work\\{coin}.csv') # получили датафрейм по монете из файла
-                            if len(df) != self.var.VOLUME : continue # если размер фрейма не совпадает с тем, который должен быть (фильтр от недавно залистенных монет)
-                            self.trade_param['coin'] = coin # монета, которую сейча срассматриваем
-                            self.trade_param['df_now_step'] = df.iloc[data_numbers] # фрейм по текущий шаг иетрации по текущей монете
-                            # ниже - если входим в диапазон по объёму
-                            if self.trade_param['df_now_step']['VOLUME'][index]*self.trade_param['df_now_step']['open'][index]>self.var.CANDLE_COIN_MIN and self.trade_param['df_now_step']['VOLUME'][index]*self.trade_param['df_now_step']['open'][index]<self.var.CANDLE_COIN_MAX:
-                                self.check_signal = Check_if_signal(self.trade_param['df_now_step'],self.var.strategys)
-                                self.trend_mas = self.check_signal.work_strat_trade()
-                                self.trade_param['trend'] = self.count_result_trade(self.trend_mas,index) # получаем сигналы и тут же сортируем
-                                if self.trade_param['trend'] != 'no': # если есть сигнал, выходим из цикла
-                                    self.trade_param['index_entry'] = index
-                                    self.trade_param['price_treyd'] = self.trade_param['df_now_step']['close'][index]
-                                    self.trade_param['open_time_trade'] = self.trade_param['df_now_step']['open_time'][index]
-                                    self.trade_param['path_df'] = f'{path_svoboda_freym}\\{self.var.number_trade}\\work\\{coin}.csv'
-                                    self.open_position() # открываем позицию 
-                                    self.df_see = pd.read_csv(f'{path_svoboda_freym}\\{self.var.number_trade}\\see\\{coin}.csv')
-                                    add_logi_trade(f'{index}|Сигнал {self.trade_param['trend']}, монета {coin}, цена входа - {self.trade_param['price_treyd']}')
-                                    break
-                                # else: add_logi_trade(f'{index}|Монета {coin} - Нет сигнала')
-                                # add_logi_trade(f'')
-                        add_logi_trade(f'{index} Нет сигнала')
-                    else:
-                        try:
-                            self.trade_param['df_see'] = self.df_see.iloc[int(self.search_step_see(self.trade_param['index_trade'])):int(self.search_step_see(self.trade_param['index_trade'])+self.trade_param['timeframe'])] # получили датафрейм мини из файла
-                        except Exception as e:
-                            add_logi_trade(f'{index}| Закончили торговлю')
-                            print(f'Находимся в конце фрейма, не успеваем выйти из сделки - {e}')
-                        for nonindex, row in self.trade_param['df_see'].iterrows():
-                            self.trade_param['close_time_trade'] = int(row['open_time'])
-                            if self.check_trade(row['close'],self.var.COMMISSION_MAKER,self.var.COMMISSION_TAKER,self.var.TP,self.var.SL,self.var.LEVERAGE):
-                                if self.local_profit>0: add_logi_trade(f'{index}|Вышли из сделки, депозит - {self.DEPOSIT_GLOBAL}, профит {self.local_profit}')
-                                else: add_logi_trade(f'{index}|Вышли из сделки, депозит - {self.DEPOSIT_GLOBAL}, убыток {self.local_profit}')
-                                break # чекаем монету по шагам итерации между большим и мальеньким фреймомd
-                            else: add_logi_trade(f'{index}|Стоим в сделке')
+                self.trade_param['index_trade'] = index
+                if self.trade_param['position'] == False: # если не стоим в позиции
+                    for coin in self.var.COINS:
+                        df = pd.read_csv(f'{path_svoboda_freym}\\{self.var.number_trade}\\work\\{coin}.csv') # получили датафрейм по монете из файла
+                        if len(df) != self.var.VOLUME : continue # если размер фрейма не совпадает с тем, который должен быть (фильтр от недавно залистенных монет)
+                        self.trade_param['coin'] = coin # монета, которую сейча срассматриваем
+                        self.trade_param['df_now_step'] = df.iloc[data_numbers] # фрейм по текущий шаг иетрации по текущей монете
+                        # ниже - если входим в диапазон по объёму
+                        print(f'coin = {coin} !@!!!!!!!!!!!!!!!!!!')
+                        if self.trade_param['df_now_step']['VOLUME'][index]*self.trade_param['df_now_step']['open'][index]>self.var.CANDLE_COIN_MIN and self.trade_param['df_now_step']['VOLUME'][index]*self.trade_param['df_now_step']['open'][index]<self.var.CANDLE_COIN_MAX:
+                            self.check_signal = Check_if_signal(self.trade_param['df_now_step'],self.var.strategys)
+                            self.trend_mas = self.check_signal.work_strat_trade()
+                            self.trade_param['trend'] = self.count_result_trade(self.trend_mas,index) # получаем сигналы и тут же сортируем
+                            if self.trade_param['trend'] != 'no': # если есть сигнал, выходим из цикла
+                                self.trade_param['index_entry'] = index
+                                self.trade_param['price_treyd'] = self.trade_param['df_now_step']['close'][index]
+                                self.trade_param['open_time_trade'] = self.trade_param['df_now_step']['open_time'][index]
+                                self.trade_param['path_df'] = f'{path_svoboda_freym}\\{self.var.number_trade}\\work\\{coin}.csv'
+                                self.open_position() # открываем позицию 
+                                self.df_see = pd.read_csv(f'{path_svoboda_freym}\\{self.var.number_trade}\\see\\{coin}.csv')
+                                add_logi_trade(f'{index}|Сигнал {self.trade_param['trend']}, монета {coin}, цена входа - {self.trade_param['price_treyd']}')
+                                break
+                            # else: add_logi_trade(f'{index}|Монета {coin} - Нет сигнала')
+                            # add_logi_trade(f'')
+                    add_logi_trade(f'{index} Нет сигнала')
+                else:
+                    try:
+                        self.trade_param['df_see'] = self.df_see.iloc[int(self.search_step_see(self.trade_param['index_trade'])):int(self.search_step_see(self.trade_param['index_trade'])+self.trade_param['timeframe'])] # получили датафрейм мини из файла
+                    except Exception as e:
+                        add_logi_trade(f'{index}| Закончили торговлю')
+                        print(f'Находимся в конце фрейма, не успеваем выйти из сделки - {e}')
+                    for nonindex, row in self.trade_param['df_see'].iterrows():
+                        self.trade_param['close_time_trade'] = int(row['open_time'])
+                        if self.check_trade(row['close'],self.var.COMMISSION_MAKER,self.var.COMMISSION_TAKER,self.var.TP,self.var.SL,self.var.LEVERAGE):
+                            if self.local_profit>0: add_logi_trade(f'{index}|Вышли из сделки, депозит - {self.DEPOSIT_GLOBAL}, профит {self.local_profit}')
+                            else: add_logi_trade(f'{index}|Вышли из сделки, депозит - {self.DEPOSIT_GLOBAL}, убыток {self.local_profit}')
+                            break # чекаем монету по шагам итерации между большим и мальеньким фреймомd
+                        else: add_logi_trade(f'{index}|Стоим в сделке')
                 self.print_file_log(f'{index}|{self.DEPOSIT_GLOBAL}|{self.trend_mas}|{self.trade_param['trend']}|{self.trade_param['coin']}|{self.trade_param['open_time_trade']}\n',self.path_save_log)
             add_logi_trade(f'Закончили торговлю')
+            if self.var.change_time_settings=='1':
+                change_pb(1)
             print_trade_end()
 # ________________________________________________________ РЕЖИМ ТОРГОВЛИ ПО СЕТУ НАСТРОЕК ___________________________________________________________
 # self.var.data_set
@@ -190,51 +243,105 @@ class Core_trade():
             self.trade_param['index_entry'] = 0
             self.trade_param['index_exit'] = 0
             
-            for index in range(self.var.VOLUME):
+            
+            
+            df = pd.read_csv(f'{path_svoboda_freym}\\{self.var.number_trade}\\work\\{self.var.COINS[0]}.csv') 
+            day = time.strftime("%d", time.localtime(int(df.open_time.iloc[0]/1000)))
+            mounth = time.strftime("%m", time.localtime(int(df.open_time.iloc[0]/1000)))
+            year = time.strftime("%Y", time.localtime(int(df.open_time.iloc[0]/1000)))
+            Tn_var = int(time.strftime("%H", time.localtime(int(df.open_time.iloc[0]/1000))))
+            Tk_var = int(time.strftime("%H", time.localtime(int(df.open_time.iloc[-1]/1000))))
+            # int(self.var.time_on_work) = H
+            # int(self.var.time_off_work) = K
+            P1_var = -100
+            P2_var = -100
+            if Tn_var<=int(self.var.data_set[str(self.number_trade_now)]['time_on_work']):
+                if int(self.var.data_set[str(self.number_trade_now)]['time_on_work'])<int(self.var.data_set[str(self.number_trade_now)]['time_off_work']):
+                    G_var = (int(self.var.data_set[str(self.number_trade_now)]['time_off_work'])-int(self.var.data_set[str(self.number_trade_now)]['time_on_work']))*60*60
+                    unix_start =int(str(datetime(int(year), int(mounth), int(day), int(self.var.data_set[str(self.number_trade_now)]['time_on_work']), 0).timestamp())[:-2]+'000')
+                    unix_stop = int(str(int(datetime(int(year), int(mounth), int(day), int(self.var.data_set[str(self.number_trade_now)]['time_on_work']), 0).timestamp())+int(G_var))+'000')
+                else:
+                    if int(self.var.data_set[str(self.number_trade_now)]['time_off_work'])<=Tk_var:
+                        G_var = 24-int(self.var.data_set[str(self.number_trade_now)]['time_on_work'])+int(self.var.data_set[str(self.number_trade_now)]['time_off_work'])
+                        unix_start =int(str(datetime(int(year), int(mounth), int(day), int(self.var.data_set[str(self.number_trade_now)]['time_on_work']), 0).timestamp())[:-2]+'000')
+                        unix_stop = int(str(int(datetime(int(year), int(mounth), int(day), int(self.var.data_set[str(self.number_trade_now)]['time_on_work']), 0).timestamp())+int(G_var))+'000')
+                    else:
+                        P1_var = int(self.var.data_set[str(self.number_trade_now)]['time_off_work'])-Tn_var
+                        P2_var = 24 - int(self.var.data_set[str(self.number_trade_now)]['time_on_work'])+Tk_var
+            else:
+                if int(self.var.data_set[str(self.number_trade_now)]['time_on_work'])<int(self.var.data_set[str(self.number_trade_now)]['time_off_work']):
+                    if int(self.var.data_set[str(self.number_trade_now)]['time_off_work'])<=Tk_var:
+                        G_var = (int(self.var.data_set[str(self.number_trade_now)]['time_off_work'])-int(self.var.data_set[str(self.number_trade_now)]['time_on_work']))*60*60
+                        unix_start =int(str(datetime(int(year), int(mounth), int(day)+1, int(self.var.data_set[str(self.number_trade_now)]['time_on_work']), 0).timestamp())[:-2]+'000')
+                        unix_stop = int(str(int(datetime(int(year), int(mounth), int(day)+1, int(self.var.data_set[str(self.number_trade_now)]['time_on_work']), 0).timestamp())+int(G_var))+'000')
+                    else: 
+                        P1_var = int(self.var.data_set[str(self.number_trade_now)]['time_off_work'])-Tn_var
+                        P2_var = Tk_var-int(self.var.data_set[str(self.number_trade_now)]['time_on_work'])
+                else:
+                    P1_var = 24 - Tn_var+int(self.var.data_set[str(self.number_trade_now)]['time_off_work'])
+                    P2_var = Tk_var-int(self.var.data_set[str(self.number_trade_now)]['time_on_work'])
+            if P1_var!=-100 and P2_var!=-100:
+                if P1_var > P2_var:
+                    unix_start = int(df.open_time.iloc[0])
+                    unix_stop = int(str(int(unix_start/1000)+P1_var*60*60)+'000')
+                else:
+                    unix_start = int(str(int(df.open_time.iloc[-1]/1000)-P2_var*60*60)+'000')
+                    unix_stop = int(df.open_time.iloc[-1])
+            if unix_start<int(df.open_time.iloc[0]):unix_start = int(df.open_time.iloc[self.INDEX_START])
+            if unix_stop>int(df.open_time.iloc[-1]):unix_stop = int(df.open_time.iloc[-1])
+            start_index = df.index[df['open_time'] == unix_start].tolist()[0] # находим индексы старта и стопа
+            stop_index = df.index[df['open_time'] == unix_stop].tolist()[0] # находим индексы старта и стопа
+            for i in range(start_index):
+                data_numbers.append(i)
+            
+            
+            
+            # for index in range(self.var.VOLUME):
+            for index in range(start_index,stop_index,1):
                 change_pb(index/self.var.VOLUME) # прогрессбар
                 data_numbers.append(index) # добавляем в массив номера итераций - 0,1,2,3 - имитируем реальную торговлю
-                if index>self.INDEX_START: # начинаем не с нуля, а с 20-ой свечи
-                    self.trade_param['index_trade'] = index
-                    if self.trade_param['position'] == False: # если не стоим в позиции
-                        for coin in self.var.COINS:
-                            df = pd.read_csv(f'{path_svoboda_freym}\\{self.var.number_trade}\\work\\{coin}.csv') # получили датафрейм по монете из файла
-                            if len(df) != self.var.VOLUME : continue # если размер фрейма не совпадает с тем, который должен быть (фильтр от недавно залистенных монет)
-                            self.trade_param['coin'] = coin # монета, которую сейча срассматриваем
-                            self.trade_param['df_now_step'] = df.iloc[data_numbers] # фрейм по текущий шаг иетрации по текущей монете
-                            # ниже - если входим в диапазон по объёму
-                            if self.trade_param['df_now_step']['VOLUME'][index]*self.trade_param['df_now_step']['open'][index]>int(self.var.data_set[str(number_trade)]['diapazon_volume_min']) and self.trade_param['df_now_step']['VOLUME'][index]*self.trade_param['df_now_step']['open'][index]<int(self.var.data_set[str(number_trade)]['diapazon_volume_max']):
-                                self.check_signal = Check_if_signal(self.trade_param['df_now_step'],self.var.strategys,'much_set',number_trade)
-                                self.trend_mas = self.check_signal.work_strat_trade()
-                                self.trade_param['trend'] = self.count_result_trade(self.trend_mas,index) # получаем сигналы и тут же сортируем
-                                if self.trade_param['trend'] != 'no': # если есть сигнал, выходим из цикла
-                                    self.trade_param['index_entry'] = index
-                                    self.trade_param['price_treyd'] = self.trade_param['df_now_step']['close'][index]
-                                    self.trade_param['open_time_trade'] = self.trade_param['df_now_step']['open_time'][index]
-                                    self.trade_param['path_df'] = f'{path_svoboda_freym}\\{self.var.number_trade}\\work\\{coin}.csv'
-                                    self.open_position() # открываем позицию 
-                                    self.df_see = pd.read_csv(f'{path_svoboda_freym}\\{self.var.number_trade}\\see\\{coin}.csv')
-                                    # add_logi_trade(f'{index}|Сигнал {self.trade_param['trend']}, монета {coin}, цена входа - {self.trade_param['price_treyd']}')
-                                    # print(f'{self.number_trade_now}|{index} - СИГНАЛ!!!')
-                                    break
-                                # else: print(f'{self.number_trade_now}|{index} - Нет сигнала')
-                        # add_logi_trade(f'{index} Нет сигнала')
-                    else:
-                        try:
-                            self.trade_param['df_see'] = self.df_see.iloc[int(self.search_step_see(self.trade_param['index_trade'])):int(self.search_step_see(self.trade_param['index_trade'])+self.trade_param['timeframe'])] # получили датафрейм мини из файла
-                        except Exception as e:
-                            pass
-            #                 add_logi_trade(f'{index}| Закончили торговлю')
-            #                 print(f'Находимся в конце фрейма, не успеваем выйти из сделки - {e}')
-                        # print(f'{self.number_trade_now}|{index} - В сделке')
-                        for nonindex, row in self.trade_param['df_see'].iterrows():
-                            self.trade_param['close_time_trade'] = int(row['open_time'])
-                            # print(f'{self.number_trade_now} | {index} В сделке | вход={self.trade_param['price_treyd']} | сейчас={row['close']} | TP={self.trade_param['take_profit_price']} | SL={self.trade_param['stop_loss_price']} ')
-                            if self.check_trade(row['close'],self.var.COMMISSION_MAKER,self.var.COMMISSION_TAKER,self.var.data_set[str(self.number_trade_now)]['diapazon_tp'],self.var.data_set[str(self.number_trade_now)]['diapazon_sl'],self.var.data_set[str(self.number_trade_now)]['leveradg']):
-                                # if self.local_profit>0: add_logi_trade(f'{index}|Вышли из сделки, депозит - {self.DEPOSIT_GLOBAL}, профит {self.local_profit}')
-            #                     else: add_logi_trade(f'{index}|Вышли из сделки, депозит - {self.DEPOSIT_GLOBAL}, убыток {self.local_profit}')
-                                # print(f'{self.number_trade_now} Вышли из сделки - {self.trade_param['index_exit']}')
-                                break # чекаем монету по шагам итерации между большим и мальеньким фреймомd
-            #                 else: add_logi_trade(f'{index}|Стоим в сделке')
+                # if index>self.INDEX_START: # начинаем не с нуля, а с 20-ой свечи
+                self.trade_param['index_trade'] = index
+                if self.trade_param['position'] == False: # если не стоим в позиции
+                    for coin in self.var.COINS:
+                        df = pd.read_csv(f'{path_svoboda_freym}\\{self.var.number_trade}\\work\\{coin}.csv') # получили датафрейм по монете из файла
+                        if len(df) != self.var.VOLUME : continue # если размер фрейма не совпадает с тем, который должен быть (фильтр от недавно залистенных монет)
+                        self.trade_param['coin'] = coin # монета, которую сейча срассматриваем
+                        self.trade_param['df_now_step'] = df.iloc[data_numbers] # фрейм по текущий шаг иетрации по текущей монете
+                        # ниже - если входим в диапазон по объёму
+                        if self.trade_param['df_now_step']['VOLUME'][index]*self.trade_param['df_now_step']['open'][index]>int(self.var.data_set[str(number_trade)]['diapazon_volume_min']) and self.trade_param['df_now_step']['VOLUME'][index]*self.trade_param['df_now_step']['open'][index]<int(self.var.data_set[str(number_trade)]['diapazon_volume_max']):
+                            self.check_signal = Check_if_signal(self.trade_param['df_now_step'],self.var.strategys,'much_set',number_trade)
+                            self.trend_mas = self.check_signal.work_strat_trade()
+                            self.trade_param['trend'] = self.count_result_trade(self.trend_mas,index) # получаем сигналы и тут же сортируем
+                            if self.trade_param['trend'] != 'no': # если есть сигнал, выходим из цикла
+                                self.trade_param['index_entry'] = index
+                                self.trade_param['price_treyd'] = self.trade_param['df_now_step']['close'][index]
+                                self.trade_param['open_time_trade'] = self.trade_param['df_now_step']['open_time'][index]
+                                self.trade_param['path_df'] = f'{path_svoboda_freym}\\{self.var.number_trade}\\work\\{coin}.csv'
+                                self.open_position() # открываем позицию 
+                                self.df_see = pd.read_csv(f'{path_svoboda_freym}\\{self.var.number_trade}\\see\\{coin}.csv')
+                                # add_logi_trade(f'{index}|Сигнал {self.trade_param['trend']}, монета {coin}, цена входа - {self.trade_param['price_treyd']}')
+                                # print(f'{self.number_trade_now}|{index} - СИГНАЛ!!!')
+                                break
+                            # else: print(f'{self.number_trade_now}|{index} - Нет сигнала')
+                    # add_logi_trade(f'{index} Нет сигнала')
+                else:
+                    try:
+                        self.trade_param['df_see'] = self.df_see.iloc[int(self.search_step_see(self.trade_param['index_trade'])):int(self.search_step_see(self.trade_param['index_trade'])+self.trade_param['timeframe'])] # получили датафрейм мини из файла
+                    except Exception as e:
+                        pass
+            #                add_logi_trade(f'{index}| Закончили торговлю')
+            #                print(f'Находимся в конце фрейма, не успеваем выйти из сделки - {e}')
+                    # print(f'{self.number_trade_now}|{index} - В сделке')
+                    for nonindex, row in self.trade_param['df_see'].iterrows():
+                        self.trade_param['close_time_trade'] = int(row['open_time'])
+                        # print(f'{self.number_trade_now} | {index} В сделке | вход={self.trade_param['price_treyd']} | сейчас={row['close']} | TP={self.trade_param['take_profit_price']} | SL={self.trade_param['stop_loss_price']} ')
+                        if self.check_trade(row['close'],self.var.COMMISSION_MAKER,self.var.COMMISSION_TAKER,self.var.data_set[str(self.number_trade_now)]['diapazon_tp'],self.var.data_set[str(self.number_trade_now)]['diapazon_sl'],self.var.data_set[str(self.number_trade_now)]['leveradg']):
+                            # if self.local_profit>0: add_logi_trade(f'{index}|Вышли из сделки, депозит - {self.DEPOSIT_GLOBAL}, профит {self.local_profit}')
+            #                    else: add_logi_trade(f'{index}|Вышли из сделки, депозит - {self.DEPOSIT_GLOBAL}, убыток {self.local_profit}')
+                            # print(f'{self.number_trade_now} Вышли из сделки - {self.trade_param['index_exit']}')
+                            break # чекаем монету по шагам итерации между большим и мальеньким фреймомd
+            #                else: add_logi_trade(f'{index}|Стоим в сделке')
                 self.print_file_log(f'{index}|{self.DEPOSIT_GLOBAL}|{self.trend_mas}|{self.trade_param['trend']}|{self.trade_param['coin']}|{self.trade_param['open_time_trade']}\n',self.path_save_log)
             # add_logi_trade(f'Закончили торговлю')
             # print_trade_end()

@@ -3,7 +3,7 @@ from variable import *
 from imports import *
 
 
-# основные настройки лежат здесь
+# основные настройки лежат здесь1
 
 # вытаскиваем название стратегии
 # # настройки стратегий лежат здесб
@@ -11,7 +11,45 @@ def def_print_set_settings(number_folder):
 
     name_strat = {
         'one':'Канал, тренд, локаль, объём',
-        'MA':'Скользящие средние'
+        'MA':'Скользящие средние',
+        'BBANDS':'Полосы Боллинджера',
+        'EMA':'Эксп скользящая средняя',
+        'DEMA':'Двойная эксп скользящая средняя',
+        'KAMA':'Адаптивная скользящая Кауфмана',
+        'MAVP':'Сколь средняя с пер периодом',
+        'SAR':'Параболический SAR',
+        'TEMA':'Тройная эксп сколь средняя',
+        'TRIMA':'Треугольная скользящая средняя',
+        'WMA':'Взвешенная скользящая средняя',
+        'CDL2CROWS':'Две вороны',
+        'CDL3BLACKCROWS':'Три черных ворона',
+        'CDL3INSIDE':'Три внутри Вверх / вниз',
+        'CDL3LINESTRIKE':'Трехстрочный удар',
+        'CDL3OUTSIDE':'Три внешних элемента Вверх / вниз',
+        'CDL3STARSINSOUTH':'Три звезды на юге',
+        'CDL3WHITESOLDIERS':'Трое наступающих белых солдат',
+        'CDLABANDONEDBABY':'Брошенный ребенок',
+        'CDLADVANCEBLOCK':'Предварительный блок',
+        'CDLBELTHOLD':'Удержание за ремень',
+        'CDLCLOSINGMARUBOZU':'Marubozu',
+        'CDLCOUNTERATTACK':'Контратака',
+        'CDLDARKCLOUDCOVER':'Темный облачный покров',
+        'CDLENGULFING':'шаблон поглощения',
+        'CDLEVENINGDOJISTAR':'Вечерняя звезда Доджи',
+        'CDLGRAVESTONEDOJI':'Надгробный камень Доджи',
+        'CDLHAMMER':'Молоток',
+        'CDLHANGINGMAN':'Висельник',
+        'CDLHARAMI':'шаблон Харами',
+        'CDLHARAMICROSS':'Шаблон пересечения Харами',
+        'CDLHOMINGPIGEON':'Почтовый голубь',
+        'CDLINVERTEDHAMMER':'Перевернутый молоток',
+        'CDLLADDERBOTTOM':'Основание лестницы',
+        'CDLLONGLEGGEDDOJI':'Длинноногий доджи',
+        'CDLMATCHINGLOW':'низкий уровень соответствия',
+        'CDLMORNINGSTAR':'Утренняя звезда',
+        'CDLRICKSHAWMAN':'рикша',
+        'CDLSPINNINGTOP':'Волчок',
+        'CDLTASUKIGAP':'разрыв Тасуки',
     }
     strat_mas = []
     # вытаскиваем название стратегии
@@ -27,10 +65,6 @@ def def_print_set_settings(number_folder):
                 array_data_row = [row.strip() for row in file]
                 # print(array_data_row)
         if strat_mas[0] == 'one':
-
-            
-            # array_data_row[0].strip('&')[]
-
             strat_set_print = ft.Container(ft.Column(controls=[
                 ft.Text(f'Верх канала - {array_data_row[0].split('&')[0]}',size=12),
                 ft.Text(f'Низ канала - {array_data_row[0].split('&')[1]}',size=12),
@@ -45,6 +79,199 @@ def def_print_set_settings(number_folder):
                 ft.Text(f'Прижатие к верху коридора - {array_data_row[0].split('&')[3]}',size=12),
                 ft.Text(f'Прижатие к низу коридора - {array_data_row[0].split('&')[4]}',size=12),
             ]))
+        elif strat_mas[0] == 'BBANDS':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Отклонение для установки верхней полосы - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[1]}',size=12),
+                ft.Text(f'Отклонение для установки нижней полосы - {array_data_row[0].split('&')[2]}',size=12),
+                ft.Text(f'Тип движущейся средней - {array_data_row[0].split('&')[3]}',size=12),
+            ]))
+        elif strat_mas[0] == 'EMA':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[0]}',size=12),
+            ]))
+        elif strat_mas[0] == 'DEMA':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[0]}',size=12),
+            ]))
+        elif strat_mas[0] == 'KAMA':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[0]}',size=12),
+            ]))
+        elif strat_mas[0] == 'MAVP':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Минимальный период - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Максимальный период - {array_data_row[0].split('&')[1]}',size=12),
+                ft.Text(f'Тип скользящей средней - {array_data_row[0].split('&')[2]}',size=12),
+            ]))
+        elif strat_mas[0] == 'SAR':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Ускорение - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Максимум - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'TEMA':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[0]}',size=12),
+            ]))
+        elif strat_mas[0] == 'TRIMA':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[0]}',size=12),
+            ]))
+        elif strat_mas[0] == 'WMA':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[0]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDL2CROWS':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDL3BLACKCROWS':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDL3INSIDE':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDL3LINESTRIKE':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDL3OUTSIDE':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDL3STARSINSOUTH':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDL3WHITESOLDIERS':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Временной промежуток - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLABANDONEDBABY':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент проникновения одной свечи внутри другой свечи - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[1]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[2]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLADVANCEBLOCK':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLBELTHOLD':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLCLOSINGMARUBOZU':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLCOUNTERATTACK':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLDARKCLOUDCOVER':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент проникновения одной свечи внутри другой свечи - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[1]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[2]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLENGULFING':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLEVENINGDOJISTAR':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент проникновения одной свечи внутри другой свечи - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[1]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[2]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLGRAVESTONEDOJI':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLHAMMER':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLHANGINGMAN':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLHARAMI':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLHARAMICROSS':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLHOMINGPIGEON':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLINVERTEDHAMMER':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLLADDERBOTTOM':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLLONGLEGGEDDOJI':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLMATCHINGLOW':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLMORNINGSTAR':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент проникновения одной свечи внутри другой свечи - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[1]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[2]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLRICKSHAWMAN':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLSPINNINGTOP':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+        elif strat_mas[0] == 'CDLTASUKIGAP':
+            strat_set_print = ft.Container(ft.Column(controls=[
+                ft.Text(f'Процент сигнала в лонг - {array_data_row[0].split('&')[0]}',size=12),
+                ft.Text(f'Процент сигнала в шорт - {array_data_row[0].split('&')[1]}',size=12),
+            ]))
+            
+            
         else:
             strat_set_print = ft.Container(ft.Text('Потом доработать отрисовку множественной стратегии istoriya_treyd_page/UI/trade_page/data_settings'))
 

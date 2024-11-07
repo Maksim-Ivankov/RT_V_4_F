@@ -91,6 +91,12 @@ class HisTrade_Svoboda_OneSettings():
         "объем торгов за свечку макс"
         self.COINS = config.get('param_trade_historical_trade_svobodniy_freym', 'coins_trade').split('|') # монеты для торговли
         "монеты для торговли"
+        self.change_time_settings = config.get('param_trade_historical_trade_svobodniy_freym', 'change_time_settings') # работает или нет функция торговли по времени
+        "1 - работает функция торговли по времени | 0 - не работает функция торговли по времени"
+        self.time_on_work = config.get('param_trade_historical_trade_svobodniy_freym', 'time_on_work') # Во сколько часов начать торговлю
+        "Во сколько часов начать торговлю"
+        self.time_off_work = config.get('param_trade_historical_trade_svobodniy_freym', 'time_off_work') # Во сколько часов выключить торговлю
+        "Во сколько часов выключить торговлю"
         if config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost') == 'True':
             self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')) # номер папки с датафеймами в хранилище
             "номер папки с датафеймами в хранилище"
@@ -129,7 +135,10 @@ class HisTrade_Svoboda_OneSettings():
                    config.get('param_trade_historical_trade_svobodniy_freym', 'sl')+'&'+
                    config.get('param_trade_historical_trade_svobodniy_freym', 'volume_min')+'&'+
                    config.get('param_trade_historical_trade_svobodniy_freym', 'volume_max')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'strategys') 
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'strategys') +'&'+
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'change_time_settings') +'&'+
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'time_on_work') +'&'+
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'time_off_work')
         )
         file.close()
         self.strategys = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
@@ -224,6 +233,7 @@ class HisTrade_Svoboda_SetSettings():
             "номер папки с датафеймами в хранилище"
 
 
+
         config_set = configparser.ConfigParser()  
         config_set.read(path_ini_general_set)
         count_set_trade = len(config_set.sections()) # например, 3
@@ -238,6 +248,8 @@ class HisTrade_Svoboda_SetSettings():
                 'diapazon_sl': float(config_set.get(f'{str(i)}_section', 'diapazon_sl'))/100,
                 'diapazon_volume_min': float(config_set.get(f'{str(i)}_section', 'diapazon_volume_min')),
                 'diapazon_volume_max': float(config_set.get(f'{str(i)}_section', 'diapazon_volume_max')),
+                'time_on_work': float(config_set.get(f'{str(i)}_section', 'start_time')),
+                'time_off_work': float(config_set.get(f'{str(i)}_section', 'stop_time')),
             }
         self.strategys = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
         "Стратегии торговли в массиве"
