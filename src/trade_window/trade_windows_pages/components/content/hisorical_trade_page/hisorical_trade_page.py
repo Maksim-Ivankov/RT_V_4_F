@@ -7,7 +7,6 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.ferst_page import Ferst_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.historical_trade_page import Historical_trade_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.svoboda_freym_page import Svoboda_freym_page
-from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.tred_so_smeseniem_page import Tred_so_smeseniem_page
 
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_coin.page_last_data.page_last_data import Page_last_data
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.settings_robot_page.settings_robot_page import Settings_robot_page
@@ -23,8 +22,8 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 class Hisorical_trade_page(ft.UserControl):
     def __init__(self,page):
         super().__init__()
-        # self.ferst_page = 'Первая'
-        self.ferst_page = 'Выбрать стратегию торговли'
+        self.ferst_page = 'Первая'
+        # self.ferst_page = 'Выбрать стратегию торговли'
         self.page = page
 
     def print_page(self,page):
@@ -33,7 +32,6 @@ class Hisorical_trade_page(ft.UserControl):
             'Первая':Ferst_page(self.change_page),
             'Историческая торговля':Historical_trade_page(self.change_page),
             'Свободный фрейм':Svoboda_freym_page(self.change_page,self.page),
-            'Торговля со смещением':Tred_so_smeseniem_page(self.change_page),
             'Хранилище торговых данных':Page_last_data(self.change_page),
             'Настройки робота':Settings_robot_page(self.change_page),
             'Выбрать стратегию торговли':Change_strategy_trade_page(self.change_page),
@@ -51,7 +49,6 @@ class Hisorical_trade_page(ft.UserControl):
             'Первая':'Торговля по историческим данным',
             'Историческая торговля':'Торговля по историческим данным | Историческая торговля',
             'Свободный фрейм':'Торговля по историческим данным | Свободный фрейм',
-            'Торговля со смещением':'Торговля по историческим данным | Торговля со смещением',
             'Хранилище торговых данных':'Хранилище торговых данных',
             'Настройки робота':'Торговля по историческим данным | Настройки робота',
             'Выбрать стратегию торговли':'Торговля по историческим данным | Выбор стратегии торговли',
