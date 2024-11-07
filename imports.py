@@ -21,6 +21,8 @@ import flet.canvas as cv
 import math
 from datetime import datetime
 import mplfinance as mpf
+import talib as ta
+from talib import abstract
 
 import numpy as np
 

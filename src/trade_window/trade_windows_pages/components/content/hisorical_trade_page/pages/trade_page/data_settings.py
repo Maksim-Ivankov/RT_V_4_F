@@ -38,7 +38,7 @@ from imports import *
 #     if len(mas_strat_siroy) != count_strat:
 #         strat_elements.append(ft.Container(width=350,height=1,bgcolor=c_white))
     
-# ----------------------------------------
+# ----------------------------------------11
 
 # возвращает общие настройки проги для отрисовки в блоке
 def print_our_settings():
