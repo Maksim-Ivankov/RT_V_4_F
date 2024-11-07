@@ -22,8 +22,8 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 class Hisorical_trade_page(ft.UserControl):
     def __init__(self,page):
         super().__init__()
-        self.ferst_page = 'Первая'
-        # self.ferst_page = 'Выбрать стратегию торговли'
+        # self.ferst_page = 'Первая'
+        self.ferst_page = 'Настройки робота'
         self.page = page
 
     def print_page(self,page):
@@ -48,7 +48,7 @@ class Hisorical_trade_page(ft.UserControl):
         title_list={
             'Первая':'Торговля по историческим данным',
             'Историческая торговля':'Торговля по историческим данным | Историческая торговля',
-            'Свободный фрейм':'Торговля по историческим данным | Свободный фрейм',
+            'Свободный фрейм':'Торговля по историческим данным | Дневная торговля',
             'Хранилище торговых данных':'Хранилище торговых данных',
             'Настройки робота':'Торговля по историческим данным | Настройки робота',
             'Выбрать стратегию торговли':'Торговля по историческим данным | Выбор стратегии торговли',
