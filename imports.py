@@ -23,6 +23,7 @@ from datetime import datetime
 import mplfinance as mpf
 import talib as ta
 from talib import abstract
+import ast # для преобразования строки словаря в словарь
 
 import numpy as np
 

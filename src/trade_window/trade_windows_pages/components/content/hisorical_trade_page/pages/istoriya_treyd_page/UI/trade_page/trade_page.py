@@ -2,17 +2,19 @@
 import flet as ft
 from variable import *
 from imports import *
-
+#1
 # from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.UI.table_trade.table_trade import Table_trade
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.UI.trade_page.data_settings import def_print_our_settings,def_print_set_settings,def_print_log,def_print_trade
-
+from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.graph_dohod.graph_dohod import Graph_dohod
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.graph_trade.graph_trade import Graph_trade
 
 class Trade_page(ft.UserControl):
-    def __init__(self,number_folder):
+    def __init__(self,number_folder,change_page):
         super().__init__()
         self.number_folder = number_folder
+        self.change_page = change_page
+        Save_config('param_trade_historical_trade_svobodniy_freym',{'now_trade':f'[{number_folder}]'})
         # self.colback = colback111
         self.number_trade = 0
         self.change_trade_from_table = ''
@@ -163,7 +165,7 @@ class Trade_page(ft.UserControl):
                                                     ft.Container(
                                                         ft.Row(controls=[
                                                             # ft.Container(ft.ElevatedButton(content = ft.Text('Назад к результатам торговли',size=12,),on_click=self.back_trade_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,margin=7,height=30),
-                                                            ft.Container(ft.ElevatedButton(content = ft.Text('Добавить стартегию в избранное',size=12,),data='Добавить в избранное',bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                                            ft.Container(ft.ElevatedButton(content = ft.Text('Добавить стартегию в избранное',size=12,),data={'page':'Добавить в избранное','place':'История торговли'},on_click=self.change_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
                                                         ]),width=240),alignment=ft.alignment.center),height=60,margin=ft.margin.only(top=-14,left=-10,right=-10,bottom=0)      
                                             ),
                                             # ft.Container(
@@ -180,19 +182,18 @@ class Trade_page(ft.UserControl):
                                             ft.Column(controls=[
                                                 ft.Column(
                                                     controls=[
+                                                        ft.Container(ft.Container(ft.Text('Общие настройки робота',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
                                                         ft.Container(
-                                                            ft.Container(ft.Text('Общие настройки робота',color=c_blue,),bgcolor=c_yelow,padding=5,margin=ft.margin.only(bottom=-10),border=ft.border.all(1,c_white))),
                                                             ft.Container(
-                                                                ft.Container(
-                                                                    def_print_our_settings(self.number_folder),
-                                                                    width=500,
-                                                                    height=148,
-                                                                    border = ft.border.all(1, c_white),
-                                                                    bgcolor=c_blue,
-                                                                ),
+                                                                def_print_our_settings(self.number_folder),
                                                                 width=500,
-                                                                height = 148,
-                                                                padding=ft.padding.only(left=-1,top=-1,bottom=-1)
+                                                                height=148,
+                                                                border = ft.border.all(1, c_white),
+                                                                bgcolor=c_blue,
+                                                            ),
+                                                            width=500,
+                                                            height = 148,
+                                                            padding=ft.padding.only(left=-1,top=-1,bottom=-1)
 
                                         )]),])),width=500,),
                                         ft.Container(

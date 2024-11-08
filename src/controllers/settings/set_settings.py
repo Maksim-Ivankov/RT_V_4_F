@@ -154,7 +154,7 @@ class HisTrade_Svoboda_OneSettings():
             file_strat.write(str_set)
             file_strat.close()
         
-
+#1
 
 
 class HisTrade_Svoboda_SetSettings():

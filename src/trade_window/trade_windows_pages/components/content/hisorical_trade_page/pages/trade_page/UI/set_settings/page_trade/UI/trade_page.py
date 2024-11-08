@@ -5,7 +5,7 @@ from imports import *
 
 # from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.UI.table_trade.table_trade import Table_trade
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.page_trade.UI.data_settings import def_print_our_settings,def_print_set_settings,def_print_log,def_print_trade
-
+from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.graph_dohod.graph_dohod import Graph_dohod
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.graph_trade.graph_trade import Graph_trade
 
@@ -14,6 +14,7 @@ class Trade_page(ft.UserControl):
         super().__init__()
         self.number_trade_folder = number_trade_folder
         self.number_folder = number_folder
+        Save_config('param_trade_historical_trade_svobodniy_freym',{'now_trade':f'[{number_folder},{number_trade_folder}]'})
         self.strategy_now = strategy_now
         self.number_trade = 0
         self.change_trade_from_table = ''

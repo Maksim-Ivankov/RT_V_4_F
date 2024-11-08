@@ -25,7 +25,7 @@ class Result_trqade_page(ft.UserControl):
                             ft.Container(
                                 ft.Row(controls=[
                                     ft.Container(ft.ElevatedButton(content = ft.Text('Назад к результатам торговли',size=12,),on_click=self.back_trade_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,margin=7,height=30),
-                                    ft.Container(ft.ElevatedButton(content = ft.Text('Добавить стратегию в избранное',size=12,),data='Добавить в избранное',on_click=self.change_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                    ft.Container(ft.ElevatedButton(content = ft.Text('Добавить стратегию в избранное',size=12,),data={'page':'Добавить в избранное','place':'Торговля на сете настроек'},on_click=self.change_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
                                 ]),width=495),alignment=ft.alignment.center),height=60,margin=ft.margin.only(top=-14,left=-10,right=-10,bottom=-14),      
                     ),
                     # ft.Container(
@@ -49,7 +49,7 @@ class Result_trqade_page(ft.UserControl):
                             ft.Container(
                                 ft.Row(controls=[
                                     ft.Container(ft.ElevatedButton(content = ft.Text('Назад к результатам торговли',size=12,),on_click=self.back_trade_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,margin=7,height=30),
-                                    ft.Container(ft.ElevatedButton(content = ft.Text('Добавить стратегию в избранное',size=12,),data='Добавить в избранное',on_click=self.change_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                    ft.Container(ft.ElevatedButton(content = ft.Text('Добавить стратегию в избранное',size=12,),data={'page':'Добавить в избранное','place':'История торговли - из сета'},on_click=self.change_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
                                 ]),width=495),alignment=ft.alignment.center),height=60,margin=ft.margin.only(top=-4,left=-10,right=-10,bottom=-7),      
                     ),
                     # ft.Container(
@@ -61,7 +61,7 @@ class Result_trqade_page(ft.UserControl):
             
         )
              
-             
+             #111
              
         self.ferst_page = ft.Container(
             ft.Container(
