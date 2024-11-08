@@ -207,9 +207,9 @@ class Trade_page(ft.UserControl):#1
     # Добавляем кнопку - добавить в избранное на страницу
     def add_btn_add_favorites(self):
         Save_config('param_trade_historical_trade_svobodniy_freym',{'now_trade':f'[{len(os.listdir(path_save_trade))}]'})
-        self.controls[0].content.content.content.controls[2].content.content.controls.append(ft.Container(ft.ElevatedButton(content = ft.Text('Добавить в избранное',size=12,),data='Добавить в избранное',on_click=self.change_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30))
+        self.controls[0].content.content.content.controls[2].content.content.controls.append(ft.Container(ft.ElevatedButton(content = ft.Text('Добавить стратегию в избранное',size=12,),data='Добавить в избранное',on_click=self.change_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30))
         self.controls[0].content.content.content.controls[2].content.padding = ft.padding.only(left=220,top=10)
-        self.controls[0].content.content.content.controls[2].width = 720
+        self.controls[0].content.content.content.controls[2].width = 770
         self.update()
         # print(self.controls[0].content.content.content.controls[2].content.content.controls)
 

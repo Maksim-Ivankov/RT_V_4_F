@@ -13,7 +13,7 @@ class Trade_page(ft.UserControl):
     def __init__(self,number_folder):
         super().__init__()
         self.number_folder = number_folder
-        # self.colback = colback
+        # self.colback = colback111
         self.number_trade = 0
         self.change_trade_from_table = ''
         self.state_graph_btn = 'graph_1'
@@ -155,6 +155,25 @@ class Trade_page(ft.UserControl):
     def build(self):
         self.content = ft.Column(controls=[
                                 # ft.Container(ft.Text('Проверьте настройки и запустите торговлю',size=12,color=c_white,text_align='center'),padding=ft.padding.only(left=320)),
+                                ft.Container(
+                                    ft.Column(
+                                        controls=[
+                                            ft.Container(
+                                                ft.Container(
+                                                    ft.Container(
+                                                        ft.Row(controls=[
+                                                            # ft.Container(ft.ElevatedButton(content = ft.Text('Назад к результатам торговли',size=12,),on_click=self.back_trade_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,margin=7,height=30),
+                                                            ft.Container(ft.ElevatedButton(content = ft.Text('Добавить стартегию в избранное',size=12,),data='Добавить в избранное',bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                                        ]),width=240),alignment=ft.alignment.center),height=60,margin=ft.margin.only(top=-14,left=-10,right=-10,bottom=0)      
+                                            ),
+                                            # ft.Container(
+                                            #     ft.Container(alignment=ft.alignment.center),height=1,bgcolor=c_white,margin=ft.margin.only(top=2,left=-10,right=-10),      
+                                            # ),
+
+                                        ]
+                                    ),expand=2
+
+                                ),
                                 ft.Container(
                                     ft.Row(controls=[
                                         ft.Container(ft.Container(

@@ -65,7 +65,7 @@ def One_settings_def(print_our_settings,print_set_settings,change_page,start_tra
                     ft.Container(ft.ElevatedButton(content = ft.Text('Запустить торговлю',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=start_trade,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
                 ]),padding=ft.padding.only(left=320,top=10)
                 ),
-                width=500,
+                width=500
             ),
         ],scroll=ft.ScrollMode.ALWAYS,data='lol')
     
