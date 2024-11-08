@@ -57,6 +57,9 @@ class Add_to_favorites_page(ft.UserControl):
         'CDLSPINNINGTOP':'Волчок',
         'CDLTASUKIGAP':'разрыв Тасуки',
         }
+        self.input_name_strat_value = ''
+        self.input_description_strat_value = 'Хорошие результаты. Тестировать'
+        self.flag_dublicate = 0
         
 # Функция добавляет общие настройки из торговли по одной нсатройке
     def def_print_our_settings(self,number_folder):
@@ -140,7 +143,6 @@ class Add_to_favorites_page(ft.UserControl):
             if os.path.isfile(folder_strat):
                 with open(folder_strat) as file:
                     array_data_row = [row.strip() for row in file]
-                    # print(array_data_row)
             if strat_mas[0] == 'one':
                 strat_set_print = ft.Container(ft.Column(controls=[
                     ft.Text(f'Верх канала - {array_data_row[0].split('&')[0]}',size=12),
@@ -377,45 +379,221 @@ class Add_to_favorites_page(ft.UserControl):
         )
         return print_set_settings
 
+    # Обработка инпута имся
     def input_name_strat(self,e):
-       print(e.control.value)
-    #    Save_config('param_trade_historical_trade_svobodniy_freym',{'strat_BBANDS_nbdevup':str(e.control.value)})
+       self.input_name_strat_value = e.control.value
     
+    # обработка инпута описание
     def input_description_strat(self,e):
-       print(e.control.value)
-    #    Save_config('param_trade_historical_trade_svobodniy_freym',{'strat_BBANDS_nbdevup':str(e.control.value)})
+       self.input_description_strat_value = e.control.value
+
+    def dublicate_strat(self,status,number_same_strat):
+        self.controls[0].content.content.content.controls[1].content.controls[2].content.value = f'{status} № {str(number_same_strat)}'
+        self.update()
+
+    def save_to_favorites(self,e):
+        if len(os.listdir(path_favorites)) == 0:
+            self.path_folder_favorites = f'{path_favorites}\\1'
+        else:
+            self.path_folder_favorites = f'{path_favorites}\\{len(os.listdir(path_favorites))+1}'
+        if len(self.folder_trade) == 1: # если в массиве одно число, значит торговля на одной настройке
+            # блок поиска дубликатов тсратегий
+            #--------------------------------
+            if len(os.listdir(path_favorites))>1: # если сохранено больше одной стратегии
+                # print(path_favorites)
+                for i in os.listdir(path_favorites): # итерируемся по папкам с сохранененными стратегиями
+                    if os.path.isfile(f'{path_save_trade}\\{self.folder_trade[0]}\\settings_our.txt'):
+                        with open(f'{path_save_trade}\\{self.folder_trade[0]}\\settings_our.txt') as file: # открываем настройки стратегии, которую хотим сохранить
+                            array_data_1 = [row.strip() for row in file]
+                    if os.path.isfile(f'{path_favorites}\\{i}\\settings_our.txt'):
+                        with open(f'{path_favorites}\\{i}\\settings_our.txt') as file: # открываем настройки стратегии, которую хотим сохранить
+                            array_data_2 = [row.strip() for row in file]
+                    if array_data_1==array_data_2:
+                        self.dublicate_strat('Совпадают настройки стратегий',i)
+                        self.flag_dublicate = 1
+                        break
+            # создаем номерную папку в фаворитах
+            os.mkdir(self.path_folder_favorites)
+            # создаем папку folder_trade внутри созданной папки избранной стратегии
+            os.mkdir(f'{self.path_folder_favorites}\\folder_trade')
+            self.path_folder_favorites_number_trade = f'{self.path_folder_favorites}\\folder_trade\\1'
+            os.mkdir(self.path_folder_favorites_number_trade)
+            if self.flag_dublicate==0:
+                # копируем settings_our.txt из трейда в избранное
+                shutil.copy(
+                    os.path.join(f'{path_save_trade}\\{self.folder_trade[0]}', 'settings_our.txt'),
+                    os.path.join(f'{self.path_folder_favorites}') # путь сохранения 
+                )
+                # получаем стратегию торговли
+                path_settings = f'{self.path_folder_favorites}\\settings_our.txt'
+                if os.path.isfile(path_settings):
+                    with open(path_settings) as file:
+                        array_data_row = [row.strip() for row in file]
+                        strategys_data = literal_eval(array_data_row[0].split('&')[22]) # ['MA']
+                # копируем файлы с настройками стратегии торговли
+                for i in strategys_data:
+                    shutil.copy(
+                        os.path.join(f'{path_save_trade}\\{self.folder_trade[0]}', f'{i}.txt'),
+                        os.path.join(f'{self.path_folder_favorites}') # путь сохранения 
+                    )
+                # копируем данные трейда
+                shutil.copy(
+                os.path.join(f'{path_save_trade}\\{self.folder_trade[0]}', 'log_trade.txt'),
+                os.path.join(f'{self.path_folder_favorites_number_trade}') # путь сохранения 
+                )
+                shutil.copy(
+                os.path.join(f'{path_save_trade}\\{self.folder_trade[0]}', 'trade.txt'),
+                os.path.join(f'{self.path_folder_favorites_number_trade}') # путь сохранения 
+                )
+                if self.input_name_strat_value=='':self.input_name_strat_value=self.name_strat_favorites
+                file = open(f'{self.path_folder_favorites}\\property.txt', 'a')
+                file.write(f'{self.input_name_strat_value}\n{self.input_description_strat_value}')
+                file.close()
+                
+        if len(self.folder_trade) == 2:
+            # блок поиска дубликатов тсратегий
+            #--------------------------------
+            if len(os.listdir(path_favorites))>1: # если сохранено больше одной стратегии
+                array_data_2 = self.get_settings_set_real(self.folder_trade[0],self.folder_trade[1])
+                for i in os.listdir(path_favorites): # итерируемся по папкам с сохранененными стратегиями
+                    print(f'{path_favorites}\\{i}\\settings_our.txt')
+                    if os.path.isfile(f'{path_favorites}\\{i}\\settings_our.txt'):
+                        with open(f'{path_favorites}\\{i}\\settings_our.txt') as file: # открываем настройки стратегии, которую хотим сохранить
+                            array_data_1 = [row.strip() for row in file]
+                    print(array_data_1)
+                    array_data_01 = array_data_1[0].split('&')
+                    print(f'{i} - {array_data_01==array_data_2}')
+                    print(f'{i} - {array_data_01}')
+                    print(f'{i} - {array_data_2}')
+                    if array_data_01==array_data_2:
+                        self.dublicate_strat('Совпадают настройки стратегий',i)
+                        self.flag_dublicate = 1
+                        break
+            # создаем номерную папку в фаворитах
+            os.mkdir(self.path_folder_favorites)
+            # создаем папку folder_trade внутри созданной папки избранной стратегии
+            os.mkdir(f'{self.path_folder_favorites}\\folder_trade')
+            self.path_folder_favorites_number_trade = f'{self.path_folder_favorites}\\folder_trade\\1'
+            os.mkdir(self.path_folder_favorites_number_trade)
+            if self.flag_dublicate==0:
+                # копируем settings_our.txt из трейда в избранное
+                file = open(f'{self.path_folder_favorites}\\settings_our.txt', 'a')
+                file.write(self.convert_mas_to_str(array_data_2))
+                file.close()
+                # копируем файлы с настройками стратегии торговли
+                for i in literal_eval(array_data_2[22]):
+                    config_set_54 = configparser.ConfigParser()  
+                    config_set_54.read(f'{path_save_trade}\\{self.folder_trade[0]}\\{i}_set.ini')
+                    deposit_data = config_set_54.items(f'{self.folder_trade[1]}_section')
+                    # print(deposit_data[1][1])
+                    stroka_strategy_settings = ''
+                    for j in deposit_data:
+                        if j!=deposit_data[-1]:stroka_strategy_settings = stroka_strategy_settings + str(j[1]) + '&'
+                        else: stroka_strategy_settings = stroka_strategy_settings + str(j[1])
+                    file = open(f'{self.path_folder_favorites}\\{i}.txt', 'a')
+                    file.write(stroka_strategy_settings)
+                    file.close()
+
+                # копируем данные трейда
+                shutil.copy(
+                    os.path.join(f'{path_save_trade}\\{self.folder_trade[0]}\\folder_trade\\{self.folder_trade[1]}', 'log_trade.txt'),
+                    os.path.join(f'{self.path_folder_favorites_number_trade}') # путь сохранения 
+                )
+                shutil.copy(
+                    os.path.join(f'{path_save_trade}\\{self.folder_trade[0]}\\folder_trade\\{self.folder_trade[1]}', 'trade.txt'),
+                    os.path.join(f'{self.path_folder_favorites_number_trade}') # путь сохранения 
+                )
+                if self.input_name_strat_value=='':self.input_name_strat_value=self.name_strat_favorites
+                file = open(f'{self.path_folder_favorites}\\property.txt', 'a')
+                file.write(f'{self.input_name_strat_value}\n{self.input_description_strat_value}')
+                file.close()
+
+
+
+                    
+    # конвертируем массив с параметрами в строку          
+    def convert_mas_to_str(self,mas):
+        stroka = ''
+        for i in mas:
+            if i!=mas[-1]:stroka = stroka + str(i) + '&'
+            else: stroka = stroka + str(i)
+        return stroka
+                   
+                    
+                    
+                    
+    # передаем номер трейда и папки в сете, возвращает правильный массив, слепленный из настроек текущей папки и генеральных
+    def get_settings_set_real(self,number_trade,number_folder):
+        if os.path.isfile(f'{path_save_trade}\\{number_trade}\\settings_our.txt'):
+            with open(f'{path_save_trade}\\{number_trade}\\settings_our.txt') as file: # открываем настройки стратегии, которую хотим сохранить
+                array_data_row = [row.strip() for row in file]
+        
+        
+        config_set = configparser.ConfigParser()  
+        config_set.read(f'{path_save_trade}\\\\{number_trade}\\general_set.ini')
+        
+        strategi_coin_data = array_data_row[0].split('&')[0] # top_value
+        sledim_money_data = array_data_row[0].split('&')[1] # 1m
+        work_tf_data = array_data_row[0].split('&')[2] # 5m
+        dlitelnost_data = array_data_row[0].split('&')[3] # 24h
+        how_mach_money_data = array_data_row[0].split('&')[4] # 6
+        coins_trade_data = array_data_row[0].split('&')[5]# 
+        number_trade_data = array_data_row[0].split('&')[6] # 24
+        use_last_number_data = array_data_row[0].split('&')[7] # 5
+        use_last_sost_data = array_data_row[0].split('&')[8] # false
+        regim_tp_data = array_data_row[0].split('&')[9] # fiks
+        regim_sl_data = array_data_row[0].split('&')[10] # fiks
+        regim_volume_min_data = array_data_row[0].split('&')[11] # fiks
+        regim_volume_max_data = array_data_row[0].split('&')[12] # fiks
+        name_bot_data = array_data_row[0].split('&')[13] # V 22_07_24_1
+        komission_mayker_data = array_data_row[0].split('&')[14]#  0.2
+        deposit_data = int(config_set.get(f'{str(number_folder)}_section', 'depo'))
+        leverage_data = int(config_set.get(f'{str(number_folder)}_section', 'leveradg'))
+        komission_taker_data = array_data_row[0].split('&')[17] # 0.1
+        tp_data = float(config_set.get(f'{str(number_folder)}_section', 'diapazon_tp'))
+        sl_data = float(config_set.get(f'{str(number_folder)}_section', 'diapazon_sl'))
+        volume_min_data = float(config_set.get(f'{str(number_folder)}_section', 'diapazon_volume_min'))
+        volume_max_data = float(config_set.get(f'{str(number_folder)}_section', 'diapazon_volume_max'))
+        strategys_data = array_data_row[0].split('&')[22] # ['MA']
+        change_time_settings = array_data_row[0].split('&')[23] # 1
+        time_on_work = config_set.get(f'{str(number_folder)}_section', 'start_time')
+        time_off_work = config_set.get(f'{str(number_folder)}_section', 'stop_time')
+        
+        return [strategi_coin_data,sledim_money_data,work_tf_data,dlitelnost_data,how_mach_money_data,coins_trade_data,number_trade_data,use_last_number_data,use_last_sost_data,regim_tp_data,regim_sl_data,regim_volume_min_data,regim_volume_max_data,name_bot_data,komission_mayker_data,deposit_data,leverage_data,komission_taker_data,tp_data,sl_data,volume_min_data,volume_max_data,strategys_data,change_time_settings,time_on_work,time_off_work,]
+           
+                
 
     def build(self):
         config = configparser.ConfigParser()  
         config.read(path_imports_config)
-        folder_trade = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'now_trade'))
+        self.folder_trade = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'now_trade'))
         # self.name_strat = config.get('param_trade_historical_trade_svobodniy_freym', 'name_strat_favorites')
         
         # формируем кнопки назад
         if self.place_down!='':
             if self.place_down['place'] == 'История торговли - из сета':
-                self.data_for_back = {'page':'История торговли | Сет','number_trade':folder_trade[0]}
+                self.data_for_back = {'page':'История торговли | Сет','number_trade':self.folder_trade[0]}
             elif self.place_down['place'] == 'Торговля на сете настроек':
-                self.data_for_back = {'page':'История торговли | Сет','number_trade':folder_trade[0]}
+                self.data_for_back = {'page':'История торговли | Сет','number_trade':self.folder_trade[0]}
             elif self.place_down['place'] == 'История торговли':
-                self.data_for_back = {'page':'История торговли | Одна настройка','number_trade':folder_trade[0]}
+                self.data_for_back = {'page':'История торговли | Одна настройка','number_trade':self.folder_trade[0]}
             elif self.place_down['place'] == 'Торговля на одной настройке':
-                self.data_for_back = {'page':'История торговли | Одна настройка','number_trade':folder_trade[0]}
+                self.data_for_back = {'page':'История торговли | Одна настройка','number_trade':self.folder_trade[0]}
         else:self.data_for_back = 'Первая'
         
         # если папка торговли с одной настрокой
-        if len(folder_trade) == 1:
-            print_our_settings_ret_fun = self.def_print_our_settings(folder_trade[0])
-            def_print_set_settings_ret_fun = self.def_print_set_settings(folder_trade[0])
-        elif len(folder_trade) == 2:
+        if len(self.folder_trade) == 1:
+            print_our_settings_ret_fun = self.def_print_our_settings(self.folder_trade[0])
+            def_print_set_settings_ret_fun = self.def_print_set_settings(self.folder_trade[0])
+        elif len(self.folder_trade) == 2:
             strat_mas = []
             # вытаскиваем название стратегии
-            folder_strat = os.listdir(f'{path_save_trade}\\{folder_trade[0]}')
+            folder_strat = os.listdir(f'{path_save_trade}\\{self.folder_trade[0]}')
             for file in folder_strat:
                 if file!='folder_trade' and file!='settings_our.txt' and file!='general_set.ini':
                     strat_mas.append(file.rstrip('_set.ini'))
-            print_our_settings_ret_fun = def_print_our_settings_2(folder_trade[0],folder_trade[1],strat_mas)
-            def_print_set_settings_ret_fun = def_print_set_settings_2(folder_trade[0],folder_trade[1],strat_mas)
+            print_our_settings_ret_fun = def_print_our_settings_2(self.folder_trade[0],self.folder_trade[1],strat_mas)
+            def_print_set_settings_ret_fun = def_print_set_settings_2(self.folder_trade[0],self.folder_trade[1],strat_mas)
             if len(strat_mas)!=1:
                 self.name_strat_favorites = 'Сет стратегий'
             else:
@@ -473,15 +651,6 @@ class Add_to_favorites_page(ft.UserControl):
                                         print_settings,
                                         # ft.Container(height=1,width=900,bgcolor=c_white,margin=ft.margin.only(top=20)),
                                         ft.Container(ft.Row(controls=[
-                                            # ft.Container(ft.Column(controls=[
-                                            #     ft.Container(ft.Text('Название стратегии или группы стратегий для избранного',size=14,color=c_white,text_align='center'),width=450,margin=ft.margin.only(top=15)),
-                                            #     ft.Container(Input(self.input_name_strat,self.name_strat_favorites,400),margin=ft.margin.only(left=0)),
-                                            # ]),width=400,margin=ft.margin.only(right=30,left=30)),
-                                            # ft.Container(ft.Column(controls=[
-                                            #     ft.Container(ft.Text('Описание стратегии',size=14,color=c_white,text_align='center'),width=450,margin=ft.margin.only(top=15)),
-                                            #     ft.Container(Input(self.input_description_strat,'Хорошие результаты. Тестировать',400),margin=ft.margin.only(left=0)),
-                                            # ]),width=400)
-                                            
                                             
                                             ft.Container(
                                                 ft.Container(
@@ -521,12 +690,13 @@ class Add_to_favorites_page(ft.UserControl):
                                             
                                             
                                         ]),margin=ft.margin.only(top=10)),
+                                        ft.Container(ft.Text('',color=c_red,text_align='center'),width=900,margin=5),
                                         ft.Container(
                                             ft.Container(
                                                 ft.Row(controls=[
                                                 ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data=self.data_for_back,on_click=self.change_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                                                ft.Container(ft.ElevatedButton(content = ft.Text('Сохранить в избранное',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                                            ]),padding=ft.padding.only(left=320,top=25)
+                                                ft.Container(ft.ElevatedButton(content = ft.Text('Сохранить в избранное',size=12,),on_click=self.save_to_favorites,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                            ]),padding=ft.padding.only(left=320,top=5)
                                             ),
                                             width=500
                                         ),

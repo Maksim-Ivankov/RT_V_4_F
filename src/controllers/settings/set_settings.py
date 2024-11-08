@@ -232,7 +232,7 @@ class HisTrade_Svoboda_SetSettings():
             self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade')) # номер папки с датафеймами в хранилище
             "номер папки с датафеймами в хранилище"
 
-
+#1
 
         config_set = configparser.ConfigParser()  
         config_set.read(path_ini_general_set)
@@ -248,8 +248,6 @@ class HisTrade_Svoboda_SetSettings():
                 'diapazon_sl': float(config_set.get(f'{str(i)}_section', 'diapazon_sl'))/100,
                 'diapazon_volume_min': float(config_set.get(f'{str(i)}_section', 'diapazon_volume_min')),
                 'diapazon_volume_max': float(config_set.get(f'{str(i)}_section', 'diapazon_volume_max')),
-                'time_on_work': float(config_set.get(f'{str(i)}_section', 'start_time')),
-                'time_off_work': float(config_set.get(f'{str(i)}_section', 'stop_time')),
             }
             
         # Сохраняем общие настройки в папку с трейдом

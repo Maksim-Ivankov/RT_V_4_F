@@ -279,7 +279,7 @@ def def_print_set_settings(number_folder,number_trade_folder,strategy_now):
     if os.path.isfile(path_settings):
         with open(path_settings) as file:
             array_data_row = [row.strip() for row in file]
-            strategys_data = array_data_row[0].split('&')[22] # ['MA']
+            strategys_data = literal_eval(array_data_row[0].split('&')[22]) # ['MA']
     # print(strategys_data)
     strat_elements = []
     count_strat = 0

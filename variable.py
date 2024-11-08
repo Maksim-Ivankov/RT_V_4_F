@@ -72,12 +72,19 @@ path_JSON_coins_info_our = appdata + '\\coins_info_our.json'
 path_svoboda_freym = appdata + '\\svoboda_freym' # начало пути для сохранения датафреймов - историческая торговля/свободный фрейм
 path_appdata = appdata
 #--------------------------------------------------
-# проверяем есть ли папка в директории
+# проверяем есть ли папка в директории для трейдов
 if os.path.isdir(f'{appdata}\\trade'): 
     path_save_trade = appdata+'\\trade' # сюда будем сохранять трейды
 else:
     os.mkdir(f'{appdata}\\trade') # если папки нет, создаем её
     path_save_trade = appdata+'\\trade' # сюда будем сохранять трейды
+    
+# проверяем есть ли папка в директории для избранных стратегий
+if os.path.isdir(f'{appdata}\\favorites'): 
+    path_favorites = appdata+'\\favorites' # сюда будем сохранять избранное
+else:
+    os.mkdir(f'{appdata}\\favorites') # если папки нет, создаем её
+    path_favorites = appdata+'\\favorites' # сюда будем сохранять избранное
 
 
 #--------------------------------------------------

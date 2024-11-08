@@ -102,7 +102,7 @@ class Trade_page(ft.UserControl):#1
             self.content.scroll_to(key="table_result", duration=1000)
             self.update()
             
-            # Сохраянем сеты настроек в папку торговли1
+            # Сохраянем сеты настроек в папку торговли11
             shutil.copy(
                os.path.join(path_appdata, 'general_set.ini'),
                os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}') # путь сохранения логов в папке трейда)

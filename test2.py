@@ -1,25 +1,5 @@
-import math
+wef = "top_value&1m&5m&24h&20&BTCUSDT|ETHUSDT|SOLUSDT|BOMEUSDT|BTCUSDC|1000PEPEUSDT|STORJUSDT|STMXUSDT|BCHUSDT|WIFUSDT|DOGEUSDT|XRPUSDT|WLDUSDT|MEWUSDT|1000SATSUSDT|ETHUSDC|ORDIUSDT|1000RATSUSDT|SOLUSDC|BNBUSDT&26&26&True&fiks&fiks&fiks&fiks&V 22_07_24_1&0.2&100&10&0.1&0.7&0.3&120000.0&1500000.0&['CDL3INSIDE']&0&9&19"
+ergwe = "top_value&1m&5m&24h&20&BTCUSDT|ETHUSDT|SOLUSDT|BOMEUSDT|BTCUSDC|1000PEPEUSDT|STORJUSDT|STMXUSDT|BCHUSDT|WIFUSDT|DOGEUSDT|XRPUSDT|WLDUSDT|MEWUSDT|1000SATSUSDT|ETHUSDC|ORDIUSDT|1000RATSUSDT|SOLUSDC|BNBUSDT&26&26&True&fiks&fiks&fiks&fiks&V 22_07_24_1&0.2&100&10&0.1&0.7&0.3&120000.0&1500000.0&['CDL3INSIDE']&0&9&19"
 
-import flet as ft
-import flet.canvas as cv
+print(wef==ergwe)
 
-def main(page: ft.Page):
-    stroke_paint = ft.Paint(stroke_width=2, style=ft.PaintingStyle.STROKE)
-    fill_paint = ft.Paint(style=ft.PaintingStyle.FILL)
-    cp = cv.Canvas(
-        [
-            cv.Rect(100, 100, 50,50, stroke_paint)
-            # cv.Circle(100, 100, 50, stroke_paint),
-            # cv.Circle(80, 90, 10, stroke_paint),
-            # cv.Circle(84, 87, 5, fill_paint),
-            # cv.Circle(120, 90, 10, stroke_paint),
-            # cv.Circle(124, 87, 5, fill_paint),
-            # cv.Arc(70, 95, 60, 40, 0, math.pi, paint=stroke_paint),
-        ],
-        width=float("inf"),
-        expand=True,
-    )
-
-    page.add(cp)
-
-ft.app(main)
