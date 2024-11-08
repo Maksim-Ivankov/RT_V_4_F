@@ -187,6 +187,7 @@ class Trade_page(ft.UserControl):
                                                             ft.Container(
                                                                 ft.Container(
                                                                     # print_set_settings,
+                                                                    
                                                                     def_print_set_settings(self.number_folder,self.number_trade_folder,self.strategy_now),
                                                                     width=350,
                                                                     height=148,

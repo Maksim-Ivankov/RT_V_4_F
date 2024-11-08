@@ -8,8 +8,9 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.page_trade.result_trqade_page import Result_trqade_page
 
 class Trade_page_set(ft.UserControl):
-    def __init__(self,number_trade):
+    def __init__(self,number_trade,change_page):
         super().__init__()
+        self.change_page = change_page
         self.number_trade = number_trade
         self.card_mas_print = []
         self.stolb = 5 # количество карточек в ряду
@@ -45,15 +46,16 @@ class Trade_page_set(ft.UserControl):
         self.controls.append(self.trade_page)
         self.update()
 
-        # открыть страницу с трейдом из таблицы результатов торговли по сету настроек
+        # открыть страницу с трейдом из таблицы результатов торговли по сету настроек11111
     def print_page_one_trade_oura_set(self,number_trade):
         # print('Типа открыли страницу')
         if os.path.isfile(f'{path_save_trade}\\{self.number_trade}\\settings_our.txt'):
                 with open(f'{path_save_trade}\\{self.number_trade}\\settings_our.txt') as file2:
                     self.array_data_row = [row.strip() for row in file2] # сюда сохраняем, что в ней лежит
-        strategy_now = literal_eval(self.array_data_row[0].split('&')[-1])
+        strategy_now = literal_eval(self.array_data_row[0].split('&')[22])
         self.controls[:] = []
-        self.controls.append(Result_trqade_page(self.return_old_data,number_trade,strategy_now,'istorija_trade',self.number_trade))
+        self.controls.append(Result_trqade_page(self.return_old_data,number_trade,strategy_now,'istorija_trade',self.number_trade,self.change_page))
+        # back_trade_page,number_trade,strategy_now,regime='None',number_trade_folder=(len(os.listdir(path_save_trade))),change_page=''
         self.update()
 
         # просто обновляет self

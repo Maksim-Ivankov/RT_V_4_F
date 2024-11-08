@@ -3,7 +3,7 @@ import flet as ft
 from variable import *
 from imports import *
 
-# ОТРИСОВКА ВЕРХА СТРНИЫ ТОРГОВЛИ
+# ОТРИСОВКА ВЕРХА СТРНИЫ ТОРГОВЛИ1
        
 def One_settings_def(print_our_settings,print_set_settings,change_page,start_trade):
     

@@ -12,6 +12,8 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.UI.table_result import Table_result
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.page_trade.result_trqade_page import Result_trqade_page
 
+from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
+
 class Trade_page(ft.UserControl):#1
     def __init__(self,change_page,regime='one_set'):
         super().__init__()
@@ -57,7 +59,9 @@ class Trade_page(ft.UserControl):#1
             config_set.read(path_ini_general_set)
             count_set_trade = len(config_set.sections())
             # print(f'Количество настроек в сете - {count_set_trade}')
-            
+            # print(f'{path_save_trade}\\{len(os.listdir(path_save_trade))+1}')
+            # if not os.path.isdir(f'{path_save_trade}\\{len(os.listdir(path_save_trade))+1}'):
+            #     os.mkdir(f'{path_save_trade}\\{len(os.listdir(path_save_trade))+1}')
             # Flex_card
             self.controls[0].content.content.content.controls.append(self.flex_card.print_page(count_set_trade))
             self.controls[0].content.content.content.height=600
@@ -67,6 +71,7 @@ class Trade_page(ft.UserControl):#1
             config = configparser.ConfigParser()  
             config.read(path_imports_config)
             strategy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
+            # print(f'Внутри trade_page 1, стратегия = {strategy} !!!!!!!!!!!!!!!!!!!!!!')
             core_trade_ob = Core_trade(regime,strategy)
             # print(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls)
             # print(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)
@@ -135,7 +140,8 @@ class Trade_page(ft.UserControl):#1
         # self.our_frame = self.controls.copy()
         self.our_frame = list(self.controls)
         self.controls[:] = []
-        self.controls.append(Result_trqade_page(self.return_old_data,number_trade,self.strategy_now,'None',len(os.listdir(path_save_trade))))
+        # print(f'Внутри trade_page 2, стратегия = {self.strategy_now} !!!!!!!!!!!!!!!!!!!!!!')
+        self.controls.append(Result_trqade_page(self.return_old_data,number_trade,self.strategy_now,'None',len(os.listdir(path_save_trade)),self.change_page))
         self.update()
     
     # ДЛЯ ПРОГРЕССБАРА
@@ -194,7 +200,18 @@ class Trade_page(ft.UserControl):#1
     def print_trade_end(self):
         self.controls[0].content.content.content.controls.append(self.output_info_trade.print_itog_and_graph('graph_1'))
         self.content.scroll_to(key="itog", duration=1000)
+        if self.regime=='one_set':
+            self.add_btn_add_favorites()
+        
 
+    # Добавляем кнопку - добавить в избранное на страницу
+    def add_btn_add_favorites(self):
+        Save_config('param_trade_historical_trade_svobodniy_freym',{'now_trade':f'[{len(os.listdir(path_save_trade))}]'})
+        self.controls[0].content.content.content.controls[2].content.content.controls.append(ft.Container(ft.ElevatedButton(content = ft.Text('Добавить в избранное',size=12,),data='Добавить в избранное',on_click=self.change_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30))
+        self.controls[0].content.content.content.controls[2].content.padding = ft.padding.only(left=220,top=10)
+        self.controls[0].content.content.content.controls[2].width = 720
+        self.update()
+        # print(self.controls[0].content.content.content.controls[2].content.content.controls)
 
     def print_page(self):
         # ЕСЛИ РЕЖИМ - ОДНА НАСТРОЙКА

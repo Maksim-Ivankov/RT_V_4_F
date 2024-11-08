@@ -8,8 +8,9 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.UI.trade_page.trade_page_set import Trade_page_set
 #11
 class Table_trade(ft.UserControl):
-    def __init__(self):
+    def __init__(self,change_page):
         super().__init__()
+        self.change_page = change_page
         self.settings_print_graph = {}
         self.mas_trade = []
         self.strategys = {
@@ -75,7 +76,7 @@ class Table_trade(ft.UserControl):
             self.controls.append(Trade_page(e.control.data))
         elif e.control.key == 'Сет настроек':
             self.controls[:] = []
-            self.controls.append(Trade_page_set(e.control.data))
+            self.controls.append(Trade_page_set(e.control.data,self.change_page))
         self.update()
     
     def hover_str(self,e):

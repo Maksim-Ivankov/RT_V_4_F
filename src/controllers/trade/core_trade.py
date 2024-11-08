@@ -135,7 +135,7 @@ class Core_trade():
                 if unix_stop>int(df.open_time.iloc[-1]):unix_stop = int(df.open_time.iloc[-1])
                 start_index = df.index[df['open_time'] == unix_start].tolist()[0] # находим индексы старта и стопа
                 stop_index = df.index[df['open_time'] == unix_stop].tolist()[0] # находим индексы старта и стопа
-                print(f'start_index = {start_index}  stop_index = {stop_index}')
+                # print(f'start_index = {start_index}  stop_index = {stop_index}')
                 for i in range(start_index):
                     data_numbers.append(i)
             for index in range(start_index,stop_index,1):
@@ -149,7 +149,7 @@ class Core_trade():
                         self.trade_param['coin'] = coin # монета, которую сейча срассматриваем
                         self.trade_param['df_now_step'] = df.iloc[data_numbers] # фрейм по текущий шаг иетрации по текущей монете
                         # ниже - если входим в диапазон по объёму
-                        print(f'coin = {coin} !@!!!!!!!!!!!!!!!!!!')
+                        # print(f'coin = {coin} !@!!!!!!!!!!!!!!!!!!')
                         if self.trade_param['df_now_step']['VOLUME'][index]*self.trade_param['df_now_step']['open'][index]>self.var.CANDLE_COIN_MIN and self.trade_param['df_now_step']['VOLUME'][index]*self.trade_param['df_now_step']['open'][index]<self.var.CANDLE_COIN_MAX:
                             self.check_signal = Check_if_signal(self.trade_param['df_now_step'],self.var.strategys)
                             self.trend_mas = self.check_signal.work_strat_trade()
@@ -345,6 +345,7 @@ class Core_trade():
                 self.print_file_log(f'{index}|{self.DEPOSIT_GLOBAL}|{self.trend_mas}|{self.trade_param['trend']}|{self.trade_param['coin']}|{self.trade_param['open_time_trade']}\n',self.path_save_log)
             # add_logi_trade(f'Закончили торговлю')
             # print_trade_end()
+            change_pb(1)
 
 
         
