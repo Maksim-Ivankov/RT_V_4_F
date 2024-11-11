@@ -396,7 +396,7 @@ class Add_to_favorites_page(ft.UserControl):
         if len(os.listdir(path_favorites)) == 0:
             self.path_folder_favorites = f'{path_favorites}\\1'
         else:
-            self.path_folder_favorites = f'{path_favorites}\\{len(os.listdir(path_favorites))+1}'
+            self.path_folder_favorites = f'{path_favorites}\\{int(os.listdir(path_favorites)[-1])+1}'
         if len(self.folder_trade) == 1: # если в массиве одно число, значит торговля на одной настройке
             # блок поиска дубликатов тсратегий
             #--------------------------------
