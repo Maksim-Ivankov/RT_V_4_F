@@ -222,23 +222,18 @@ class Table_trade(ft.UserControl):
             if strategy_trade == 'Сет настроек':
                 mas_max_trade.clear()
                 folder_strat = os.listdir(f'{path_save_trade}\\{i}\\folder_trade')
-                # print(f'{i} - {len(folder_strat)}')
                 for file_trade in folder_strat:
                     self.path_trade_set = f'{path_save_trade}\\{i}\\folder_trade\\{file_trade}\\trade.txt' # по очереди проходимся по каждой папке
                     if os.path.isfile(self.path_trade_set):
                         with open(self.path_trade_set) as file:
                             self.array_data_row_set = [row.strip() for row in file] # сюда сохраняем, что в ней лежит
-                            # mas_max_trade.append(float(self.array_data_row_set[-1].split('|')[2]))
                             mas_max_trade[file_trade] = float(self.array_data_row_set[-1].split('|')[2])
                     else:
-                        # mas_max_trade.append(0)
                         mas_max_trade[file_trade] = 0
                 if len(mas_max_trade)!=0:
                     # max_index, max_value = max(enumerate(mas_max_trade), key=lambda pair: pair[1])
                     max_index = int((max(mas_max_trade, key=(mas_max_trade.get))))
                     self.path_trade_set = f'{path_save_trade}\\{i}\\folder_trade\\{max_index}\\trade.txt' # по очереди проходимся по каждой папке
-                    # print('!!!!!!!!!!!!!!!!')
-                    # print(self.path_trade_set)
                     if os.path.isfile(self.path_trade_set):
                         with open(self.path_trade_set) as file:
                             self.array_data_row = [row.strip() for row in file] # сюда сохраняем, что в ней лежит
@@ -278,7 +273,7 @@ class Table_trade(ft.UserControl):
                                     # margin=ft.margin.only(top=-10,bottom=-10)
                                 )
                             )
-                    else:
+                    else:#1
                         self.mas_trade.append(
                         ft.Container(
                             ft.Row(controls=[self.palka_table,

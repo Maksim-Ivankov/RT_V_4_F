@@ -39,7 +39,7 @@ class Isbrannoe_page(ft.UserControl):
                                                 ft.Container(ft.Text('Трейдов: 15 | Сделок: 92',text_align='center'),width=200),
                                                 ft.Container(ft.Text('Дневная доходность: 3.72%',text_align='center'),width=200,margin=ft.margin.only(bottom=8)),
                                                 ft.Container(ft.Row(controls=[
-                                                        ft.Container(ft.ElevatedButton(content = ft.Text('Смотреть трейды',size=12,),bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30,width=150),
+                                                        ft.Container(ft.ElevatedButton(content = ft.Text('Смотреть трейды',size=12,),bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0)),data={'page':'Избранные стратегии | Показать трейды','number_favorite':i,'name_favorite':array_data_1[0]},on_click=self.change_page),alignment=ft.alignment.center,height=30,width=150),
                                                         ft.Container(ft.Image(src='src/trade_window/trade_windows_pages/components/content/hisorical_trade_page/pages/isbrannoe_page/UI/img/pancil_blue.png'),bgcolor=c_yelow,width=30,height=30,padding=7,data={'page':'Избранные стратегии | Измеить данные стартегии','number_favorite':i},on_click=self.change_page),
                                                     ]),width=850,margin=ft.margin.only(left=5))
                                             ]),padding=5),

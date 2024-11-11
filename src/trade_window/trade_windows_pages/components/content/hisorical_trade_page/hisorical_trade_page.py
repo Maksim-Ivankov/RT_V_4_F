@@ -17,6 +17,7 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.trade_page import Trade_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.istoriya_treyd_page import Istoriya_treyd_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.isbrannoe_page.isbrannoe_page import Isbrannoe_page
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.isbrannoe_page.print_trade_in_favorites import Print_trade_in_favorites
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.isbrannoe_page.update_favorite_page import Update_favorite_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.isbrannoe_page.add_to_favorites_page import Add_to_favorites_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.UI.trade_page.trade_page_set import Trade_page_set as Trade_page_open_set_trade
@@ -25,8 +26,8 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 class Hisorical_trade_page(ft.UserControl):
     def __init__(self,page):
         super().__init__()
-        self.ferst_page = 'Первая'
-        # self.ferst_page = 'Избранные стратегии' 
+        # self.ferst_page = 'Первая'
+        self.ferst_page = 'Избранные стратегии' 
         self.page = page
 
     def print_page(self,page,data=''):
@@ -81,6 +82,9 @@ class Hisorical_trade_page(ft.UserControl):
             title_list='Торговля по историческим данным | История торговли'
         if page == 'Избранные стратегии | Измеить данные стартегии':
             pages_list=Update_favorite_page(self.change_page,data['number_favorite'])
+            title_list='Торговля по историческим данным | Избранные стратегии'
+        if page == 'Избранные стратегии | Показать трейды':
+            pages_list=Print_trade_in_favorites(self.change_page,data['number_favorite'],data['name_favorite'])
             title_list='Торговля по историческим данным | Избранные стратегии'
 
 
