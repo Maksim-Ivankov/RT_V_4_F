@@ -25,7 +25,7 @@ class Hisorical_trade_page(ft.UserControl):
     def __init__(self,page):
         super().__init__()
         # self.ferst_page = 'Первая'
-        self.ferst_page = 'История торговли' 
+        self.ferst_page = 'Избранные стратегии' 
         self.page = page
 
     def print_page(self,page,data=''):

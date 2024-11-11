@@ -462,6 +462,7 @@ class Add_to_favorites_page(ft.UserControl):
                 file = open(f'{self.path_folder_favorites}\\property.txt', 'a')
                 file.write(f'{self.input_name_strat_value}\n{self.input_description_strat_value}')
                 file.close()
+                self.change_page(e)
                 
         if len(self.folder_trade) == 2:
             # блок поиска дубликатов тсратегий
@@ -527,6 +528,7 @@ class Add_to_favorites_page(ft.UserControl):
                 file = open(f'{self.path_folder_favorites}\\property.txt', 'a')
                 file.write(f'{self.input_name_strat_value}\n{self.input_description_strat_value}')
                 file.close()
+                self.change_page(e)
 
 
 
@@ -547,11 +549,8 @@ class Add_to_favorites_page(ft.UserControl):
         if os.path.isfile(f'{path_save_trade}\\{number_trade}\\settings_our.txt'):
             with open(f'{path_save_trade}\\{number_trade}\\settings_our.txt') as file: # открываем настройки стратегии, которую хотим сохранить
                 array_data_row = [row.strip() for row in file]
-        
-        
         config_set = configparser.ConfigParser()  
         config_set.read(f'{path_save_trade}\\\\{number_trade}\\general_set.ini')
-        
         strategi_coin_data = array_data_row[0].split('&')[0] # top_value
         sledim_money_data = array_data_row[0].split('&')[1] # 1m
         work_tf_data = array_data_row[0].split('&')[2] # 5m
@@ -715,7 +714,7 @@ class Add_to_favorites_page(ft.UserControl):
                                             ft.Container(
                                                 ft.Row(controls=[
                                                 ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data=self.data_for_back,on_click=self.change_page,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                                                ft.Container(ft.ElevatedButton(content = ft.Text('Сохранить в избранное',size=12,),on_click=self.save_to_favorites,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                                ft.Container(ft.ElevatedButton(content = ft.Text('Сохранить в избранное',size=12,),data='Избранные стратегии',on_click=self.save_to_favorites,bgcolor=c_yelow,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
                                             ]),padding=ft.padding.only(left=320,top=5)
                                             ),
                                             width=500
