@@ -392,6 +392,7 @@ class Add_to_favorites_page(ft.UserControl):
         self.update()
 
     def save_to_favorites(self,e):
+        self.flag_dublicate = 0
         if len(os.listdir(path_favorites)) == 0:
             self.path_folder_favorites = f'{path_favorites}\\1'
         else:
@@ -399,9 +400,10 @@ class Add_to_favorites_page(ft.UserControl):
         if len(self.folder_trade) == 1: # если в массиве одно число, значит торговля на одной настройке
             # блок поиска дубликатов тсратегий
             #--------------------------------
-            if len(os.listdir(path_favorites))>1: # если сохранено больше одной стратегии
+            if len(os.listdir(path_favorites))>=1: # если сохранено больше одной стратегии
                 # print(path_favorites)
                 for i in os.listdir(path_favorites): # итерируемся по папкам с сохранененными стратегиями
+                    # проверка на дубликаты через settings_our
                     if os.path.isfile(f'{path_save_trade}\\{self.folder_trade[0]}\\settings_our.txt'):
                         with open(f'{path_save_trade}\\{self.folder_trade[0]}\\settings_our.txt') as file: # открываем настройки стратегии, которую хотим сохранить
                             array_data_1 = [row.strip() for row in file]
@@ -412,13 +414,24 @@ class Add_to_favorites_page(ft.UserControl):
                         self.dublicate_strat('Совпадают настройки стратегий',i)
                         self.flag_dublicate = 1
                         break
-            # создаем номерную папку в фаворитах
-            os.mkdir(self.path_folder_favorites)
-            # создаем папку folder_trade внутри созданной папки избранной стратегии
-            os.mkdir(f'{self.path_folder_favorites}\\folder_trade')
-            self.path_folder_favorites_number_trade = f'{self.path_folder_favorites}\\folder_trade\\1'
-            os.mkdir(self.path_folder_favorites_number_trade)
+                    # проверка на дубликаты через property - название
+                    if os.path.isfile(f'{path_favorites}\\{i}\\property.txt'):
+                        with open(f'{path_favorites}\\{i}\\property.txt') as file: # открываем настройки стратегии, которую хотим сохранить
+                            array_data_2 = [row.strip() for row in file]
+                    if self.input_name_strat_value == '': proverka_name = self.name_strat_favorites
+                    else: proverka_name = self.input_name_strat_value
+                    if array_data_2[0]==proverka_name:
+                        self.dublicate_strat('Совпадают названия стратегий',i)
+                        self.flag_dublicate = 1
+                        break
+                    
             if self.flag_dublicate==0:
+                # создаем номерную папку в фаворитах
+                os.mkdir(self.path_folder_favorites)
+                # создаем папку folder_trade внутри созданной папки избранной стратегии
+                os.mkdir(f'{self.path_folder_favorites}\\folder_trade')
+                self.path_folder_favorites_number_trade = f'{self.path_folder_favorites}\\folder_trade\\1'
+                os.mkdir(self.path_folder_favorites_number_trade)
                 # копируем settings_our.txt из трейда в избранное
                 shutil.copy(
                     os.path.join(f'{path_save_trade}\\{self.folder_trade[0]}', 'settings_our.txt'),
@@ -453,30 +466,37 @@ class Add_to_favorites_page(ft.UserControl):
         if len(self.folder_trade) == 2:
             # блок поиска дубликатов тсратегий
             #--------------------------------
-            if len(os.listdir(path_favorites))>1: # если сохранено больше одной стратегии
-                array_data_2 = self.get_settings_set_real(self.folder_trade[0],self.folder_trade[1])
+            array_data_2 = self.get_settings_set_real(self.folder_trade[0],self.folder_trade[1])
+            if len(os.listdir(path_favorites))>=1: # если сохранено больше одной стратегии
                 for i in os.listdir(path_favorites): # итерируемся по папкам с сохранененными стратегиями
-                    print(f'{path_favorites}\\{i}\\settings_our.txt')
+                    # проверка на дубликаты через settings_our
                     if os.path.isfile(f'{path_favorites}\\{i}\\settings_our.txt'):
                         with open(f'{path_favorites}\\{i}\\settings_our.txt') as file: # открываем настройки стратегии, которую хотим сохранить
                             array_data_1 = [row.strip() for row in file]
-                    print(array_data_1)
                     array_data_01 = array_data_1[0].split('&')
-                    print(f'{i} - {array_data_01==array_data_2}')
-                    print(f'{i} - {array_data_01}')
-                    print(f'{i} - {array_data_2}')
                     if array_data_01==array_data_2:
                         self.dublicate_strat('Совпадают настройки стратегий',i)
                         self.flag_dublicate = 1
                         break
-            # создаем номерную папку в фаворитах
-            os.mkdir(self.path_folder_favorites)
-            # создаем папку folder_trade внутри созданной папки избранной стратегии
-            os.mkdir(f'{self.path_folder_favorites}\\folder_trade')
-            self.path_folder_favorites_number_trade = f'{self.path_folder_favorites}\\folder_trade\\1'
-            os.mkdir(self.path_folder_favorites_number_trade)
+                    # проверка на дубликаты через property - название
+                    if os.path.isfile(f'{path_favorites}\\{i}\\property.txt'):
+                        with open(f'{path_favorites}\\{i}\\property.txt') as file: # открываем настройки стратегии, которую хотим сохранить
+                            array_data_2 = [row.strip() for row in file]
+                    if self.input_name_strat_value == '': proverka_name = self.name_strat_favorites
+                    else: proverka_name = self.input_name_strat_value
+                    if array_data_2[0]==proverka_name:
+                        self.dublicate_strat('Совпадают названия стратегий',i)
+                        self.flag_dublicate = 1
+                        break
             if self.flag_dublicate==0:
+                # создаем номерную папку в фаворитах
+                os.mkdir(self.path_folder_favorites)
+                # создаем папку folder_trade внутри созданной папки избранной стратегии
+                os.mkdir(f'{self.path_folder_favorites}\\folder_trade')
+                self.path_folder_favorites_number_trade = f'{self.path_folder_favorites}\\folder_trade\\1'
+                os.mkdir(self.path_folder_favorites_number_trade)
                 # копируем settings_our.txt из трейда в избранное
+                array_data_2 = self.get_settings_set_real(self.folder_trade[0],self.folder_trade[1])
                 file = open(f'{self.path_folder_favorites}\\settings_our.txt', 'a')
                 file.write(self.convert_mas_to_str(array_data_2))
                 file.close()
@@ -547,13 +567,13 @@ class Add_to_favorites_page(ft.UserControl):
         regim_volume_max_data = array_data_row[0].split('&')[12] # fiks
         name_bot_data = array_data_row[0].split('&')[13] # V 22_07_24_1
         komission_mayker_data = array_data_row[0].split('&')[14]#  0.2
-        deposit_data = int(config_set.get(f'{str(number_folder)}_section', 'depo'))
-        leverage_data = int(config_set.get(f'{str(number_folder)}_section', 'leveradg'))
+        deposit_data = config_set.get(f'{str(number_folder)}_section', 'depo')
+        leverage_data = config_set.get(f'{str(number_folder)}_section', 'leveradg')
         komission_taker_data = array_data_row[0].split('&')[17] # 0.1
-        tp_data = float(config_set.get(f'{str(number_folder)}_section', 'diapazon_tp'))
-        sl_data = float(config_set.get(f'{str(number_folder)}_section', 'diapazon_sl'))
-        volume_min_data = float(config_set.get(f'{str(number_folder)}_section', 'diapazon_volume_min'))
-        volume_max_data = float(config_set.get(f'{str(number_folder)}_section', 'diapazon_volume_max'))
+        tp_data = config_set.get(f'{str(number_folder)}_section', 'diapazon_tp')
+        sl_data = config_set.get(f'{str(number_folder)}_section', 'diapazon_sl')
+        volume_min_data = str(float(config_set.get(f'{str(number_folder)}_section', 'diapazon_volume_min')))
+        volume_max_data = str(float(config_set.get(f'{str(number_folder)}_section', 'diapazon_volume_max')))
         strategys_data = array_data_row[0].split('&')[22] # ['MA']
         change_time_settings = array_data_row[0].split('&')[23] # 1
         time_on_work = config_set.get(f'{str(number_folder)}_section', 'start_time')
