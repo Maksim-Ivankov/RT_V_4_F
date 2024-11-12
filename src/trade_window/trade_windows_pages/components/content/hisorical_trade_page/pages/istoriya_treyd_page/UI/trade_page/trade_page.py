@@ -2,7 +2,7 @@
 import flet as ft
 from variable import *
 from imports import *
-#1
+#11
 # from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.UI.table_trade.table_trade import Table_trade
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.UI.trade_page.data_settings import def_print_our_settings,def_print_set_settings,def_print_log,def_print_trade
 from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config

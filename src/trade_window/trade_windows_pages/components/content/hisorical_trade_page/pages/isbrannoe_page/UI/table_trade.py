@@ -77,7 +77,7 @@ class Table_trade(ft.UserControl):
                                     ft.Container(ft.Text(f'{count_trade_minus}',text_align='CENTER',color=c_white),width=36,),self.palka_table,
                                     ft.Container(ft.Text(f'{round(money_trade_minus,2)}$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
                                     ft.Container(ft.Text(f'{round(comission,2)}$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
-                                ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.change_page,data=i
+                                ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),data={'page':'Избранные стратегии | Трейд','number_favorite':self.number_favorite,'number_trade':i},height=20,on_click=self.change_page
                                 # margin=ft.margin.only(top=-10,bottom=-10)
                             )
                         )
@@ -94,7 +94,7 @@ class Table_trade(ft.UserControl):
                                 ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
                                 ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
                                 ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
-                            ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.change_page,data=i
+                            ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),data={'page':'Избранные стратегии | Трейд','number_favorite':self.number_favorite,'number_trade':i},height=20,on_click=self.change_page
                             # margin=ft.margin.only(top=-10,bottom=-10)
                         )
                     )

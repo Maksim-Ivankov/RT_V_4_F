@@ -41,6 +41,8 @@ class Graph_dohod(ft.UserControl):
         elif self.regime_trade=='set':
             self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\folder_trade\\{self.number_trade_folder}\\trade.txt' # путь сохранения логов в папке трейда
             # self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\folder_trade\\{self.number_trade_folder}\\trade.txt'
+        elif self.regime_trade=='favorites':
+            self.path_save_trade_log = f'{path_favorites}\\{self.number_folder}\\folder_trade\\{self.number_trade_folder}\\trade.txt'
         if os.path.isfile(self.path_save_trade_log):
             with open(self.path_save_trade_log) as file:
                 self.array_data_row = [row.strip() for row in file]

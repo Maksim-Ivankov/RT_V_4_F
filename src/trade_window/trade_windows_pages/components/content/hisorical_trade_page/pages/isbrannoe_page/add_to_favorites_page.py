@@ -443,6 +443,8 @@ class Add_to_favorites_page(ft.UserControl):
                     with open(path_settings) as file:
                         array_data_row = [row.strip() for row in file]
                         strategys_data = literal_eval(array_data_row[0].split('&')[22]) # ['MA']
+                        coins_mas = array_data_row[0].split('&')[5]
+                        number_data_df = array_data_row[0].split('&')[6]
                 # копируем файлы с настройками стратегии торговли
                 for i in strategys_data:
                     shutil.copy(
@@ -461,6 +463,9 @@ class Add_to_favorites_page(ft.UserControl):
                 if self.input_name_strat_value=='':self.input_name_strat_value=self.name_strat_favorites
                 file = open(f'{self.path_folder_favorites}\\property.txt', 'a')
                 file.write(f'{self.input_name_strat_value}\n{self.input_description_strat_value}')
+                file.close()
+                file = open(f'{self.path_folder_favorites_number_trade}\\df_data.txt', 'a')
+                file.write(f'{coins_mas}\n{number_data_df}')
                 file.close()
                 self.change_page(e)
                 
@@ -501,6 +506,8 @@ class Add_to_favorites_page(ft.UserControl):
                 file = open(f'{self.path_folder_favorites}\\settings_our.txt', 'a')
                 file.write(self.convert_mas_to_str(array_data_2))
                 file.close()
+                coins_mas = array_data_2[5]
+                number_data_df = array_data_2[6]
                 # копируем файлы с настройками стратегии торговли
                 for i in literal_eval(array_data_2[22]):
                     config_set_54 = configparser.ConfigParser()  
@@ -527,6 +534,9 @@ class Add_to_favorites_page(ft.UserControl):
                 if self.input_name_strat_value=='':self.input_name_strat_value=self.name_strat_favorites
                 file = open(f'{self.path_folder_favorites}\\property.txt', 'a')
                 file.write(f'{self.input_name_strat_value}\n{self.input_description_strat_value}')
+                file.close()
+                file = open(f'{self.path_folder_favorites_number_trade}\\df_data.txt', 'a')
+                file.write(f'{coins_mas}\n{number_data_df}')
                 file.close()
                 self.change_page(e)
 
