@@ -229,16 +229,16 @@ class SAR():
             config = configparser.ConfigParser()  
             config.read(path_imports_config)
             self.strat_SAR_acceleration = float(config.get('param_trade_historical_trade_svobodniy_freym', 'strat_SAR_acceleration')) 
-            self.strat_MSAR_maximum = float(config.get('param_trade_historical_trade_svobodniy_freym', 'strat_MSAR_maximum')) 
+            self.strat_SAR_maximum = float(config.get('param_trade_historical_trade_svobodniy_freym', 'strat_SAR_maximum')) 
         elif regime=='much_set':
             config_set = configparser.ConfigParser()  
             config_set.read(path_ini_SAR_set)
             self.strat_SAR_acceleration = float(config_set.get(f'{str(number_trade)}_section', 'acceleration'))
-            self.strat_MSAR_maximum = float(config_set.get(f'{str(number_trade)}_section', 'maximum'))
+            self.strat_SAR_maximum = float(config_set.get(f'{str(number_trade)}_section', 'maximum'))
             
     # Получить настройки одним массивом в режиме одной настройки
     def get_settings(self):
-        return [self.strat_SAR_acceleration,self.strat_MSAR_maximum] # параметры через запятую
+        return [self.strat_SAR_acceleration,self.strat_SAR_maximum] # параметры через запятую
         
     def get_set_settings(self,number):
         config_set = configparser.ConfigParser()  

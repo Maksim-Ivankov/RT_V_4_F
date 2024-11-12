@@ -9,48 +9,7 @@ from imports import *
 # # настройки стратегий лежат здесь
 def def_print_set_settings(number_folder,number_trade_folder,strategy_now):
 
-    name_strat = {
-        'one':'Канал, тренд, локаль, объём',
-        'MA':'Скользящие средние',
-        'BBANDS':'Полосы Боллинджера',
-        'EMA':'Эксп скользящая средняя',
-        'DEMA':'Двойная эксп скользящая средняя',
-        'KAMA':'Адаптивная скользящая Кауфмана',
-        'MAVP':'Сколь средняя с пер периодом',
-        'SAR':'Параболический SAR',
-        'TEMA':'Тройная эксп сколь средняя',
-        'TRIMA':'Треугольная скользящая средняя',
-        'WMA':'Взвешенная скользящая средняя',
-        'CDL2CROWS':'Две вороны',
-        'CDL3BLACKCROWS':'Три черных ворона',
-        'CDL3INSIDE':'Три внутри Вверх / вниз',
-        'CDL3LINESTRIKE':'Трехстрочный удар',
-        'CDL3OUTSIDE':'Три внешних элемента Вверх / вниз',
-        'CDL3STARSINSOUTH':'Три звезды на юге',
-        'CDL3WHITESOLDIERS':'Трое наступающих белых солдат',
-        'CDLABANDONEDBABY':'Брошенный ребенок',
-        'CDLADVANCEBLOCK':'Предварительный блок',
-        'CDLBELTHOLD':'Удержание за ремень',
-        'CDLCLOSINGMARUBOZU':'Marubozu',
-        'CDLCOUNTERATTACK':'Контратака',
-        'CDLDARKCLOUDCOVER':'Темный облачный покров',
-        'CDLENGULFING':'шаблон поглощения',
-        'CDLEVENINGDOJISTAR':'Вечерняя звезда Доджи',
-        'CDLGRAVESTONEDOJI':'Надгробный камень Доджи',
-        'CDLHAMMER':'Молоток',
-        'CDLHANGINGMAN':'Висельник',
-        'CDLHARAMI':'шаблон Харами',
-        'CDLHARAMICROSS':'Шаблон пересечения Харами',
-        'CDLHOMINGPIGEON':'Почтовый голубь',
-        'CDLINVERTEDHAMMER':'Перевернутый молоток',
-        'CDLLADDERBOTTOM':'Основание лестницы',
-        'CDLLONGLEGGEDDOJI':'Длинноногий доджи',
-        'CDLMATCHINGLOW':'низкий уровень соответствия',
-        'CDLMORNINGSTAR':'Утренняя звезда',
-        'CDLRICKSHAWMAN':'рикша',
-        'CDLSPINNINGTOP':'Волчок',
-        'CDLTASUKIGAP':'разрыв Тасуки',
-    }
+    name_strat = strategys_our
     strat_mas = []
     # вытаскиваем название стратегии
     # folder_strat = os.listdir(f'{path_save_trade}\\{number_folder}')
@@ -62,218 +21,21 @@ def def_print_set_settings(number_folder,number_trade_folder,strategy_now):
         folder_strat = f'{path_save_trade}\\{number_folder}\\{strat_mas[0]}_set.ini'
         config_set = configparser.ConfigParser()  
         config_set.read(folder_strat)
-        if strat_mas[0] == 'one':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Верх канала - {config_set.get(f'{str(number_trade_folder)}_section', 'up_chanal')}',size=12),
-                ft.Text(f'Низ канала - {config_set.get(f'{str(number_trade_folder)}_section', 'down_chanal')}',size=12),
-                ft.Text(f'Угол тренда лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'corner_long')}',size=12),
-                ft.Text(f'Угол тренда шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'corner_short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'MA':
-            # print(f'{str(number_trade_folder)}_section')
-            # print(config_set.get(f'{str(number_trade_folder)}_section', 'koef_bistro'))
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Коэф. быстрой скольз. средней - {config_set.get(f'{str(number_trade_folder)}_section', 'koef_bistro')}',size=12),
-                ft.Text(f'Коэф. медленной скольз. средней - {config_set.get(f'{str(number_trade_folder)}_section', 'koef_medleno')}',size=12),
-                ft.Text(f'Кол-во совпадений в прошлом - {config_set.get(f'{str(number_trade_folder)}_section', 'sovpad_last')}',size=12),
-                ft.Text(f'Прижатие к верху коридора - {config_set.get(f'{str(number_trade_folder)}_section', 'up_chanal')}',size=12),
-                ft.Text(f'Прижатие к низу коридора - {config_set.get(f'{str(number_trade_folder)}_section', 'down_chanal')}',size=12),
-            ]))
-            
-        elif strat_mas[0] == 'BBANDS':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Отклонение для установки верхней полосы - {config_set.get(f'{str(number_trade_folder)}_section', 'timeperiod')}',size=12),
-                ft.Text(f'Временной промежуток - {config_set.get(f'{str(number_trade_folder)}_section', 'nbdevup')}',size=12),
-                ft.Text(f'Отклонение для установки нижней полосы - {config_set.get(f'{str(number_trade_folder)}_section', 'nbdevdn')}',size=12),
-                ft.Text(f'Тип движущейся средней - {config_set.get(f'{str(number_trade_folder)}_section', 'matype')}',size=12),
-            ]))
-        elif strat_mas[0] == 'EMA':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Временной промежуток - {config_set.get(f'{str(number_trade_folder)}_section', 'timeperiod')}',size=12),
-            ]))
-        elif strat_mas[0] == 'DEMA':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Временной промежуток - {config_set.get(f'{str(number_trade_folder)}_section', 'timeperiod')}',size=12),
-            ]))
-        elif strat_mas[0] == 'KAMA':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Временной промежуток - {config_set.get(f'{str(number_trade_folder)}_section', 'timeperiod')}',size=12),
-            ]))
-        elif strat_mas[0] == 'MAVP':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Минимальный период - {config_set.get(f'{str(number_trade_folder)}_section', 'minperiod')}',size=12),
-                ft.Text(f'Максимальный период - {config_set.get(f'{str(number_trade_folder)}_section', 'maxperiod')}',size=12),
-                ft.Text(f'Тип скользящей средней - {config_set.get(f'{str(number_trade_folder)}_section', 'matype')}',size=12),
-            ]))
-        elif strat_mas[0] == 'SAR':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Ускорение - {config_set.get(f'{str(number_trade_folder)}_section', 'acceleration')}',size=12),
-                ft.Text(f'Максимум - {config_set.get(f'{str(number_trade_folder)}_section', 'maximum')}',size=12),
-            ]))
-        elif strat_mas[0] == 'TEMA':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Временной промежуток - {config_set.get(f'{str(number_trade_folder)}_section', 'timeperiod')}',size=12),
-            ]))
-        elif strat_mas[0] == 'TRIMA':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Временной промежуток - {config_set.get(f'{str(number_trade_folder)}_section', 'timeperiod')}',size=12),
-            ]))
-        elif strat_mas[0] == 'WMA':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Временной промежуток - {config_set.get(f'{str(number_trade_folder)}_section', 'timeperiod')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDL2CROWS':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDL3BLACKCROWS':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDL3INSIDE':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDL3LINESTRIKE':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDL3OUTSIDE':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDL3STARSINSOUTH':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDL3WHITESOLDIERS':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLABANDONEDBABY':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент проникновения одной свечи внутри другой свечи - {config_set.get(f'{str(number_trade_folder)}_section', 'penetration')}',size=12),
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLADVANCEBLOCK':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLBELTHOLD':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLCLOSINGMARUBOZU':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLCOUNTERATTACK':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLDARKCLOUDCOVER':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент проникновения одной свечи внутри другой свечи - {config_set.get(f'{str(number_trade_folder)}_section', 'penetration')}',size=12),
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLENGULFING':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLEVENINGDOJISTAR':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент проникновения одной свечи внутри другой свечи - {config_set.get(f'{str(number_trade_folder)}_section', 'penetration')}',size=12),
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLGRAVESTONEDOJI':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLHAMMER':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLHANGINGMAN':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLHARAMI':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLHARAMICROSS':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLHOMINGPIGEON':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLINVERTEDHAMMER':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLLADDERBOTTOM':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLLONGLEGGEDDOJI':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLMATCHINGLOW':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLMORNINGSTAR':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент проникновения одной свечи внутри другой свечи - {config_set.get(f'{str(number_trade_folder)}_section', 'penetration')}',size=12),
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLRICKSHAWMAN':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLSPINNINGTOP':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-        elif strat_mas[0] == 'CDLTASUKIGAP':
-            strat_set_print = ft.Container(ft.Column(controls=[
-                ft.Text(f'Процент сигнала в лонг - {config_set.get(f'{str(number_trade_folder)}_section', 'long')}',size=12),
-                ft.Text(f'Процент сигнала в шорт - {config_set.get(f'{str(number_trade_folder)}_section', 'short')}',size=12),
-            ]))
-            
-        else:
-            strat_set_print = ft.Container(ft.Text('Потом доработать отрисовку множественной стратегии istoriya_treyd_page/UI/trade_page/data_settings'))
+        
+        
+        # ------------------------------------------
+        # проходимся по массив параметров стратегий и добавляем отрисовку этих параметров
+        controls_for_strat = []
+        for key in strategys_parametry_rus:
+            if strat_mas[0] == key:
+                count_parametr = 0
+                controls_for_strat[:] = []
+                for parametr in strategys_parametry_rus[key]:
+                    controls_for_strat.append(ft.Text(f'{parametr} - {config_set.get(f'{str(number_trade_folder)}_section', strategys_parametry_for_section[key][count_parametr])}',size=12))
+                    count_parametr+=1
+                strat_set_print = ft.Container(ft.Column(controls=controls_for_strat))
+        # ------------------------------------------
+        
 
     path_settings = f'{path_save_trade}\\{number_folder}\\settings_our.txt'
     if os.path.isfile(path_settings):
