@@ -502,7 +502,7 @@ class Print_trade_in_favorites(ft.UserControl):
                                             ),
                                             width=500
                                         ),
-                                    ],height=600,scroll=ft.ScrollMode.ALWAYS),width=900
+                                    ],height=500,scroll=ft.ScrollMode.ALWAYS),width=900
                                 ),
                             ]),
                             alignment=ft.alignment.center),margin=ft.margin.only(top=2,left=-10,right=-10),padding=ft.padding.only(top=10)      

@@ -15,7 +15,7 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
 
 class Trade_page(ft.UserControl):#1
-    def __init__(self,change_page,regime='one_set'):
+    def __init__(self,change_page,regime='one_set',data=''):
         super().__init__()
         self.regime = regime
         self.change_page = change_page
@@ -26,6 +26,8 @@ class Trade_page(ft.UserControl):#1
         self.count_trade_table = 0
         self.count_trade_now = 0
         self.our_frame = []
+        self.data_class = data
+        
     
     #ОТКРЫТЬ МИНИ ГРАФИК 
     def open_mini_graph_trade(self,number_graph):
@@ -52,6 +54,20 @@ class Trade_page(ft.UserControl):#1
                 data_add = ft.Container(ft.Text('Нет сделок',color=c_white,text_align='center'),height=30,bgcolor=c_blue_binance,width=400)
                 self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
                 self.update()
+            # если торгуем избранной стратегией
+            if self.data_class!='':
+                # копируем данные трейда
+                os.mkdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade\\{len(os.listdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade'))+1}')
+                shutil.copy(
+                    os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}', 'log_trade.txt'),
+                    os.path.join(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade\\{len(os.listdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade'))}') # путь сохранения 
+                )
+                if self.count_trade_now != 0:
+                    shutil.copy(
+                        os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}', 'trade.txt'),
+                        os.path.join(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade\\{len(os.listdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade'))}') # путь сохранения 
+                    )
+                
         elif self.regime=='much_set':
             self.table_result = Table_result(self.reptint_table_result,self.print_page_one_trade_oura_set)
             # получаем кол-во настроек в сете
@@ -201,7 +217,8 @@ class Trade_page(ft.UserControl):#1
         self.controls[0].content.content.content.controls.append(self.output_info_trade.print_itog_and_graph('graph_1'))
         self.content.scroll_to(key="itog", duration=1000)
         if self.regime=='one_set':
-            self.add_btn_add_favorites()
+            if self.data_class=='':
+                self.add_btn_add_favorites()
         
 
     # Добавляем кнопку - добавить в избранное на страницу11

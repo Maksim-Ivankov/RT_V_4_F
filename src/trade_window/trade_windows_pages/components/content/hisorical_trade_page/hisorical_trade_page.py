@@ -17,6 +17,7 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.trade_page import Trade_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.istoriya_treyd_page import Istoriya_treyd_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.isbrannoe_page.isbrannoe_page import Isbrannoe_page
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.isbrannoe_page.use_favorite_page import Use_favorite_page
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.isbrannoe_page.print_trade_in_favorites import Print_trade_in_favorites
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.isbrannoe_page.print_one_trayd_day_pages import Print_one_trayd_day_pages
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.isbrannoe_page.update_favorite_page import Update_favorite_page
@@ -28,7 +29,7 @@ class Hisorical_trade_page(ft.UserControl):
     def __init__(self,page):
         super().__init__()
         # self.ferst_page = 'Первая'
-        self.ferst_page = 'Избранные стратегии' 
+        self.ferst_page = 'Свободный фрейм' 
         self.page = page
 
     def print_page(self,page,data=''):
@@ -61,7 +62,7 @@ class Hisorical_trade_page(ft.UserControl):
             pages_list=Regim_set_settings_page(self.change_page)
             title_list='Торговля по историческим данным | Задание сета настроек'
         if page == 'Запустить торговлю':
-            pages_list=Trade_page(self.change_page)
+            pages_list=Trade_page(self.change_page,'one_set',data)
             title_list='Торговля по историческим данным | Торговля'
         if page == 'Запустить торговлю сет':
             pages_list=Trade_page(self.change_page,'much_set')
@@ -71,6 +72,12 @@ class Hisorical_trade_page(ft.UserControl):
             title_list='Торговля по историческим данным | История торговли'
         if page == 'Избранные стратегии':
             pages_list=Isbrannoe_page(self.change_page)
+            title_list='Торговля по историческим данным | Избранные стратегии'
+        if page == 'Использовать избранную стратегию':
+            pages_list=Isbrannoe_page(self.change_page,data['regime'])
+            title_list='Торговля по историческим данным | Избранные стратегии'
+        if page == 'Использовать избранную стратегию изнутри':
+            pages_list=Use_favorite_page(self.change_page)
             title_list='Торговля по историческим данным | Избранные стратегии'
         if page == 'Добавить в избранное':
             pages_list=Add_to_favorites_page(self.change_page,data)

@@ -85,10 +85,18 @@ class HisTrade_Svoboda_OneSettings():
         "режим объема мин"
         self.regime_CANDLE_COIN_MAX = config.get('param_trade_historical_trade_svobodniy_freym', 'regim_volume_max') # режим объема
         "режим объема макс"
-        self.CANDLE_COIN_MIN = int(config.get('param_trade_historical_trade_svobodniy_freym', 'volume_min')) # объем торгов за свечку
-        "объем торгов за свечку мин"
-        self.CANDLE_COIN_MAX = int(config.get('param_trade_historical_trade_svobodniy_freym', 'volume_max')) # объем торгов за свечку
-        "объем торгов за свечку макс"
+        if config.get('param_trade_historical_trade_svobodniy_freym', 'volume_min')[-2]=='.':
+            self.CANDLE_COIN_MIN = int(config.get('param_trade_historical_trade_svobodniy_freym', 'volume_min')[:-2]) # объем торгов за свечку
+            "объем торгов за свечку мин"
+        else: 
+            self.CANDLE_COIN_MIN = int(config.get('param_trade_historical_trade_svobodniy_freym', 'volume_min')) # объем торгов за свечку
+            "объем торгов за свечку мин"
+        if config.get('param_trade_historical_trade_svobodniy_freym', 'volume_min')[-2]=='.':
+            self.CANDLE_COIN_MAX = int(config.get('param_trade_historical_trade_svobodniy_freym', 'volume_max')[:-2]) # объем торгов за свечку
+            "объем торгов за свечку макс"
+        else:
+            self.CANDLE_COIN_MAX = int(config.get('param_trade_historical_trade_svobodniy_freym', 'volume_max')) # объем торгов за свечку
+            "объем торгов за свечку макс"
         self.COINS = config.get('param_trade_historical_trade_svobodniy_freym', 'coins_trade').split('|') # монеты для торговли
         "монеты для торговли"
         self.change_time_settings = config.get('param_trade_historical_trade_svobodniy_freym', 'change_time_settings') # работает или нет функция торговли по времени
@@ -248,6 +256,8 @@ class HisTrade_Svoboda_SetSettings():
                 'diapazon_sl': float(config_set.get(f'{str(i)}_section', 'diapazon_sl'))/100,
                 'diapazon_volume_min': float(config_set.get(f'{str(i)}_section', 'diapazon_volume_min')),
                 'diapazon_volume_max': float(config_set.get(f'{str(i)}_section', 'diapazon_volume_max')),
+                'time_on_work': config_set.get(f'{str(i)}_section', 'start_time'),
+                'time_off_work': config_set.get(f'{str(i)}_section', 'stop_time'),
             }
             
         # Сохраняем общие настройки в папку с трейдом

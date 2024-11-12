@@ -137,7 +137,7 @@ class Svoboda_freym_page(ft.UserControl):
 
     # рисуем логи в правую колонку
     def print_log(self,msg):
-        print(msg)
+        # print(msg)
         self.print_msg_mas.insert(0,ft.Text(msg,color=c_blue,size=12))
         self.componen_log.update_page(self.print_msg_mas)
         self.update()
@@ -233,7 +233,7 @@ class Svoboda_freym_page(ft.UserControl):
 
     
     def print_page(self):
-        print('Начинаем')
+        # print('Начинаем')
         config = configparser.ConfigParser()         
         config.read(path_imports_config)
         if ('param_trade_historical_trade_svobodniy_freym') in config.sections():
@@ -382,9 +382,10 @@ class Svoboda_freym_page(ft.UserControl):
                                                     ft.Row(controls=[
                                                     ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Первая',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
                                                     ft.Container(ft.ElevatedButton(content = ft.Text('Настроить торгового робота',size=12,),data='Настройки робота',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
-                                                ]),padding=ft.padding.only(left=200,top=10)
+                                                    ft.Container(ft.ElevatedButton(content = ft.Text('Использовать избранную тсратегию',size=12,),data={'page':'Использовать избранную стратегию','regime':'Дневная торговля'},bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                                ]),padding=ft.padding.only(left=72,top=10)
                                                 ),
-                                                width=709,
+                                                width=709
                                                 # height=100
                                             )
                                         ]
