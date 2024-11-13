@@ -7,6 +7,15 @@ from imports import *
        
 def One_settings_def(print_our_settings,print_set_settings,change_page,start_trade):
     
+    config = configparser.ConfigParser()         
+    config.read(path_imports_config)
+    regime_trade_page = config.get('param_trade_historical_trade_svobodniy_freym', 'regime_trade_page')
+    
+    if regime_trade_page == 'svoboda':
+        btn_back = ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30)
+    elif regime_trade_page == 'historical':
+        btn_back = ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Одна настройка',bgcolor=c_yelow,on_click=change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30)
+    
     return ft.Column(controls=[
             ft.Container(ft.Text('Проверьте настройки и запустите торговлю',size=12,color=c_white,text_align='center'),padding=ft.padding.only(left=320)),
             ft.Container(
@@ -61,7 +70,7 @@ def One_settings_def(print_our_settings,print_set_settings,change_page,start_tra
             ft.Container(
                 ft.Container(
                     ft.Row(controls=[
-                    ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                    btn_back,
                     ft.Container(ft.ElevatedButton(content = ft.Text('Запустить торговлю',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=start_trade,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
                 ]),padding=ft.padding.only(left=320,top=10)
                 ),

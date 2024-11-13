@@ -27,6 +27,7 @@ class Trade_page(ft.UserControl):#1
         self.count_trade_now = 0
         self.our_frame = []
         self.data_class = data
+
         
     
     #ОТКРЫТЬ МИНИ ГРАФИК 

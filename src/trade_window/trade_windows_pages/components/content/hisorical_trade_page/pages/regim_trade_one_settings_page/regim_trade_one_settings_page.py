@@ -97,6 +97,9 @@ class Regim_trade_one_settings_page(ft.UserControl):
             'CDLSPINNINGTOP':CDLSPINNINGTOP(),
             'CDLTASUKIGAP':CDLTASUKIGAP(),
         }
+        config = configparser.ConfigParser()         
+        config.read(path_imports_config)
+        self.regime_trade_page = config.get('param_trade_historical_trade_svobodniy_freym', 'regime_trade_page')
 
 
     def build(self):
@@ -108,6 +111,11 @@ class Regim_trade_one_settings_page(ft.UserControl):
         strat_mas = []
         for strat in self.strategys:
             strat_mas.append(self.strategy_print[strat])
+            
+        if self.regime_trade_page == 'svoboda':
+            btn_back = ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30)
+        elif self.regime_trade_page == 'historical':
+            btn_back = ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Выбрать стратегию торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30)
 
         self.regim_trade_one_settings_page = ft.Container(
             ft.Container(
@@ -118,7 +126,7 @@ class Regim_trade_one_settings_page(ft.UserControl):
                                 ft.Container(
                                     ft.Container(
                                         ft.Row(controls=[
-                                            ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                            btn_back,
                                             ft.Container(ft.ElevatedButton(content = ft.Text('Запустить торговлю',size=12,),data='Запустить торговлю',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
                                     ]),padding=ft.padding.only(left=290,top=10)
                                     ),

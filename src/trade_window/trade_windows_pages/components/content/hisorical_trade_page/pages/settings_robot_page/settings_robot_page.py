@@ -15,6 +15,9 @@ class Settings_robot_page(ft.UserControl):
     def __init__(self,change_page):
         super().__init__()
         self.change_page = change_page
+        config = configparser.ConfigParser()         
+        config.read(path_imports_config)
+        self.regime_trade_page = config.get('param_trade_historical_trade_svobodniy_freym', 'regime_trade_page')
 
     def input_name_bot(self,e):
         Save_config('param_trade_historical_trade_svobodniy_freym',{'name_bot':str(e.control.value)})
@@ -77,6 +80,10 @@ class Settings_robot_page(ft.UserControl):
         if self.change_time_settings_get==0:self.change_time_settings_param = False
         elif self.change_time_settings_get==1:self.change_time_settings_param = True
 
+        if self.regime_trade_page == 'svoboda':
+            btn_back = ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Свободный фрейм',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30)
+        elif self.regime_trade_page == 'historical':
+            btn_back = ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Историческая торговля',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30)
 
         self.settings_robot = ft.Container(
             ft.Container(
@@ -157,7 +164,7 @@ class Settings_robot_page(ft.UserControl):
                                 ft.Container(
                                     ft.Container(
                                         ft.Row(controls=[
-                                        ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Свободный фрейм',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
+                                        btn_back,
                                         ft.Container(ft.ElevatedButton(content = ft.Text('Выбрать стратегию торговли',size=12,),data='Выбрать стратегию торговли',bgcolor=c_yelow,on_click=self.change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30),
                                     ]),padding=ft.padding.only(left=130,top=10)
                                     ),
