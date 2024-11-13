@@ -47,6 +47,7 @@ class Historical_trade_page(ft.UserControl):
         self.change_page = change_page
         self.date_start_change = ''
         self.date_end_change = ''
+        Save_config('param_trade_historical_trade_svobodniy_freym',{'regime_trade_page':'historical'})
         
     # выбор выпадашки - следим за ценой
     def on_change_sledim_sa_cenoy(self,e):

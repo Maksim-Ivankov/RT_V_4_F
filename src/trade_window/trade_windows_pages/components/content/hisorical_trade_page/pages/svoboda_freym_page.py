@@ -46,6 +46,7 @@ class Svoboda_freym_page(ft.UserControl):
         }
         self.page = page
         self.change_page = change_page
+        Save_config('param_trade_historical_trade_svobodniy_freym',{'regime_trade_page':'svoboda'})
         # Save_config('param_trade_historical_trade_svobodniy_freym',{'use_last_sost':'False'}) # при инициализации используем не сохраненные данные, а текущие
     
     # выбор выпадашки - следим за ценой
