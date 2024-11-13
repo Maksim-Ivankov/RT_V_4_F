@@ -24,6 +24,7 @@ if os.path.isdir(appdata) == False:
 # путь к файлу конфигурации для авторизации (запомнить меня)
 path_imports_config = appdata + '\\config.ini' # основной файл инициализации, всех настроек
 path_ini_svoboda_freym = appdata + '\\svoboda_freym.ini' # файл настроек для данных историческая торговля/свободный фрейм
+path_ini_historical_freym = appdata + '\\historical_freym.ini' # файл настроек для данных историческая торговля/историческая торговля
 path_ini_general_set = appdata + '\\general_set.ini' # файл общего сета настроек
 path_ini_one_set = appdata + '\\one_set.ini' # файл сета настроек one
 path_ini_MA_set = appdata + '\\MA_set.ini' # файл сета настроек MA
@@ -85,6 +86,13 @@ if os.path.isdir(f'{appdata}\\favorites'):
 else:
     os.mkdir(f'{appdata}\\favorites') # если папки нет, создаем её
     path_favorites = appdata+'\\favorites' # сюда будем сохранять избранное
+    
+# проверяем есть ли папка в директории для сохраненеия датафреймов исторической торговли (дней сетов)
+if os.path.isdir(f'{appdata}\\historical_freym'): 
+    path_historical_freym = appdata+'\\historical_freym' # сюда будем сохранять избранное
+else:
+    os.mkdir(f'{appdata}\\historical_freym') # если папки нет, создаем её
+    path_historical_freym = appdata+'\\historical_freym' # сюда будем сохранять избранное
 
 
 #--------------------------------------------------

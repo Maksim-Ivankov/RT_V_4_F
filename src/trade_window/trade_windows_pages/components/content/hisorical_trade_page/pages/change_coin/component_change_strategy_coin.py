@@ -7,31 +7,49 @@ from src.trade_window.trade_windows_pages.components.content.controllers.save_co
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_coin.component_table import Component_table
 
 class Component_change_strategy_coin(ft.UserControl):
-    def __init__(self,close_modal,coin_save):
+    def __init__(self,close_modal,coin_save,regime='day_trade'):
         super().__init__()
         self.close_modal = close_modal
         self.coin_save = coin_save
-        self.strategy_coin_list = {
-            'top_dvigeniya':'Топ движения за день до текущего',
-            'top_value':'Топ объёма за день до текущего',
-            'change_list':'Выбрать из списка'
-        }
+        self.regime = regime
+        if self.regime=='day_trade':
+            self.strategy_coin_list = {
+                'top_dvigeniya':'Топ движения за день до текущего',
+                'top_value':'Топ объёма за день до текущего',
+                'change_list':'Выбрать из списка'
+            }
+        elif self.regime=='his_trade':
+            self.strategy_coin_list = {
+                'top_value':'Топ объёма за год',
+                'change_list':'Выбрать из списка'
+            }
 
-        self.flags_this = {
-            'top_dvigeniya':False,
-            'top_value':False,
-            'change_list':False
-        }
+        if self.regime=='day_trade':
+            self.flags_this = {
+                'top_dvigeniya':False,
+                'top_value':False,
+                'change_list':False
+            }
+        elif self.regime=='his_trade':
+            self.flags_this = {
+                'top_value':False,
+                'change_list':False
+            }
 
         self.top_dvigeniya = ft.Ref[ft.CupertinoCheckbox]()
         self.top_value = ft.Ref[ft.CupertinoCheckbox]()
         self.change_list = ft.Ref[ft.CupertinoCheckbox]()
-
-        self.refs_this = {
-            'top_dvigeniya':self.top_dvigeniya,
-            'top_value':self.top_value,
-            'change_list':self.change_list
-        }
+        if self.regime=='day_trade':
+            self.refs_this = {
+                'top_dvigeniya':self.top_dvigeniya,
+                'top_value':self.top_value,
+                'change_list':self.change_list
+            }
+        elif self.regime=='his_trade':
+            self.refs_this = {
+                'top_value':self.top_value,
+                'change_list':self.change_list
+            }
         
 
     # выбор чекбокса
@@ -51,18 +69,28 @@ class Component_change_strategy_coin(ft.UserControl):
             e.control.content.controls[0].value=False
             self.flags_this[e.control.content.controls[1].content.data] = False
         self.update()
-        data_save = {
-            'strategi_coin':self.change_coin
-        }
-        Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
-        
+        if self.regime=='day_trade':
+            data_save = {
+                'strategi_coin':self.change_coin
+            }
+            Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
+        elif self.regime=='his_trade':
+            data_save = {
+                'strategi_coin_historical':self.change_coin
+            }
+            Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
 
     # кнопка продолжить нажатие
     def save_change_type_coin(self,e):
-        strategy_coin_list_collback = {
-            'top_dvigeniya':'Топ движения',
-            'top_value':'Топ объёма',
-        }
+        if self.regime=='day_trade':
+            strategy_coin_list_collback = {
+                'top_dvigeniya':'Топ движения',
+                'top_value':'Топ объёма',
+            }
+        elif self.regime=='his_trade':
+            strategy_coin_list_collback = {
+                'top_value':'Топ объёма',
+            }
         if self.change_coin != 'change_list':
             self.close_modal()
             self.coin_save(strategy_coin_list_collback[self.change_coin])
@@ -76,13 +104,20 @@ class Component_change_strategy_coin(ft.UserControl):
 
         config = configparser.ConfigParser()         
         config.read(path_imports_config)
-        if ('param_trade_historical_trade_svobodniy_freym') in config.sections():
-            self.change_coin = config.get('param_trade_historical_trade_svobodniy_freym', 'strategi_coin')
-            self.flags_this[self.change_coin] = True
-        else:
-            self.change_coin = 'top_dvigeniya'
-            self.flags_this['top_dvigeniya'] = True
-
+        if self.regime=='day_trade':
+            if ('param_trade_historical_trade_svobodniy_freym') in config.sections():
+                self.change_coin = config.get('param_trade_historical_trade_svobodniy_freym', 'strategi_coin')
+                self.flags_this[self.change_coin] = True
+            else:
+                self.change_coin = 'top_dvigeniya'
+                self.flags_this['top_dvigeniya'] = True
+        elif self.regime=='his_trade':
+            if ('param_trade_historical_trade_svobodniy_freym') in config.sections():
+                self.change_coin = config.get('param_trade_historical_trade_svobodniy_freym', 'strategi_coin_historical')
+                self.flags_this[self.change_coin] = True
+            else:
+                self.change_coin = 'top_value'
+                self.flags_this['top_value'] = True
 
         item_strategy = []
         for i in self.strategy_coin_list.keys():
@@ -126,7 +161,6 @@ class Component_change_strategy_coin(ft.UserControl):
                     height=320,
                     bgcolor=c_blue,
                     border=ft.border.all(1,c_white),
-                    # margin=ft.margin.only(bottom=500,)
                     margin=ft.margin.only(bottom=180,top=-100)
                     )
         

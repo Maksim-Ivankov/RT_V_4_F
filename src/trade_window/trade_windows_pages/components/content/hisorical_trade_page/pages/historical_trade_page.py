@@ -45,6 +45,8 @@ class Historical_trade_page(ft.UserControl):
         }
         self.page = page
         self.change_page = change_page
+        self.date_start_change = ''
+        self.date_end_change = ''
         
     # выбор выпадашки - следим за ценой
     def on_change_sledim_sa_cenoy(self,e):
@@ -88,125 +90,184 @@ class Historical_trade_page(ft.UserControl):
     # ЗДЕСЬ МОДАЛКА!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     # окно выбора стратегии монет1
     def chage_coin(self,e):
-        bs = Cgange_coin_window(self.coin_save)
-        self.page.overlay.append(bs)
+        self.page.overlay.append(Cgange_coin_window(self.coin_save,'his_trade'))
         self.page.update()
-        print('Окно выбора стратегий монет')
 
     # кнопка - получить данные
     def get_data_df(self,e):
-        # thread7654 = threading.Thread(target=self.generate_dataframe)
-        # thread7654.start()
-        print('Получаем данные')
+        thread7654 = threading.Thread(target=self.generate_dataframe)
+        thread7654.start()
 
     #------------------------------------------------------------------------1
     # # получить кол-во свечей, объём дф рабочий
-    # def get_volume(self):
-    #     return self.dlitelnost_slow[self.change_how_mach_time]/self.work_tf_slov[self.change_work_tf]
+    def get_volume(self):
+        return 1440/self.work_tf_slov[self.change_work_tf]
     # # получить кол-во свечей, объём дф слежения
-    # def get_see_volume(self):
-    #     return self.dlitelnost_slow[self.change_how_mach_time]/self.see_tf_slov[self.change_sledim_sa_cenoy]
+    def get_see_volume(self):
+        return 1440/self.see_tf_slov[self.change_sledim_sa_cenoy]
     # # получить массив монет - топ движения
-    # def get_mas_coin(self,strat,count):
-    #     # получаем данные из файла
-    #     with open(path_data_map_coin, encoding='utf-8') as json_file:
-    #         data = json.load(json_file)
-    #     if strat == 'Топ движения':
-    #         data = sorted(data, reverse=True,key=lambda d: abs(float(d['priceChangePercent'])))
-    #     elif strat == 'Топ объёма':
-    #         data = sorted(data, reverse=True,key=lambda d: float(d['quoteVolume']))
-    #     data_new = data[:int(count)]
-    #     data_return = []
-    #     for i in data_new:
-    #         data_return.append(i['symbol'])
-    #     # return data
-    #     return data_return
+    def get_mas_coin(self,strat,count):
+        # получаем данные из файла
+        with open(path_data_map_coin, encoding='utf-8') as json_file:
+            data = json.load(json_file)
+        data = sorted(data, reverse=True,key=lambda d: float(d['quoteVolume']))
+        data_new = data[:int(count)]
+        data_return = []
+        for i in data_new:
+            data_return.append(i['symbol'])
+        # return data
+        return data_return
+    
     
     # Получите последние n свечей по n минут для торговой пары, обрабатываем и записывае данные в датафрейм
-    def get_futures_klines(self,symbol,TF,VOLUME):
-        pass
-        # x = requests.get('https://fapi.binance.com/fapi/v1/klines?symbol='+symbol.upper()+'&limit='+str(VOLUME)+'&interval='+TF)
-        # df=pd.DataFrame(x.json())
-        # df.columns=['open_time','open','high','low','close','VOLUME','close_time','d1','d2','d3','d4','d5']
-        # df=df.drop(['d1','d2','d3','d4','d5'],axis=1)
-        # df['open']=df['open'].astype(float)
-        # df['high']=df['high'].astype(float)
-        # df['low']=df['low'].astype(float)
-        # df['close']=df['close'].astype(float)
-        # df['VOLUME']=df['VOLUME'].astype(float)
-        # return(df) # возвращаем датафрейм с подготовленными данными
+    # def get_futures_klines(self,symbol,TF,VOLUME):
+    def get_futures_klines(self,data,regime):
+        if regime=='work':
+            x = requests.get('https://fapi.binance.com/fapi/v1/klines?symbol='+data['coin'].upper()+'&limit='+str(data['volume_work'])+'&interval='+data['TF']+'&startTime='+str(data['time1'])+'000'+'&endTime='+str(data['time2'])+'000')
+            # x = requests.get('https://fapi.binance.com/fapi/v1/klines?symbol='+data['coin'].upper()+'&limit='+str(data['volume_work'])+'&interval='+data['TF']+'&start_time='+str(data['time1'])+'&end_time='+str(data['time2']))
+        elif regime=='see':
+            x = requests.get('https://fapi.binance.com/fapi/v1/klines?symbol='+data['coin'].upper()+'&limit='+str(data['volume_see'])+'&interval='+data['TF_see']+'&startTime='+str(data['time1'])+'000'+'&endTime='+str(data['time2'])+'000')
+            # x = requests.get('https://fapi.binance.com/fapi/v1/klines?symbol='+data['coin'].upper()+'&limit='+str(data['volume_see'])+'&interval='+data['TF_see']+'&start_time='+str(data['time1'])+'&end_time='+str(data['time2']))
+        df=pd.DataFrame(x.json())
+        df.columns=['open_time','open','high','low','close','VOLUME','close_time','d1','d2','d3','d4','d5']
+        df=df.drop(['d1','d2','d3','d4','d5'],axis=1)
+        df['open']=df['open'].astype(float)
+        df['high']=df['high'].astype(float)
+        df['low']=df['low'].astype(float)
+        df['close']=df['close'].astype(float)
+        df['VOLUME']=df['VOLUME'].astype(float)
+        return(df) # возвращаем датафрейм с подготовленными данными
 
     # рисуем логи в правую колонку
     def print_log(self,msg):
-        pass
-        # self.print_msg_mas.insert(0,ft.Text(msg,color=c_blue,size=12))
-        # self.componen_log.update_page(self.print_msg_mas)
-        # self.update()
+        self.print_msg_mas.insert(0,ft.Text(msg,color=c_blue,size=12))
+        self.componen_log.update_page(self.print_msg_mas)
+        self.update()
 
 
     # генерируем датафреймы в отдельном потоке
     def generate_dataframe(self):
-        print('генерация датафреймов')
-        # Save_config('param_trade_historical_trade_svobodniy_freym',{'use_last_sost':'False'})
-        # self.print_msg_mas = []
-        # # сколько получить свечей рабочий
-        # self.VOLUME = self.get_volume()
-        # # сколько получить свечей слежения
-        # self.SEE_VOLUME = self.get_see_volume()
-        # # получаем массив монет для запроса дф
-        # if self.strat_coin_text == 'Список монет':
-        #     self.COIN_TRADE = self.coins_trade # массив монет
-        #     self.HOW_MACH_COIN = len(self.COIN_TRADE) # кол-во монет
-        # elif self.strat_coin_text == 'Топ движения':
-        #     self.HOW_MACH_COIN = self.change_count_coin # кол-во монет
-        #     self.COIN_TRADE = self.get_mas_coin('Топ движения',self.HOW_MACH_COIN) # массив монет
-        #     Save_config('param_trade_historical_trade_svobodniy_freym',{'coins_trade':'|'.join(self.COIN_TRADE)})
-        # elif self.strat_coin_text == 'Топ объёма':
-        #     self.HOW_MACH_COIN = self.change_count_coin # кол-во монет
-        #     self.COIN_TRADE = self.get_mas_coin('Топ объёма',self.HOW_MACH_COIN) # массив монет
-        #     Save_config('param_trade_historical_trade_svobodniy_freym',{'coins_trade':'|'.join(self.COIN_TRADE)})
-        # # отрисовываем монеты
-        # coin_print = []
-        # for i in self.COIN_TRADE:
-        #     coin_print.append(
-        #         ft.Container(ft.Text(i,color=c_blue,size=12,text_align='center'),width=160)
-        #     )
-        # self.component_coin_log.update_page(coin_print)
-        # # получаем и увеличиваем на 1 порядковый номер
-        # config = configparser.ConfigParser()         
-        # config.read(path_imports_config)
-        # self.number_trade = config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade')
-        # self.number_trade = int(self.number_trade)+1
-        # Save_config('param_trade_historical_trade_svobodniy_freym',{'number_trade':str(self.number_trade)})
-        # # получаем датафреймы и сохраняем в файл
-        # os.mkdir(f'{path_svoboda_freym}/{self.number_trade}')
-        # os.mkdir(f'{path_svoboda_freym}/{self.number_trade}/work')
-        # os.mkdir(f'{path_svoboda_freym}/{self.number_trade}/see')
-        # self.print_log('Начали сбор данных')
-        # # Сохраняем данные по текущему сету коинов 
-        # data_save = {
-        #     'how_mach_coin':str(self.HOW_MACH_COIN),
-        #     'coin_mas':str(self.COIN_TRADE),
-        #     'volume':str(self.VOLUME),
-        #     'see_volume':str(self.SEE_VOLUME),
-        #     'tf_see':str(self.change_sledim_sa_cenoy),
-        #     'tf_work':str(self.change_work_tf),
-        #     'how_mach_time':str(self.change_how_mach_time),
-        #     'strategy_coin':str(self.strat_coin_text_celka),
-        #     'time':str(time.strftime("%d.%m.%Y | %H:%M:%S", time.localtime())),
-        #     }                                   # сюда сохранить данные
-        # Save_config(str(self.number_trade),data_save,path_ini_svoboda_freym)
-        # x=1
-        # for coin in self.COIN_TRADE:
-        #     df = self.get_futures_klines(coin,self.change_work_tf,int(self.VOLUME))
-        #     df.to_csv(f'{path_svoboda_freym}/{self.number_trade}/work/{coin}.csv')
-        #     time.sleep(2)
-        #     df = self.get_futures_klines(coin,self.change_sledim_sa_cenoy,int(self.SEE_VOLUME))
-        #     df.to_csv(f'{path_svoboda_freym}/{self.number_trade}/see/{coin}.csv')
-        #     time.sleep(2)
-        #     self.print_log(f'{x}/{len(self.COIN_TRADE)} | Датафрейм {coin} добавлен')
-        #     x+=1
-        # self.print_log('Закончили сбор данных')
+        if self.date_start_change!='' and self.date_end_change!='':
+            Save_config('param_trade_historical_trade_svobodniy_freym',{'use_last_sost':'False'})
+            self.print_msg_mas = []
+            # сколько получить свечей рабочий
+            self.VOLUME = int(self.get_volume()   )     
+            # # сколько получить свечей слежения
+            self.SEE_VOLUME = int(self.get_see_volume())
+            # получаем массив монет для запроса дф
+            if self.strat_coin_text == 'Список монет':
+                self.COIN_TRADE = self.coins_trade # массив монет
+                self.HOW_MACH_COIN = len(self.COIN_TRADE) # кол-во монет
+            elif self.strat_coin_text == 'Топ объёма':
+                self.HOW_MACH_COIN = self.change_count_coin # кол-во монет
+                self.COIN_TRADE = self.get_mas_coin('Топ объёма',self.HOW_MACH_COIN) # массив монет
+                Save_config('param_trade_historical_trade_svobodniy_freym',{'coins_trade':'|'.join(self.COIN_TRADE)})
+            # # отрисовываем монеты
+            coin_print = []
+            for i in self.COIN_TRADE:
+                coin_print.append(
+                    ft.Container(ft.Text(i,color=c_blue,size=12,text_align='center'),width=160)
+                )
+            self.component_coin_log.update_page(coin_print)
+            # получаем и увеличиваем на 1 порядковый номер
+            config = configparser.ConfigParser()         
+            config.read(path_imports_config)
+            self.number_trade = config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade_historical')
+            self.number_trade = int(self.number_trade)+1
+            Save_config('param_trade_historical_trade_svobodniy_freym',{'number_trade_historical':str(self.number_trade)})
+            # получаем датафреймы и сохраняем в файл
+            os.mkdir(f'{path_historical_freym}/{self.number_trade}')
+            os.mkdir(f'{path_historical_freym}/{self.number_trade}/work')
+            os.mkdir(f'{path_historical_freym}/{self.number_trade}/see')
+            self.print_log('Начали сбор данных')
+            # Сохраняем данные по текущему сету коинов 
+            data_save = {
+                'how_mach_coin':str(self.HOW_MACH_COIN),
+                'coin_mas':str(self.COIN_TRADE),
+                'volume':str(self.VOLUME),
+                'see_volume':str(self.SEE_VOLUME),
+                'tf_see':str(self.change_sledim_sa_cenoy),
+                'tf_work':str(self.change_work_tf),
+                'how_mach_time':str(self.change_how_mach_time),
+                'strategy_coin':str(self.strat_coin_text_celka),
+                'time':str(time.strftime("%d.%m.%Y | %H:%M:%S", time.localtime())),
+                'date_start':str(self.date_start_change),
+                'date_end':str(self.date_end_change),
+                }                                   # сюда сохранить данные
+            Save_config(str(self.number_trade),data_save,path_ini_historical_freym)
+            
+            date_format_bin = "%Y-%m-%d"
+            request_bin_one_set_date = {}
+            request_bin_one_set_date_coin = {}
+            a = datetime.strptime(str(self.date_start_change).split(' ')[0], date_format_bin)
+            b = datetime.strptime(str(self.date_end_change).split(' ')[0], date_format_bin)
+            delta = (b - a).days
+            date_prom_2 = str(self.date_start_change).split(' ')[0].split('-')
+            for i in range(delta):
+                date_1_bin = datetime(int(date_prom_2[0]),int(date_prom_2[1]),int(date_prom_2[2]),0,0,0) + timedelta(days=i)
+                # date_1_bin = str(datetime(int(date_prom_2[0]),int(date_prom_2[2]),int(date_prom_2[1]),0,0,0) + timedelta(days=i)).split(' ')[0]
+                date_2_bin = datetime(int(date_prom_2[0]),int(date_prom_2[1]),int(date_prom_2[2]),0,0,0) + timedelta(days=i+1)
+                
+                date_1_bin = int(time.mktime(date_1_bin.timetuple()))
+                date_2_bin = int(time.mktime(date_2_bin.timetuple()))
+                
+                # date_2_bin = str(datetime(int(date_prom_2[0]),int(date_prom_2[2]),int(date_prom_2[1]),0,0,0) + timedelta(days=i+1)).split(' ')[0]
+                os.mkdir(f'{path_historical_freym}/{self.number_trade}/work/{i}')
+                os.mkdir(f'{path_historical_freym}/{self.number_trade}/see/{i}')
+                try:
+                    for coin in self.COIN_TRADE:
+                        request_bin_one_set_date_coin[coin] = {
+                            'time1' : date_1_bin,
+                            'time2' : date_2_bin,
+                            'coin' : coin,
+                            'TF' : self.change_work_tf,
+                            'TF_see' : self.change_sledim_sa_cenoy,
+                            'volume_work':self.VOLUME,
+                            'volume_see':self.SEE_VOLUME
+                        }
+                        df_work_celka = self.get_futures_klines(request_bin_one_set_date_coin[coin],'work')
+                        df_work_celka.to_csv(f'{path_historical_freym}/{self.number_trade}/work/{i}/{coin}.csv')
+                        time.sleep(2)
+                        df_work_celka = self.get_futures_klines(request_bin_one_set_date_coin[coin],'see')
+                        df_work_celka.to_csv(f'{path_historical_freym}/{self.number_trade}/see/{i}/{coin}.csv')
+                        time.sleep(2)
+                        self.print_log(f'{i+1}/{delta} | Датафрейм {coin} добавлен')
+                except Exception as e:
+                    print(f'Ошибка получения данных по монете - {e}')
+                    self.COIN_TRADE.remove(coin) # удаляем из массива монет монету, которые не можем обработать
+                    Save_config('param_trade_historical_trade_svobodniy_freym',{'coins_trade':'|'.join(self.COIN_TRADE)})
+                    self.print_log(f'{i+1}/{delta} | Ошибка данных в монете {coin}. Удаляем из списка')
+            self.print_log('Закончили сбор данных')
+                    
+                    
+            # x=1
+            # for coin in self.COIN_TRADE:
+            #     df = self.get_futures_klines(coin,self.change_work_tf,int(self.VOLUME))
+            #     df.to_csv(f'{path_svoboda_freym}/{self.number_trade}/work/{coin}.csv')
+            #     time.sleep(2)
+            #     df = self.get_futures_klines(coin,self.change_sledim_sa_cenoy,int(self.SEE_VOLUME))
+            #     df.to_csv(f'{path_svoboda_freym}/{self.number_trade}/see/{coin}.csv')
+            #     time.sleep(2)
+            #     self.print_log(f'{x}/{len(self.COIN_TRADE)} | Датафрейм {coin} добавлен')
+            #     x+=1
+            # self.print_log('Закончили сбор данных')
+        else: print('Нихуя, валидация. Нет выбранных даты начала и конца')
+        
+        
+    # получить датафрейм по одной монете в интервале
+    def GetHistoricalData(self, request_bin_one_set_date):
+
+        if request_bin_one_set_date['regime'] == 'work':tf_now = request_bin_one_set_date['TF']
+        if request_bin_one_set_date['regime'] == 'see':tf_now = request_bin_one_set_date['TF_see']
+
+        # Выполните запрос из binance - временные метки должны быть преобразованы в строки!
+        self.candle = self.client.get_historical_klines(request_bin_one_set_date['coin'], tf_now, str(request_bin_one_set_date['time1']), str(request_bin_one_set_date['time2']))
+        # Создайте фрейм данных, чтобы пометить все столбцы, возвращаемые binance, чтобы мы могли поработать с ними позже.
+        self.df = pd.DataFrame(self.candle, columns=['open_time', 'open', 'high', 'low', 'close', 'VOLUME', 'close_time', 'quoteAssetVolume', 'numberOfTrades', 'takerBuyBaseVol', 'takerBuyQuoteVol', 'ignore'])
+        # Избавимся от ненужных нам столбцов
+        self.df = self.df.drop(['quoteAssetVolume', 'numberOfTrades', 'takerBuyBaseVol','takerBuyQuoteVol', 'ignore'], axis=1)
+
+        return self.df
 
     # колбэк изнутри - использовать прошлые данные, когда выбираешь данные
     def change_storage_data(self,number):
@@ -269,12 +330,12 @@ class Historical_trade_page(ft.UserControl):
             self.change_sledim_sa_cenoy = config.get('param_trade_historical_trade_svobodniy_freym', 'sledim_money')
             self.change_work_tf = config.get('param_trade_historical_trade_svobodniy_freym', 'work_tf')
             self.change_how_mach_time = config.get('param_trade_historical_trade_svobodniy_freym', 'dlitelnost')
-            self.number_trade = config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade')
+            self.number_trade = config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade_historical')
             self.use_last_sost = config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost')
             self.use_last_number = config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')
             self.coins_trade = config.get('param_trade_historical_trade_svobodniy_freym', 'coins_trade').split('|')
-            self.strat_coin_text_celka = config.get('param_trade_historical_trade_svobodniy_freym', 'strategi_coin')
-            self.strat_coin_text = self.text_for_button_slov[config.get('param_trade_historical_trade_svobodniy_freym', 'strategi_coin')]
+            self.strat_coin_text_celka = config.get('param_trade_historical_trade_svobodniy_freym', 'strategi_coin_historical')
+            self.strat_coin_text = self.text_for_button_slov[config.get('param_trade_historical_trade_svobodniy_freym', 'strategi_coin_historical')]
             if self.strat_coin_text == 'Список монет':
                 self.change_count_coin = len(self.coins_trade)
             else: self.change_count_coin = int(config.get('param_trade_historical_trade_svobodniy_freym', 'how_mach_money'))
@@ -291,63 +352,64 @@ class Historical_trade_page(ft.UserControl):
         
         # если есть датафреймы
         # получаем файлы в указанной директории массивом
-        # file_work = []
-        # file_see = []
-        # for (dirpath, dirnames, filenames) in os.walk(f'{path_svoboda_freym}/{self.number_trade}/work/'):
-        #     file_work.extend(filenames)
-        #     break
-        # for (dirpath, dirnames, filenames) in os.walk(f'{path_svoboda_freym}/{self.number_trade}/see/'):
-        #     file_see.extend(filenames)
-        #     break
+        file_work = []
+        file_see = []
+        for (dirpath, dirnames, filenames) in os.walk(f'{path_historical_freym}/{self.number_trade}/work/'):
+            file_work.extend(filenames)
+            break
+        for (dirpath, dirnames, filenames) in os.walk(f'{path_historical_freym}/{self.number_trade}/see/'):
+            file_see.extend(filenames)
+            break
         # если кол-во файлов в рабочем и смотре совпадает с записями в конфигурации, значит все хорошо, файлы найдены
-        # if self.change_count_coin == len(file_work) and self.change_count_coin == len(file_see):
-        #     data_detect = [
-        #         ft.Text(f'Данные обнаружены, текущий шаг - {self.number_trade}',size=12,color=c_blue),
-        #         ft.Text(f'Кол-во датафреймов: {self.change_count_coin}',size=12,color=c_blue),
-        #         ft.Text(f'Таймфрейм рабочий - {self.change_work_tf} | Слежения - {self.change_sledim_sa_cenoy}',size=12,color=c_blue),
-        #         ft.Text(f'Длительность сбора - {self.change_how_mach_time}',size=12,color=c_blue),
-        #         ft.Text(f'Режим выбора монет - {self.strat_coin_text}',size=12,color=c_blue),
-        #         ft.Text(f'Можно запустить торговлю',size=12,color=c_blue),
-        #     ]
-        # else:
-        #     data_detect = [ft.Text(f'Данные не найдены, текущий шаг - {self.number_trade}',size=12,color=c_blue),
-        #                    ft.Text(f'Получите новые данные',size=12,color=c_blue),
-        #                    ]
-        # if self.use_last_sost == 'True':
-        #     config.read(path_ini_svoboda_freym)
-        #     self.tf_work_last = config.get(self.use_last_number, 'tf_work')
-        #     self.tf_see_last = config.get(self.use_last_number, 'tf_see')
-        #     self.how_mach_time_last = config.get(self.use_last_number, 'how_mach_time')
-        #     self.strategy_coin_last = self.text_for_button_slov[config.get(self.use_last_number, 'strategy_coin')]
-        #     self.coin_mas_last = config.get(self.use_last_number, 'coin_mas')
-        #     data_detect = [
-        #         ft.Text(f'Используются данные из хранилища | № {self.use_last_number}',size=12,color=c_blue),
-        #         ft.Text(f'Таймфрейм рабочий - {self.tf_work_last}',size=12,color=c_blue),
-        #         ft.Text(f'Таймфрейм слежения - {self.tf_see_last}',size=12,color=c_blue),
-        #         ft.Text(f'Длительность фрейма - {self.how_mach_time_last}',size=12,color=c_blue),
-        #         ft.Text(f'Стратегия - {self.strategy_coin_last}',size=12,color=c_blue),
-        #         ft.Text(f'Монеты - {self.coin_mas_last}',size=12,color=c_blue),
-        #         ft.Text(f'Данные готовы. Можно приступать к торговле',size=12,color=c_blue),
-        #     ]
-        #     # записываем монеты из выбранного шага и- использовать прошлые данные
-        #     self.coins_trade = literal_eval(self.coin_mas_last)
-        #     data_save = {
-        #        'work_tf':config.get(self.use_last_number, 'tf_work'), 
-        #        'sledim_money':config.get(self.use_last_number, 'tf_see'), 
-        #        'dlitelnost':config.get(self.use_last_number, 'how_mach_time'), 
-        #        'coins_trade':'|'.join(literal_eval(config.get(self.use_last_number, 'coin_mas'))), 
-        #        'strategi_coin':config.get(self.use_last_number, 'strategy_coin'), 
-        #        'how_mach_money':config.get(self.use_last_number, 'how_mach_coin'), 
-        #     }
-        #     Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
+        if self.change_count_coin == len(file_work) and self.change_count_coin == len(file_see):
+            data_detect = [
+                ft.Text(f'Данные обнаружены, текущий шаг - {self.number_trade}',size=12,color=c_blue),
+                ft.Text(f'Кол-во датафреймов: {self.change_count_coin}',size=12,color=c_blue),
+                ft.Text(f'Таймфрейм рабочий - {self.change_work_tf} | Слежения - {self.change_sledim_sa_cenoy}',size=12,color=c_blue),
+                ft.Text(f'Длительность сбора - {self.change_how_mach_time}',size=12,color=c_blue),
+                ft.Text(f'Режим выбора монет - {self.strat_coin_text}',size=12,color=c_blue),
+                ft.Text(f'Можно запустить торговлю',size=12,color=c_blue),
+            ]
+        else:
+            data_detect = [ft.Text(f'Данные не найдены, текущий шаг - {self.number_trade}',size=12,color=c_blue),
+                           ft.Text(f'Получите новые данные',size=12,color=c_blue),
+                           ]
+        if self.use_last_sost == 'True':
+            config.read(path_ini_svoboda_freym)
+            self.tf_work_last = config.get(self.use_last_number, 'tf_work')
+            self.tf_see_last = config.get(self.use_last_number, 'tf_see')
+            self.how_mach_time_last = config.get(self.use_last_number, 'how_mach_time')
+            self.strategy_coin_last = self.text_for_button_slov[config.get(self.use_last_number, 'strategy_coin')]
+            self.coin_mas_last = config.get(self.use_last_number, 'coin_mas')
+            data_detect = [
+                ft.Text(f'Используются данные из хранилища | № {self.use_last_number}',size=12,color=c_blue),
+                ft.Text(f'Таймфрейм рабочий - {self.tf_work_last}',size=12,color=c_blue),
+                ft.Text(f'Таймфрейм слежения - {self.tf_see_last}',size=12,color=c_blue),
+                ft.Text(f'Длительность фрейма - {self.how_mach_time_last}',size=12,color=c_blue),
+                ft.Text(f'Стратегия - {self.strategy_coin_last}',size=12,color=c_blue),
+                ft.Text(f'Монеты - {self.coin_mas_last}',size=12,color=c_blue),
+                ft.Text(f'Данные готовы. Можно приступать к торговле',size=12,color=c_blue),
+            ]
+            # записываем монеты из выбранного шага и- использовать прошлые данные
+            self.coins_trade = literal_eval(self.coin_mas_last)
+            data_save = {
+               'work_tf':config.get(self.use_last_number, 'tf_work'), 
+               'sledim_money':config.get(self.use_last_number, 'tf_see'), 
+               'dlitelnost':config.get(self.use_last_number, 'how_mach_time'), 
+               'coins_trade':'|'.join(literal_eval(config.get(self.use_last_number, 'coin_mas'))), 
+               'strategi_coin':config.get(self.use_last_number, 'strategi_coin_historical'), 
+           #    'strategi_coin':config.get(self.use_last_number, 'strategy_coin'), 
+               'how_mach_money':config.get(self.use_last_number, 'how_mach_coin'), 
+            }
+            Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
             
-        # coins_print = []
-        # for i in self.coins_trade:
-        #     coins_print.append(
-        #         ft.Container(ft.Text(i,color=c_blue,size=12,text_align='center'),width=160)
-        #     )
-        # self.componen_log = Componen_log(data_detect)
-        # self.component_coin_log =  Component_coin_log(coins_print)
+        coins_print = []
+        for i in self.coins_trade:
+            coins_print.append(
+                ft.Container(ft.Text(i,color=c_blue,size=12,text_align='center'),width=160)
+            )
+        self.componen_log = Componen_log(data_detect)
+        self.component_coin_log =  Component_coin_log(coins_print,'his_trade')
 
         self.svoboda_freym_page = ft.Container(
             ft.Container(
@@ -384,15 +446,15 @@ class Historical_trade_page(ft.UserControl):
                                                     ),
                                                     ft.Container(
                                                         ft.Column(controls=[
-                                                            ft.Text('Монеты для торговли',size=12,color=c_white,text_align='center',width=150),
-                                                            # self.component_coin_log,
+                                                            ft.Container(ft.Text('Монеты для торговли',size=12,color=c_white,text_align='center'),width=130),
+                                                            self.component_coin_log,
                                                             ft.Container(ft.ElevatedButton(content = ft.Text('Использовать прошлые данные',size=12,),bgcolor=c_yelow,on_click=self.open_modal_last_data,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30,margin=ft.margin.only(top=0,bottom=0,right=-90)),
-                                                        ])
+                                                        ]),margin=ft.margin.only(left=-2)
                                                     ),
                                                     ft.Container(ft.Column(controls=[
                                                         ft.Text('Логи торговли',size=12,color=c_white,text_align='center',width=360),
-                                                        # self.componen_log
-                                                    ])),
+                                                        self.componen_log
+                                                    ]),margin=ft.margin.only(left=-16)),
                                                 ]),
                                                 width=709,
                                                 height=392,

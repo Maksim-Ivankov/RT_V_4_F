@@ -6,9 +6,10 @@ from imports import *
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_coin.component_change_strategy_coin import Component_change_strategy_coin
 
 class Cgange_coin_window(ft.UserControl):
-    def __init__(self,coin_save):
+    def __init__(self,coin_save,regime='day_trade'):
         super().__init__()
         self.coin_save = coin_save
+        self.regime = regime
         
 
     def build(self):
@@ -18,7 +19,7 @@ class Cgange_coin_window(ft.UserControl):
             self.update()
 
         self.cgange_coin_window = ft.BottomSheet(
-                Component_change_strategy_coin(close_modal,self.coin_save),
+                Component_change_strategy_coin(close_modal,self.coin_save,self.regime),
                 open=True,
                 bgcolor='transparent',
                 elevation = 0
