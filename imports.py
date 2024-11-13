@@ -19,7 +19,7 @@ import random
 import statsmodels.api as sm
 import flet.canvas as cv
 import math
-from datetime import datetime
+from datetime import datetime,date, timedelta
 import mplfinance as mpf
 import talib as ta
 from talib import abstract

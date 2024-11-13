@@ -14,6 +14,18 @@ class Main:
         self.page.title = "RoboTrade"
         self.page.window_height, self.page.window_width = height_window_platforma, width_window_platforma
         self.page.theme_mode = "dark" 
+        
+        
+        self.page.locale_configuration = ft.LocaleConfiguration(
+            supported_locales=[
+                ft.Locale("ru", "RU"), # German, Germany
+                ft.Locale("fr", "FR"), # French, France
+                ft.Locale("es"), # Spanish
+            ],
+            current_locale=ft.Locale("ru", "RU"),
+        )
+        
+        
         # self.page.window_resizable = False
         # self.page.window_center()
         self.page.bgcolor = c_blue

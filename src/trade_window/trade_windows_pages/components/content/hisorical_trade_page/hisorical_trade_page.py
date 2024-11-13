@@ -28,8 +28,8 @@ from src.trade_window.trade_windows_pages.components.content.hisorical_trade_pag
 class Hisorical_trade_page(ft.UserControl):
     def __init__(self,page):
         super().__init__()
-        self.ferst_page = 'Первая'
-        # self.ferst_page = 'Свободный фрейм' 
+        # self.ferst_page = 'Первая'
+        self.ferst_page = 'Историческая торговля' 
         self.page = page
 
     def print_page(self,page,data=''):
@@ -38,7 +38,7 @@ class Hisorical_trade_page(ft.UserControl):
             pages_list=Ferst_page(self.change_page)
             title_list='Торговля по историческим данным'
         if page == 'Историческая торговля':
-            pages_list=Historical_trade_page(self.change_page)
+            pages_list=Historical_trade_page(self.change_page,self.page)
             title_list='Торговля по историческим данным | Историческая торговля'
         if page == 'Свободный фрейм':
             pages_list=Svoboda_freym_page(self.change_page,self.page)
