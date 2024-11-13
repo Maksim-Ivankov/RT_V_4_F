@@ -15,7 +15,7 @@ def One_settings_def(print_our_settings,print_set_settings,change_page,start_tra
         btn_back = ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Выбрать режим торговли',bgcolor=c_yelow,on_click=change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30)
     elif regime_trade_page == 'historical':
         btn_back = ft.Container(ft.ElevatedButton(content = ft.Text('Назад',size=12,),data='Одна настройка',bgcolor=c_yelow,on_click=change_page,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30)
-    
+    #11
     return ft.Column(controls=[
             ft.Container(ft.Text('Проверьте настройки и запустите торговлю',size=12,color=c_white,text_align='center'),padding=ft.padding.only(left=320)),
             ft.Container(

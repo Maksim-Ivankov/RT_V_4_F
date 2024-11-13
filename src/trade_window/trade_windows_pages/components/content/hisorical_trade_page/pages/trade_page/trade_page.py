@@ -27,6 +27,9 @@ class Trade_page(ft.UserControl):#1
         self.count_trade_now = 0
         self.our_frame = []
         self.data_class = data
+        config = configparser.ConfigParser()         
+        config.read(path_imports_config)
+        self.regime_trade_page = config.get('param_trade_historical_trade_svobodniy_freym', 'regime_trade_page')
 
         
     
@@ -40,96 +43,99 @@ class Trade_page(ft.UserControl):#1
 
     # КЛИК ПО КНОПКЕ - НАЧАЛО ТОРГОВЛИ
     def start_trade(self,e):
-        if self.regime=='one_set':
-            regime = 'Историческая торговля|Свободный фрейм|Ода настройка'
-            config = configparser.ConfigParser()  
-            config.read(path_imports_config)
-            strategy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
-            core_trade_ob = Core_trade(regime,strategy)
-            self.controls[0].content.content.content.controls.append(self.output_info_trade.print_page())
-            self.controls[0].content.content.content.height=600
-            self.content.scroll_to(key="pb", duration=1000)
-            self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end), args=(), daemon=True)
-            self.myThread.start()
-            if self.count_trade_now == 0:
-                data_add = ft.Container(ft.Text('Нет сделок',color=c_white,text_align='center'),height=30,bgcolor=c_blue_binance,width=400)
-                self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
-                self.update()
-            # если торгуем избранной стратегией
-            if self.data_class!='':
-                # копируем данные трейда
-                os.mkdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade\\{len(os.listdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade'))+1}')
-                shutil.copy(
-                    os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}', 'log_trade.txt'),
-                    os.path.join(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade\\{len(os.listdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade'))}') # путь сохранения 
-                )
-                if self.count_trade_now != 0:
+        if self.regime_trade_page == 'svoboda':
+            if self.regime=='one_set':
+                regime = 'Историческая торговля|Свободный фрейм|Ода настройка'
+                config = configparser.ConfigParser()  
+                config.read(path_imports_config)
+                strategy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
+                core_trade_ob = Core_trade(regime,strategy)
+                self.controls[0].content.content.content.controls.append(self.output_info_trade.print_page())
+                self.controls[0].content.content.content.height=600
+                self.content.scroll_to(key="pb", duration=1000)
+                self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end), args=(), daemon=True)
+                self.myThread.start()
+                if self.count_trade_now == 0:
+                    data_add = ft.Container(ft.Text('Нет сделок',color=c_white,text_align='center'),height=30,bgcolor=c_blue_binance,width=400)
+                    self.controls[0].content.content.content.controls[3].content.controls[1].content.controls[1].content.content.controls[0].controls[1].content.content.controls.insert(0,data_add)
+                    self.update()
+                # если торгуем избранной стратегией
+                if self.data_class!='':
+                    # копируем данные трейда
+                    os.mkdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade\\{len(os.listdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade'))+1}')
                     shutil.copy(
-                        os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}', 'trade.txt'),
+                        os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}', 'log_trade.txt'),
                         os.path.join(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade\\{len(os.listdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade'))}') # путь сохранения 
                     )
-                
-        elif self.regime=='much_set':
-            self.table_result = Table_result(self.reptint_table_result,self.print_page_one_trade_oura_set)
-            # получаем кол-во настроек в сете
-            config_set = configparser.ConfigParser()  
-            config_set.read(path_ini_general_set)
-            count_set_trade = len(config_set.sections())
-            # print(f'Количество настроек в сете - {count_set_trade}')
-            # print(f'{path_save_trade}\\{len(os.listdir(path_save_trade))+1}')
-            # if not os.path.isdir(f'{path_save_trade}\\{len(os.listdir(path_save_trade))+1}'):
-            #     os.mkdir(f'{path_save_trade}\\{len(os.listdir(path_save_trade))+1}')
-            # Flex_card
-            self.controls[0].content.content.content.controls.append(self.flex_card.print_page(count_set_trade))
-            self.controls[0].content.content.content.height=600
-            # self.content.scroll_to(key="pb", duration=1000)
-            self.update()
-            regime = 'Историческая торговля|Свободный фрейм|Сет настроек'
-            config = configparser.ConfigParser()  
-            config.read(path_imports_config)
-            strategy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
-            # print(f'Внутри trade_page 1, стратегия = {strategy} !!!!!!!!!!!!!!!!!!!!!!')
-            core_trade_ob = Core_trade(regime,strategy)
-            # print(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls)
-            # print(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)
-            # print(len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls))
-            for number_trade in range(1,count_set_trade+1):
-                # print(f'Номер трейда - {number_trade}')
-                self.number_trade_in_set_settings = number_trade
-                # Получаем карточку, с которой будем работать на текущем шаге
-                count_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls) # [Row(), Row()]
-                if float(self.number_trade_in_set_settings/count_td)<1.00001:
-                    self.count_element_tr = 0
-                    if self.number_trade_in_set_settings%count_td == 0:
-                        self.count_element_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)-1 # заходим в первый row и получаем длину ряда
-                    else:self.count_element_td = int(self.number_trade_in_set_settings)-1
-                else: 
-                    self.count_element_tr = int((int(self.number_trade_in_set_settings)-1)/count_td)
-                    if self.number_trade_in_set_settings%count_td == 0:
-                        self.count_element_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)-1 # заходим в первый row и получаем длину ряда
-                    else:self.count_element_td = int(self.number_trade_in_set_settings%count_td)-1
-                # print(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content)
-                # print(number_trade)
-                self.treyd_polosa = []
-                self.treyd_polosa[:] = []
-                self.content.scroll_to(key=str(number_trade), duration=1000)
-                self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end,number_trade), args=(), daemon=True)
-                self.myThread.start()
-            self.controls[0].content.content.content.controls.append(self.table_result.print_page(self.update_component,'basa',len(os.listdir(path_save_trade))))
-            self.content.scroll_to(key="table_result", duration=1000)
-            self.update()
-            
-            # Сохраянем сеты настроек в папку торговли11
-            shutil.copy(
-               os.path.join(path_appdata, 'general_set.ini'),
-               os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}') # путь сохранения логов в папке трейда)
-            )
-            for i in strategy:
+                    if self.count_trade_now != 0:
+                        shutil.copy(
+                            os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}', 'trade.txt'),
+                            os.path.join(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade\\{len(os.listdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade'))}') # путь сохранения 
+                        )
+
+            elif self.regime=='much_set':
+                self.table_result = Table_result(self.reptint_table_result,self.print_page_one_trade_oura_set)
+                # получаем кол-во настроек в сете
+                config_set = configparser.ConfigParser()  
+                config_set.read(path_ini_general_set)
+                count_set_trade = len(config_set.sections())
+                # print(f'Количество настроек в сете - {count_set_trade}')
+                # print(f'{path_save_trade}\\{len(os.listdir(path_save_trade))+1}')
+                # if not os.path.isdir(f'{path_save_trade}\\{len(os.listdir(path_save_trade))+1}'):
+                #     os.mkdir(f'{path_save_trade}\\{len(os.listdir(path_save_trade))+1}')
+                # Flex_card
+                self.controls[0].content.content.content.controls.append(self.flex_card.print_page(count_set_trade))
+                self.controls[0].content.content.content.height=600
+                # self.content.scroll_to(key="pb", duration=1000)
+                self.update()
+                regime = 'Историческая торговля|Свободный фрейм|Сет настроек'
+                config = configparser.ConfigParser()  
+                config.read(path_imports_config)
+                strategy = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
+                # print(f'Внутри trade_page 1, стратегия = {strategy} !!!!!!!!!!!!!!!!!!!!!!')
+                core_trade_ob = Core_trade(regime,strategy)
+                # print(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls)
+                # print(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)
+                # print(len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls))
+                for number_trade in range(1,count_set_trade+1):
+                    # print(f'Номер трейда - {number_trade}')
+                    self.number_trade_in_set_settings = number_trade
+                    # Получаем карточку, с которой будем работать на текущем шаге
+                    count_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls) # [Row(), Row()]
+                    if float(self.number_trade_in_set_settings/count_td)<1.00001:
+                        self.count_element_tr = 0
+                        if self.number_trade_in_set_settings%count_td == 0:
+                            self.count_element_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)-1 # заходим в первый row и получаем длину ряда
+                        else:self.count_element_td = int(self.number_trade_in_set_settings)-1
+                    else: 
+                        self.count_element_tr = int((int(self.number_trade_in_set_settings)-1)/count_td)
+                        if self.number_trade_in_set_settings%count_td == 0:
+                            self.count_element_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)-1 # заходим в первый row и получаем длину ряда
+                        else:self.count_element_td = int(self.number_trade_in_set_settings%count_td)-1
+                    # print(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content)
+                    # print(number_trade)
+                    self.treyd_polosa = []
+                    self.treyd_polosa[:] = []
+                    self.content.scroll_to(key=str(number_trade), duration=1000)
+                    self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end,number_trade), args=(), daemon=True)
+                    self.myThread.start()
+                self.controls[0].content.content.content.controls.append(self.table_result.print_page(self.update_component,'basa',len(os.listdir(path_save_trade))))
+                self.content.scroll_to(key="table_result", duration=1000)
+                self.update()
+
+                # Сохраянем сеты настроек в папку торговли11
                 shutil.copy(
-                       os.path.join(path_appdata, f'{i}_set.ini'),
-                       os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}') # путь сохранения логов в папке трейда)
+                   os.path.join(path_appdata, 'general_set.ini'),
+                   os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}') # путь сохранения логов в папке трейда)
                 )
-            self.strategy_now = strategy
+                for i in strategy:
+                    shutil.copy(
+                           os.path.join(path_appdata, f'{i}_set.ini'),
+                           os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}') # путь сохранения логов в папке трейда)
+                    )
+                self.strategy_now = strategy
+        elif self.regime_trade_page == 'historical':
+            print('ПРИВЕТ!"!!!!')
                     
                     
 
@@ -232,10 +238,9 @@ class Trade_page(ft.UserControl):#1
         # print(self.controls[0].content.content.content.controls[2].content.content.controls)
 
     def print_page(self):
-        # ЕСЛИ РЕЖИМ - ОДНА НАСТРОЙКА
+        # ЕСЛИ РЕЖИМ - ОДНА НАСТРОЙКА1
         if self.regime=='one_set':
             self.content = One_settings_def(print_our_settings,print_set_settings,self.change_page,self.start_trade)
-            
         # ЕСЛИ РЕЖИМ - СЕТ НАСТРОЕК
         elif self.regime=='much_set':
             self.content = Set_settings_def(print_mach_our_settings,self.change_page,self.start_trade)
