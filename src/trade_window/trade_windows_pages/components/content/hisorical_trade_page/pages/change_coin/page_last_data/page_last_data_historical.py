@@ -5,12 +5,11 @@ from imports import *
 
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_coin.component_change_strategy_coin import Component_change_strategy_coin
 
-class Page_last_data(ft.UserControl):
+class Page_last_data_historical(ft.UserControl):
     def __init__(self,change_storage_data,regime='trade_day'):
         super().__init__()
         self.change_storage_data = change_storage_data
         self.text_for_button_slov = {
-            'top_dvigeniya':'Топ движения',
             'top_value':'Топ объёма',
             'change_list':'Список монет'
         }
@@ -21,27 +20,26 @@ class Page_last_data(ft.UserControl):
         self.change_storage_data(e.control.data)
         
     def print_page(self):
-        print('--------------------')
         file_data_dir = []
         file_data_dir_work = []
         file_data_dir_see = []
         folder_data = []
-        for (dirpath, dirnames, filenames) in os.walk(f'{path_svoboda_freym}'):
-            file_data_dir.extend(dirnames)
+        for (dirpath, dirnames, filenames) in os.walk(f'{path_historical_freym}'):
+            file_data_dir.extend(dirnames) # папки с датафреймами, корень 0,1,2
             break
         for dir in file_data_dir:
             file_data_dir_work = []
             file_data_dir_see = []
-            for (dirpath, dirnames, filenames) in os.walk(f'{path_svoboda_freym}/{dir}/work/'):
-                file_data_dir_work.extend(filenames)
-            for (dirpath, dirnames, filenames) in os.walk(f'{path_svoboda_freym}/{dir}/see/'):
-                file_data_dir_see.extend(filenames)
+            for (dirpath, dirnames, filenames) in os.walk(f'{path_historical_freym}/{dir}/work/'):
+                file_data_dir_work.extend(dirnames)
+            for (dirpath, dirnames, filenames) in os.walk(f'{path_historical_freym}/{dir}/see/'):
+                file_data_dir_see.extend(dirnames)
             if len(file_data_dir_work) == len(file_data_dir_see) and len(file_data_dir_work) != 0:
                 folder_data.append(int(dir)) # - массив с номерами папок, где ненулевые данные, где количество дф рабочих равно кол-ву дф слежения
         #-----------------
         print_card_last_data_row = []
         config = configparser.ConfigParser()         
-        config.read(path_ini_svoboda_freym)
+        config.read(path_ini_historical_freym)
         for num in reversed(sorted(folder_data)):
             how_mach_coin = config.get(str(num), 'how_mach_coin')
             coin_mas = config.get(str(num), 'coin_mas')
@@ -52,6 +50,14 @@ class Page_last_data(ft.UserControl):
             how_mach_time = config.get(str(num), 'how_mach_time')
             strategy_coin = config.get(str(num), 'strategy_coin')
             time = config.get(str(num), 'time')
+            date_start = config.get(str(num), 'date_start')
+            date_end = config.get(str(num), 'date_end')
+            
+            date_format_bin = "%Y-%m-%d"
+            a = datetime.strptime(str(date_start).split(' ')[0], date_format_bin)
+            b = datetime.strptime(str(date_end).split(' ')[0], date_format_bin)
+            delta = (b - a).days
+            
             print_card_last_data_row.append(ft.Container(
                 ft.Column(controls=[
                     ft.Row(controls=[
@@ -65,6 +71,9 @@ class Page_last_data(ft.UserControl):
                     ft.Text(f'Объём слежения - {int(float(see_volume))}',color=c_white,size=12),
                     ft.Text(f'Длительность фрейма - {how_mach_time}',color=c_white,size=12),
                     ft.Text(f'Стратегия - {self.text_for_button_slov[strategy_coin]}',color=c_white,size=12),
+                    ft.Text(f'Дата страт - {date_start.split(' ')[0]}',color=c_white,size=12),
+                    ft.Text(f'Дата конец - {date_end.split(' ')[0]}',color=c_white,size=12),
+                    ft.Text(f'Торговых дней - {delta}',color=c_white,size=12),
                     ft.Container(ft.ElevatedButton(content = ft.Text('Выбрать',size=12,),data=num,bgcolor=c_yelow,on_click=self.callback,color=c_blue,style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0))),alignment=ft.alignment.center,height=30,margin=ft.margin.only(top=0,bottom=0)),
                 ]),
                 # width=500,height=500,bgcolor=c_blue,
@@ -91,7 +100,7 @@ class Page_last_data(ft.UserControl):
                                                         controls = print_card_last_data_row,
                                                         expand=1,
                                                         runs_count=5,
-                                                        child_aspect_ratio=0.65,
+                                                        child_aspect_ratio=0.50,
                                                         spacing=5,
                                                         run_spacing=5,
                                                         

@@ -9,7 +9,7 @@ from src.trade_window.trade_windows_pages.components.content.UI.input import Inp
 from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_coin.sbor_data.componen_log import Componen_log
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_coin.sbor_data.component_coin_log import Component_coin_log
-from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_coin.page_last_data.page_last_data import Page_last_data
+from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_coin.page_last_data.page_last_data_historical import Page_last_data_historical
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_coin.cgange_coin_window import Cgange_coin_window
 
 
@@ -64,13 +64,6 @@ class Historical_trade_page(ft.UserControl):
         Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
         self.change_work_tf = e.control.value
 
-    # # выбор выпадашки - длителоьность
-    # def on_change_how_mach_time(self,e):
-    #     data_save = {
-    #         'dlitelnost':e.control.value
-    #     }
-    #     Save_config('param_trade_historical_trade_svobodniy_freym',data_save)
-    #     self.change_how_mach_time = e.control.value
 
     # выбор выпадашки - сколько монет торговать
     def on_change_how_mach_coin(self,e):
@@ -197,7 +190,6 @@ class Historical_trade_page(ft.UserControl):
             Save_config(str(self.number_trade),data_save,path_ini_historical_freym)
             
             date_format_bin = "%Y-%m-%d"
-            request_bin_one_set_date = {}
             request_bin_one_set_date_coin = {}
             a = datetime.strptime(str(self.date_start_change).split(' ')[0], date_format_bin)
             b = datetime.strptime(str(self.date_end_change).split(' ')[0], date_format_bin)
@@ -205,13 +197,9 @@ class Historical_trade_page(ft.UserControl):
             date_prom_2 = str(self.date_start_change).split(' ')[0].split('-')
             for i in range(delta):
                 date_1_bin = datetime(int(date_prom_2[0]),int(date_prom_2[1]),int(date_prom_2[2]),0,0,0) + timedelta(days=i)
-                # date_1_bin = str(datetime(int(date_prom_2[0]),int(date_prom_2[2]),int(date_prom_2[1]),0,0,0) + timedelta(days=i)).split(' ')[0]
                 date_2_bin = datetime(int(date_prom_2[0]),int(date_prom_2[1]),int(date_prom_2[2]),0,0,0) + timedelta(days=i+1)
-                
-                date_1_bin = int(time.mktime(date_1_bin.timetuple()))
-                date_2_bin = int(time.mktime(date_2_bin.timetuple()))
-                
-                # date_2_bin = str(datetime(int(date_prom_2[0]),int(date_prom_2[2]),int(date_prom_2[1]),0,0,0) + timedelta(days=i+1)).split(' ')[0]
+                date_1_bin = int(time.mktime(date_1_bin.timetuple())) # преобразовываем в юникс
+                date_2_bin = int(time.mktime(date_2_bin.timetuple())) # преобразовываем в юникс
                 os.mkdir(f'{path_historical_freym}/{self.number_trade}/work/{i}')
                 os.mkdir(f'{path_historical_freym}/{self.number_trade}/see/{i}')
                 try:
@@ -239,55 +227,27 @@ class Historical_trade_page(ft.UserControl):
                     self.print_log(f'{i+1}/{delta} | Ошибка данных в монете {coin}. Удаляем из списка')
             self.print_log('Закончили сбор данных')
                     
-                    
-            # x=1
-            # for coin in self.COIN_TRADE:
-            #     df = self.get_futures_klines(coin,self.change_work_tf,int(self.VOLUME))
-            #     df.to_csv(f'{path_svoboda_freym}/{self.number_trade}/work/{coin}.csv')
-            #     time.sleep(2)
-            #     df = self.get_futures_klines(coin,self.change_sledim_sa_cenoy,int(self.SEE_VOLUME))
-            #     df.to_csv(f'{path_svoboda_freym}/{self.number_trade}/see/{coin}.csv')
-            #     time.sleep(2)
-            #     self.print_log(f'{x}/{len(self.COIN_TRADE)} | Датафрейм {coin} добавлен')
-            #     x+=1
-            # self.print_log('Закончили сбор данных')
         else: print('Нихуя, валидация. Нет выбранных даты начала и конца')
         
         
-    # получить датафрейм по одной монете в интервале
-    def GetHistoricalData(self, request_bin_one_set_date):
-
-        if request_bin_one_set_date['regime'] == 'work':tf_now = request_bin_one_set_date['TF']
-        if request_bin_one_set_date['regime'] == 'see':tf_now = request_bin_one_set_date['TF_see']
-
-        # Выполните запрос из binance - временные метки должны быть преобразованы в строки!
-        self.candle = self.client.get_historical_klines(request_bin_one_set_date['coin'], tf_now, str(request_bin_one_set_date['time1']), str(request_bin_one_set_date['time2']))
-        # Создайте фрейм данных, чтобы пометить все столбцы, возвращаемые binance, чтобы мы могли поработать с ними позже.
-        self.df = pd.DataFrame(self.candle, columns=['open_time', 'open', 'high', 'low', 'close', 'VOLUME', 'close_time', 'quoteAssetVolume', 'numberOfTrades', 'takerBuyBaseVol', 'takerBuyQuoteVol', 'ignore'])
-        # Избавимся от ненужных нам столбцов
-        self.df = self.df.drop(['quoteAssetVolume', 'numberOfTrades', 'takerBuyBaseVol','takerBuyQuoteVol', 'ignore'], axis=1)
-
-        return self.df
 
     # колбэк изнутри - использовать прошлые данные, когда выбираешь данные
     def change_storage_data(self,number):
-        # data = {
-        #     'use_last_sost':'True',
-        #     'use_last_number':str(number),
-        # }
-        # Save_config('param_trade_historical_trade_svobodniy_freym',data)
-        # self.controls = []
-        # self.controls.append(self.print_page())
-        # self.update()
-        print('Кто ты воин')
+        data = {
+            'use_last_sost':'True',
+            'use_last_number':str(number),
+        }
+        Save_config('param_trade_historical_trade_svobodniy_freym',data)
+        self.controls = []
+        self.controls.append(self.print_page())
+        self.update()
 
 
     # кнопка - использовать прошлые данные
     def open_modal_last_data(self,e):
-        # self.controls = []
-        # self.controls.append(Page_last_data(self.change_storage_data))
-        # self.update()
-        print('используем прошлые данные')
+        self.controls = []
+        self.controls.append(Page_last_data_historical(self.change_storage_data,'trade_historical'))
+        self.update()
 
     def diapazon_save_start(self,e):
         self.date_start_change = e.control.value
@@ -354,19 +314,22 @@ class Historical_trade_page(ft.UserControl):
         # получаем файлы в указанной директории массивом
         file_work = []
         file_see = []
-        for (dirpath, dirnames, filenames) in os.walk(f'{path_historical_freym}/{self.number_trade}/work/'):
+        file_day_data = []
+        for (dirpath, dirnames, filenames) in os.walk(f'{path_historical_freym}\\{self.number_trade}\\work\\0'):
             file_work.extend(filenames)
             break
-        for (dirpath, dirnames, filenames) in os.walk(f'{path_historical_freym}/{self.number_trade}/see/'):
+        for (dirpath, dirnames, filenames) in os.walk(f'{path_historical_freym}\\{self.number_trade}\\work'):
+            file_day_data.extend(dirnames)
+            break
+        for (dirpath, dirnames, filenames) in os.walk(f'{path_historical_freym}\\{self.number_trade}\\see\\0'):
             file_see.extend(filenames)
             break
         # если кол-во файлов в рабочем и смотре совпадает с записями в конфигурации, значит все хорошо, файлы найдены
         if self.change_count_coin == len(file_work) and self.change_count_coin == len(file_see):
             data_detect = [
                 ft.Text(f'Данные обнаружены, текущий шаг - {self.number_trade}',size=12,color=c_blue),
-                ft.Text(f'Кол-во датафреймов: {self.change_count_coin}',size=12,color=c_blue),
+                ft.Text(f'Кол-во торговых дней: {len(file_day_data)}',size=12,color=c_blue),
                 ft.Text(f'Таймфрейм рабочий - {self.change_work_tf} | Слежения - {self.change_sledim_sa_cenoy}',size=12,color=c_blue),
-                ft.Text(f'Длительность сбора - {self.change_how_mach_time}',size=12,color=c_blue),
                 ft.Text(f'Режим выбора монет - {self.strat_coin_text}',size=12,color=c_blue),
                 ft.Text(f'Можно запустить торговлю',size=12,color=c_blue),
             ]
@@ -375,12 +338,18 @@ class Historical_trade_page(ft.UserControl):
                            ft.Text(f'Получите новые данные',size=12,color=c_blue),
                            ]
         if self.use_last_sost == 'True':
-            config.read(path_ini_svoboda_freym)
+            config.read(path_ini_historical_freym)
             self.tf_work_last = config.get(self.use_last_number, 'tf_work')
             self.tf_see_last = config.get(self.use_last_number, 'tf_see')
             self.how_mach_time_last = config.get(self.use_last_number, 'how_mach_time')
             self.strategy_coin_last = self.text_for_button_slov[config.get(self.use_last_number, 'strategy_coin')]
             self.coin_mas_last = config.get(self.use_last_number, 'coin_mas')
+            date_start = config.get(self.use_last_number, 'date_start')
+            date_end = config.get(self.use_last_number, 'date_end')
+            date_format_bin = "%Y-%m-%d"
+            a = datetime.strptime(str(date_start).split(' ')[0], date_format_bin)
+            b = datetime.strptime(str(date_end).split(' ')[0], date_format_bin)
+            delta = (b - a).days
             data_detect = [
                 ft.Text(f'Используются данные из хранилища | № {self.use_last_number}',size=12,color=c_blue),
                 ft.Text(f'Таймфрейм рабочий - {self.tf_work_last}',size=12,color=c_blue),
@@ -388,6 +357,9 @@ class Historical_trade_page(ft.UserControl):
                 ft.Text(f'Длительность фрейма - {self.how_mach_time_last}',size=12,color=c_blue),
                 ft.Text(f'Стратегия - {self.strategy_coin_last}',size=12,color=c_blue),
                 ft.Text(f'Монеты - {self.coin_mas_last}',size=12,color=c_blue),
+                ft.Text(f'Дата старта - {date_start}',size=12,color=c_blue),
+                ft.Text(f'Дата окончания - {date_end}',size=12,color=c_blue),
+                ft.Text(f'Торговых дней - {delta}',size=12,color=c_blue),
                 ft.Text(f'Данные готовы. Можно приступать к торговле',size=12,color=c_blue),
             ]
             # записываем монеты из выбранного шага и- использовать прошлые данные
@@ -397,7 +369,7 @@ class Historical_trade_page(ft.UserControl):
                'sledim_money':config.get(self.use_last_number, 'tf_see'), 
                'dlitelnost':config.get(self.use_last_number, 'how_mach_time'), 
                'coins_trade':'|'.join(literal_eval(config.get(self.use_last_number, 'coin_mas'))), 
-               'strategi_coin':config.get(self.use_last_number, 'strategi_coin_historical'), 
+               'strategi_coin_historical':config.get(self.use_last_number, 'strategy_coin'), 
            #    'strategi_coin':config.get(self.use_last_number, 'strategy_coin'), 
                'how_mach_money':config.get(self.use_last_number, 'how_mach_coin'), 
             }
