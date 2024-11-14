@@ -27,8 +27,10 @@ class Trade_page(ft.UserControl):#1
         self.count_trade_now = 0
         self.our_frame = []
         self.data_class = data
+        self.stop_trade = False
         config = configparser.ConfigParser()         
         config.read(path_imports_config)
+        self.depo_start = config.get('param_trade_historical_trade_svobodniy_freym', 'deposit')
         self.regime_trade_page = config.get('param_trade_historical_trade_svobodniy_freym', 'regime_trade_page')
         if self.regime_trade_page == 'historical':
             if config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost_historical') == 'True':
@@ -152,10 +154,8 @@ class Trade_page(ft.UserControl):#1
             core_trade_ob = Core_trade(regime,strategy)
             for number_trade in range(1,count_set_trade+1):
                 self.number_trade_in_set_settings = number_trade
-                # print(f"==>> self.number_trade_in_set_settings: {self.number_trade_in_set_settings}")
                 # Получаем карточку, с которой будем работать на текущем шаге
                 count_td = self.flex_card.stolb # [Row(), Row()]
-                # count_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls) # [Row(), Row()]
                 # print(f"==>> count_td: {count_td}")
                 if float(self.number_trade_in_set_settings/count_td)<1.00001:
                     self.count_element_tr = 0
@@ -171,9 +171,16 @@ class Trade_page(ft.UserControl):#1
                     else:self.count_element_td = int(self.number_trade_in_set_settings%count_td)-1
                 self.treyd_polosa = []
                 self.treyd_polosa[:] = []
-                self.content.scroll_to(key=str(number_trade), duration=1000)
-                self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end,number_trade), args=(), daemon=True)
-                self.myThread.start()
+                if self.stop_trade==False:
+                    self.content.scroll_to(key=str(number_trade), duration=1000)
+                    self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end,number_trade), args=(), daemon=True)
+                    self.myThread.start()
+                else:
+                    # self.regime=='much_set'
+                    # self.change_pb(self,1)
+                    # self.change_pb(self,1,data={'result':'',})
+                    self.controls[0].content.content.content.controls[self.number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content.value='Депо меньше 40% от начального. Закончили торговлю.'
+                    self.controls[0].content.content.content.controls[self.number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].update()
             self.controls[0].content.content.content.controls.append(self.table_result.print_page(self.update_component,'basa',len(os.listdir(path_save_trade))))
             self.content.scroll_to(key="table_result", duration=1000)
             self.update()
@@ -220,33 +227,35 @@ class Trade_page(ft.UserControl):#1
         self.controls.append(Result_trqade_page(self.return_old_data,number_trade,self.strategy_now,'None',len(os.listdir(path_save_trade)),self.change_page))
         self.update()
     
-    # ДЛЯ ПРОГРЕССБАРА
+    # 'data':f'Депо {self.DEPOSIT_GLOBAL}| Рез: {round(self.local_profit,2)}'
+    # ДЛЯ ПРОГРЕССБАРА1
     def change_pb(self,procent,data={}):
         if self.regime=='one_set':
             self.output_info_trade.pb.value = procent
         if self.regime=='much_set' or self.regime_trade_page == 'historical':
-            if self.regime_trade_page == 'historical': number_controls_component = 3
-            if self.regime=='much_set': number_controls_component = 4
+            if self.regime_trade_page == 'historical': self.number_controls_component = 3
+            if self.regime=='much_set': self.number_controls_component = 4
             if data!={}:
+                if self.regime_trade_page == 'historical':
+                    if float(data['data'].split(' ')[1][:-1])<float(self.depo_start)*0.4:
+                        self.stop_trade = True
                 if data['result'] == '+':
                     self.treyd_polosa.append(ft.Container(ft.Text(data['data'],color=c_blue,text_align='CENTER',size=12),bgcolor=c_green,width=150,height=20))
-                else:
+                if data['result'] == '-':
                     self.treyd_polosa.append(ft.Container(ft.Text(data['data'],color=c_white,text_align='CENTER',size=12),bgcolor=c_red,width=150,height=20))
                 self.treyd_polosa = list(reversed(self.treyd_polosa))
-            # print(self.controls[0].content.content.content.controls)
-            # print('11111111')
-            self.controls[0].content.content.content.controls[number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.bgcolor=c_blue
-            self.controls[0].content.content.content.controls[number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.padding=10
-            self.controls[0].content.content.content.controls[number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content = ft.Column(controls=[
+            self.controls[0].content.content.content.controls[self.number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.bgcolor=c_blue
+            self.controls[0].content.content.content.controls[self.number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.padding=10
+            self.controls[0].content.content.content.controls[self.number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content = ft.Column(controls=[
                 ft.Container(ft.Column(controls=self.treyd_polosa,scroll=ft.ScrollMode.ALWAYS),height=150),
                 ft.Container(ft.ProgressBar(width=150,bgcolor=c_blue,color=c_yelow,value=procent))
             ])
             if procent>0.99:
-                self.controls[0].content.content.content.controls[number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content.controls.pop()
+                self.controls[0].content.content.content.controls[self.number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content.controls.pop()
                 if len(self.treyd_polosa) == 0:
-                    self.controls[0].content.content.content.controls[number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content = ft.Container(ft.Container(ft.Text('Нет сделок',color=c_white,text_align='CENTER'),bgcolor=c_blue_binance,padding=ft.padding.only(top=90)),width=170,height=200,margin=-10)
+                    self.controls[0].content.content.content.controls[self.number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content = ft.Container(ft.Container(ft.Text('Нет сделок',color=c_white,text_align='CENTER'),bgcolor=c_blue_binance,padding=ft.padding.only(top=90)),width=170,height=200,margin=-10)
                     
-            self.controls[0].content.content.content.controls[number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].update()
+            self.controls[0].content.content.content.controls[self.number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].update()
             
         
             
