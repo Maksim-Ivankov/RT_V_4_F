@@ -142,7 +142,7 @@ class Historical_trade_page(ft.UserControl):
     # генерируем датафреймы в отдельном потоке
     def generate_dataframe(self):
         if self.date_start_change!='' and self.date_end_change!='':
-            Save_config('param_trade_historical_trade_svobodniy_freym',{'use_last_sost':'False'})
+            Save_config('param_trade_historical_trade_svobodniy_freym',{'use_last_sost_historical':'False'})
             self.print_msg_mas = []
             # сколько получить свечей рабочий
             self.VOLUME = int(self.get_volume()   )     
@@ -235,8 +235,8 @@ class Historical_trade_page(ft.UserControl):
     # колбэк изнутри - использовать прошлые данные, когда выбираешь данные
     def change_storage_data(self,number):
         data = {
-            'use_last_sost':'True',
-            'use_last_number':str(number),
+            'use_last_sost_historical':'True',
+            'use_last_number_historical':str(number),
         }
         Save_config('param_trade_historical_trade_svobodniy_freym',data)
         self.controls = []
@@ -292,7 +292,7 @@ class Historical_trade_page(ft.UserControl):
             self.change_work_tf = config.get('param_trade_historical_trade_svobodniy_freym', 'work_tf')
             self.change_how_mach_time = config.get('param_trade_historical_trade_svobodniy_freym', 'dlitelnost')
             self.number_trade = config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade_historical')
-            self.use_last_sost = config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost')
+            self.use_last_sost = config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost_historical')
             self.use_last_number = config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')
             self.coins_trade = config.get('param_trade_historical_trade_svobodniy_freym', 'coins_trade').split('|')
             self.strat_coin_text_celka = config.get('param_trade_historical_trade_svobodniy_freym', 'strategi_coin_historical')

@@ -15,7 +15,7 @@ class Page_last_data_historical(ft.UserControl):
         }
         self.regime = regime
 
-    # нажатие на кнопку выбор
+    # нажатие на кнопку выбор1
     def callback(self,e):
         self.change_storage_data(e.control.data)
         

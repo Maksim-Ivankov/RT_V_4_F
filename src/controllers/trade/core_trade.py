@@ -14,6 +14,7 @@ class Core_trade():
         
         if regime == 'Историческая торговля|Свободный фрейм|Ода настройка': get_settings_our = HisTrade_Svoboda_OneSettings()
         elif regime == 'Историческая торговля|Свободный фрейм|Сет настроек': get_settings_our = HisTrade_Svoboda_SetSettings()
+        elif regime == 'Историческая торговля|Историческая торговля': get_settings_our = HisTrade_Svoboda_OneSettings()
         
         self.INDEX_START = 20 # начинаем не с нуля, а с 20 свечи
         if self.regime == 'Историческая торговля|Свободный фрейм|Ода настройка':
@@ -34,7 +35,24 @@ class Core_trade():
             }
         elif self.regime == 'Историческая торговля|Свободный фрейм|Сет настроек':
             self.var = get_settings_our
-            
+        elif regime == 'Историческая торговля|Историческая торговля':
+            # self.var = get_settings_our # объект, хранящий все переменные общих настроек
+            # self.path_save_log = f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\log_trade.txt' # путь сохранения логов в папке трейда
+            # self.path_save_trade_log = f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\trade.txt' # путь сохранения логов в папке трейда
+            # self.DEPOSIT_GLOBAL = self.var.DEPOSIT
+            # self.trend_mas = []
+
+            # self.trade_param = {
+            #     'position':False, # стоим в позиции или нет
+            #     'coin':'', # монета, которую сейчас рассматриваем
+            #     'trend':'', # записываем тренд - лонг, шорт или no
+            #     'price_treyd':'', # цена входа в сделку
+            #     'open_time_trade':'', # время входа в сделку
+            #     'take_profit_price':'', # цена тейк профита
+            #     'stop_loss_price
+            # ':'', # цена стоп лосса
+            # }
+            print('ДОДЕЛАТЬ ПОЗЖЕ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         
     # пишем в файл результаты на каждом шаге
     def print_file_log(self,msg,path):
