@@ -17,6 +17,9 @@ class Graph_trade(ft.UserControl):
         self.settings_print_graph['width_graph'] = 425
         self.settings_print_graph['height_graph'] = 400
         self.array_data_row = []
+        config = configparser.ConfigParser()         
+        config.read(path_imports_config)
+        self.regime_trade_page = config.get('param_trade_historical_trade_svobodniy_freym', 'regime_trade_page')
     
 
 
@@ -25,11 +28,12 @@ class Graph_trade(ft.UserControl):
         self.form_graph = form_graph
         # print(f'Рисуем график - {number_trade} | {form_graph}')
         # print(f'Номер папки = {self.number_folder}| Номер трейда = {self.number_trade}')
+        # print('1111')
         # print(self.form_graph)
-        # штука ниже вытаскивает из файла с трейдом все данные и делает статистику
+        # штука ниже вытаскивает из файла с трейдом все данные и делает статистику1
         if self.regime_set == 'none':
             self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\trade.txt' # путь сохранения логов в папке трейда
-        elif self.regime_set == 'set':
+        if self.regime_set == 'set' or self.regime_trade_page == 'historical':
             self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\folder_trade\\{self.number_trade_folder}\\trade.txt' # путь сохранения логов в папке трейдаc
         if os.path.isfile(self.path_save_trade_log):
             with open(self.path_save_trade_log) as file:
@@ -42,6 +46,7 @@ class Graph_trade(ft.UserControl):
         self.settings_print_graph['open_time_trade'] = int(self.array_data_row[self.number_trade].split('|')[10])
         self.settings_print_graph['close_time_trade'] = int(self.array_data_row[self.number_trade].split('|')[11])
         self.settings_print_graph['path_df'] = self.array_data_row[self.number_trade].split('|')[12]
+        # print(f"==>> self.settings_print_graph['path_df']: {self.settings_print_graph['path_df']}")
         self.settings_print_graph['trend'] = self.array_data_row[self.number_trade].split('|')[0]
         self.settings_print_graph['index_entry'] = self.array_data_row[self.number_trade].split('|')[13]
         self.settings_print_graph['index_exit'] = self.array_data_row[self.number_trade].split('|')[14]

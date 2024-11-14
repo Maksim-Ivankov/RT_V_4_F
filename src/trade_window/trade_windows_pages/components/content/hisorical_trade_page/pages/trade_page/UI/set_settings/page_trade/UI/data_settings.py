@@ -9,85 +9,153 @@ from imports import *
 # # настройки стратегий лежат здесь
 def def_print_set_settings(number_folder,number_trade_folder,strategy_now):
 
-    name_strat = strategys_our
-    strat_mas = []
-    # вытаскиваем название стратегии
-    # folder_strat = os.listdir(f'{path_save_trade}\\{number_folder}')
-    # for file in folder_strat:
-    #     if file!='log_trade.txt' and file!='settings_our.txt' and file!='folder_trade' and file!='general_set.ini' and file!='folder_trade':
-    #         strat_mas.append(file.rstrip('.txt'))
-    strat_mas = strategy_now
-    if len(strat_mas) == 1: 
-        folder_strat = f'{path_save_trade}\\{number_folder}\\{strat_mas[0]}_set.ini'
-        config_set = configparser.ConfigParser()  
-        config_set.read(folder_strat)
-        
-        
-        # ------------------------------------------
-        # проходимся по массив параметров стратегий и добавляем отрисовку этих параметров
-        controls_for_strat = []
-        for key in strategys_parametry_rus:
-            if strat_mas[0] == key:
-                count_parametr = 0
-                controls_for_strat[:] = []
-                for parametr in strategys_parametry_rus[key]:
-                    controls_for_strat.append(ft.Text(f'{parametr} - {config_set.get(f'{str(number_trade_folder)}_section', strategys_parametry_for_section[key][count_parametr])}',size=12))
-                    count_parametr+=1
-                strat_set_print = ft.Container(ft.Column(controls=controls_for_strat))
-        # ------------------------------------------
-        
-
-    path_settings = f'{path_save_trade}\\{number_folder}\\settings_our.txt'
-    if os.path.isfile(path_settings):
-        with open(path_settings) as file:
-            array_data_row = [row.strip() for row in file]
-            strategys_data = literal_eval(array_data_row[0].split('&')[22]) # ['MA']
-    # print(strategys_data)
-    strat_elements = []
-    count_strat = 0
-    for strat in strat_mas:
-        strat_elements.append(ft.Container(ft.Column(controls=[
-            ft.Text(f'Стратегия: {name_strat[strat]}'),
-            strat_set_print
-        ])))
-        count_strat+=1
-        if len(strategys_data) != count_strat:
-            strat_elements.append(ft.Container(width=350,height=1,bgcolor=c_white))
-
-
-    print_set_settings = ft.Container(
-        ft.Container(
-            ft.Column(controls=strat_elements,scroll=ft.ScrollMode.ALWAYS,),
-            width=350,height=140),padding=10
-    )
-    return print_set_settings
+    config = configparser.ConfigParser()         
+    config.read(path_imports_config)
+    regime_trade_page = config.get('param_trade_historical_trade_svobodniy_freym', 'regime_trade_page')
+    if regime_trade_page == 'svoboda':
+        name_strat = strategys_our
+        strat_mas = []
+        strat_mas = strategy_now
+        if len(strat_mas) == 1: 
+            folder_strat = f'{path_save_trade}\\{number_folder}\\{strat_mas[0]}_set.ini'
+            config_set = configparser.ConfigParser()  
+            config_set.read(folder_strat)
+            # ------------------------------------------
+            # проходимся по массив параметров стратегий и добавляем отрисовку этих параметров
+            controls_for_strat = []
+            for key in strategys_parametry_rus:
+                if strat_mas[0] == key:
+                    count_parametr = 0
+                    controls_for_strat[:] = []
+                    for parametr in strategys_parametry_rus[key]:
+                        controls_for_strat.append(ft.Text(f'{parametr} - {config_set.get(f'{str(number_trade_folder)}_section', strategys_parametry_for_section[key][count_parametr])}',size=12))
+                        count_parametr+=1
+                    strat_set_print = ft.Container(ft.Column(controls=controls_for_strat))
+            # ------------------------------------------
+        path_settings = f'{path_save_trade}\\{number_folder}\\settings_our.txt'
+        if os.path.isfile(path_settings):
+            with open(path_settings) as file:
+                array_data_row = [row.strip() for row in file]
+                strategys_data = literal_eval(array_data_row[0].split('&')[22]) # ['MA']
+        strat_elements = []
+        count_strat = 0
+        for strat in strat_mas:
+            strat_elements.append(ft.Container(ft.Column(controls=[
+                ft.Text(f'Стратегия: {name_strat[strat]}'),
+                strat_set_print
+            ])))
+            count_strat+=1
+            if len(strategys_data) != count_strat:
+                strat_elements.append(ft.Container(width=350,height=1,bgcolor=c_white))
+        print_set_settings = ft.Container(
+            ft.Container(
+                ft.Column(controls=strat_elements,scroll=ft.ScrollMode.ALWAYS,),
+                width=350,height=140),padding=10
+        )
+        return print_set_settings
+    elif regime_trade_page == 'historical':
+        name_strat = strategys_our
+        strat_mas = []
+        # вытаскиваем название стратегии
+        folder_strat = os.listdir(f'{path_save_trade}\\{number_folder}')
+        for file in folder_strat:
+            if file!='folder_trade' and file!='settings_our.txt':
+                strat_mas.append(file.rstrip('.txt'))
+    
+        if len(strat_mas) == 1: 
+            folder_strat = f'{path_save_trade}\\{number_folder}\\{strat_mas[0]}.txt'
+            if os.path.isfile(folder_strat):
+                with open(folder_strat) as file:
+                    array_data_row = [row.strip() for row in file]
+    
+            # ------------------------------------------
+            # проходимся по массив параметров стратегий и добавляем отрисовку этих параметров
+            controls_for_strat = []
+            for key in strategys_parametry_rus:
+                if strat_mas[0] == key:
+                    count_parametr = 0
+                    controls_for_strat[:] = []
+                    for parametr in strategys_parametry_rus[key]:
+                        controls_for_strat.append(ft.Text(f'{parametr} - {array_data_row[0].split('&')[count_parametr]}',size=12))
+                        count_parametr+=1
+                    strat_set_print = ft.Container(ft.Column(controls=controls_for_strat))
+            # ------------------------------------------
+        path_settings = f'{path_save_trade}\\{number_folder}\\settings_our.txt'
+        if os.path.isfile(path_settings):
+            with open(path_settings) as file:
+                array_data_row = [row.strip() for row in file]
+                strategys_data = array_data_row[0].split('&')[22] # ['MA']
+        # print(strategys_data)
+        strat_elements = []
+        count_strat = 0
+        for strat in strat_mas:
+            strat_elements.append(ft.Container(ft.Column(controls=[
+                ft.Text(f'Стратегия: {name_strat[strat]}'),
+                strat_set_print
+            ])))
+            count_strat+=1
+            if len(strategys_data) != count_strat:
+                strat_elements.append(ft.Container(width=350,height=1,bgcolor=c_white))
+    
+    
+        print_set_settings = ft.Container(
+            ft.Container(
+                ft.Column(controls=strat_elements,scroll=ft.ScrollMode.ALWAYS,),
+                width=350,height=140),padding=10
+        )
+        return print_set_settings
 
 def def_print_our_settings(number_folder,number_trade_folder,strategy_now):
-    path_settings = f'{path_save_trade}\\{number_folder}\\settings_our.txt'
-    folder_strat = f'{path_save_trade}\\{number_folder}\\general_set.ini'
-    config_set = configparser.ConfigParser()  
-    config_set.read(folder_strat)
-    if os.path.isfile(path_settings):
-        with open(path_settings) as file:
-            array_data_row = [row.strip() for row in file]
-            strategi_coin_data = array_data_row[0].split('&')[0] # top_value
-            work_tf_data = array_data_row[0].split('&')[2] # 5m
-            dlitelnost_data = array_data_row[0].split('&')[3] # 24h
-            how_mach_money_data = array_data_row[0].split('&')[4] # 6
-            regim_tp_data = '???' 
-            regim_sl_data = '???'
-            regim_volume_min_data = '???'
-            regim_volume_max_data = '???'
-            name_bot_data = array_data_row[0].split('&')[13] # V 22_07_24_1
-            komission_mayker_data = array_data_row[0].split('&')[14]#  0.2
-            leverage_data = config_set.get(f'{str(number_trade_folder)}_section', 'leveradg')
-            komission_taker_data = array_data_row[0].split('&')[17] # 0.1
-            tp_data = config_set.get(f'{str(number_trade_folder)}_section', 'diapazon_tp')
-            sl_data = config_set.get(f'{str(number_trade_folder)}_section', 'diapazon_sl')
-            volume_min_data = config_set.get(f'{str(number_trade_folder)}_section', 'diapazon_volume_min')
-            volume_max_data = config_set.get(f'{str(number_trade_folder)}_section', 'diapazon_volume_max')
-            strategys_data = array_data_row[0].split('&')[22] # ['MA']
     
+    config = configparser.ConfigParser()         
+    config.read(path_imports_config)
+    regime_trade_page = config.get('param_trade_historical_trade_svobodniy_freym', 'regime_trade_page')
+    path_settings = f'{path_save_trade}\\{number_folder}\\settings_our.txt'
+    if regime_trade_page == 'svoboda':
+        folder_strat = f'{path_save_trade}\\{number_folder}\\general_set.ini'
+        config_set = configparser.ConfigParser()  
+        config_set.read(folder_strat)
+        if os.path.isfile(path_settings):
+            with open(path_settings) as file:
+                array_data_row = [row.strip() for row in file]
+        strategi_coin_data = array_data_row[0].split('&')[0] # top_value
+        work_tf_data = array_data_row[0].split('&')[2] # 5m
+        dlitelnost_data = array_data_row[0].split('&')[3] # 24h
+        how_mach_money_data = array_data_row[0].split('&')[4] # 6
+        regim_tp_data = '???' 
+        regim_sl_data = '???'
+        regim_volume_min_data = '???'
+        regim_volume_max_data = '???'
+        name_bot_data = array_data_row[0].split('&')[13] # V 22_07_24_1
+        komission_mayker_data = array_data_row[0].split('&')[14]#  0.2
+        leverage_data = config_set.get(f'{str(number_trade_folder)}_section', 'leveradg')
+        komission_taker_data = array_data_row[0].split('&')[17] # 0.1
+        tp_data = config_set.get(f'{str(number_trade_folder)}_section', 'diapazon_tp')
+        sl_data = config_set.get(f'{str(number_trade_folder)}_section', 'diapazon_sl')
+        volume_min_data = config_set.get(f'{str(number_trade_folder)}_section', 'diapazon_volume_min')
+        volume_max_data = config_set.get(f'{str(number_trade_folder)}_section', 'diapazon_volume_max')
+        strategys_data = array_data_row[0].split('&')[22] # ['MA']
+    elif regime_trade_page == 'historical':
+        if os.path.isfile(path_settings):
+            with open(path_settings) as file:
+                array_data_row = [row.strip() for row in file]
+        strategi_coin_data = array_data_row[0].split('&')[0] # top_value
+        work_tf_data = array_data_row[0].split('&')[2] # 5m
+        dlitelnost_data = array_data_row[0].split('&')[3] # 24h
+        how_mach_money_data = array_data_row[0].split('&')[4] # 6
+        regim_tp_data = array_data_row[0].split('&')[9]
+        regim_sl_data = array_data_row[0].split('&')[10]
+        regim_volume_min_data = array_data_row[0].split('&')[11]
+        regim_volume_max_data = array_data_row[0].split('&')[12]
+        name_bot_data = array_data_row[0].split('&')[13] # V 22_07_24_1
+        komission_mayker_data = array_data_row[0].split('&')[14]#  0.2
+        leverage_data = array_data_row[0].split('&')[16]
+        komission_taker_data = array_data_row[0].split('&')[17] # 0.1
+        tp_data = array_data_row[0].split('&')[18]
+        sl_data = array_data_row[0].split('&')[19]
+        volume_min_data = array_data_row[0].split('&')[20]
+        volume_max_data = array_data_row[0].split('&')[21]
+        strategys_data = array_data_row[0].split('&')[22] # ['MA']
 
     print_our_settings = ft.Container(
         ft.Row(controls=[

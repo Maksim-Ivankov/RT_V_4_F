@@ -52,6 +52,7 @@ class Table_result(ft.UserControl):
     # открыть страницу торговли
     def open_page_trade(self,e):
         # print(f'Открыть страницу трейда - {e.control.data}')
+        # print('здесь все четко')
         self.print_page_one_trade_oura_set(e.control.data)
     
     def clcik_sort(self,e):

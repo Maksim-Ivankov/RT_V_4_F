@@ -137,35 +137,32 @@ class HisTrade_Svoboda_OneSettings():
             self.path_folder_trade = f'{path_save_trade}\\{len(os.listdir(path_save_trade))+1}'
             os.mkdir(self.path_folder_trade)
         file = open(f'{self.path_folder_trade}\\settings_our.txt', 'a')
-        file.write(config.get('param_trade_historical_trade_svobodniy_freym', 'strategi_coin')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'sledim_money')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'work_tf')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'dlitelnost')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'how_mach_money')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'coins_trade')+'&'+
-                   str(self.number_trade)+'&'+
-                #    config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade')+'&'+
-                   str(self.use_last_number)+'&'+
-                #    config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')+'&'+
-                   str(self.use_last_sost)+'&'+
-                #    config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'regim_tp')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'regim_sl')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'regim_volume_min')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'regim_volume_max')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'name_bot')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'komission_mayker')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'deposit')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'leverage')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'komission_taker')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'tp')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'sl')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'volume_min')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'volume_max')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'strategys') +'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'change_time_settings') +'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'time_on_work') +'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'time_off_work')
+        file.write(config.get('param_trade_historical_trade_svobodniy_freym', 'strategi_coin')+'&'+         # 0                              
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'sledim_money')+'&'+          # 1                                                                                                        
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'work_tf')+'&'+               # 2                                                                                                   
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'dlitelnost')+'&'+            # 3                                                                                                      
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'how_mach_money')+'&'+        # 4                                                                                                          
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'coins_trade')+'&'+           # 5                                                                                                       
+                   str(self.number_trade)+'&'+                                                              # 6                                                    
+                   str(self.use_last_number)+'&'+                                                           # 7                                                       
+                   str(self.use_last_sost)+'&'+                                                             # 8                                                     
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'regim_tp')+'&'+              # 9                                                                                                    
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'regim_sl')+'&'+              # 10                                                                                                    
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'regim_volume_min')+'&'+      # 11                                                                                                            
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'regim_volume_max')+'&'+      # 12                                                                                                            
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'name_bot')+'&'+              # 13                                                                                                    
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'komission_mayker')+'&'+      # 14                                                                                                            
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'deposit')+'&'+               # 15                                                                                                   
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'leverage')+'&'+              # 16                                                                                                    
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'komission_taker')+'&'+       # 17                                                                                                           
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'tp')+'&'+                    # 18                                                                                              
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'sl')+'&'+                    # 19                                                                                              
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'volume_min')+'&'+            # 20                                                                                                      
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'volume_max')+'&'+            # 21                                                                                                      
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'strategys') +'&'+            # 22                                                                                                      
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'change_time_settings') +'&'+ # 23                                                                                                                 
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'time_on_work') +'&'+         # 24                                                                                                         
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'time_off_work')              # 25                                                                                                    
         )
         file.close()
         self.strategys = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))

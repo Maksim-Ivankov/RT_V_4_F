@@ -15,10 +15,17 @@ class Print_graph(ft.UserControl):
         self.trend = self.set['trend']
         self.TP = self.set['TP']
         self.SL = self.set['SL']
+        
+        config = configparser.ConfigParser()         
+        config.read(path_imports_config)
+        self.regime_trade_page = config.get('param_trade_historical_trade_svobodniy_freym', 'regime_trade_page')
 
         # вытаскиваем датафрейм слежения
         path_df_see = self.set['path_df'].split('\\')
-        path_df_see[-2] = 'see'
+        if self.regime_trade_page == 'historical':
+            path_df_see[-3] = 'see'
+        if self.regime_trade_page == 'svoboda':
+            path_df_see[-2] = 'see'
         self.df_see = pd.read_csv('\\'.join(path_df_see))
 
         # определяем индекс входа и выхода

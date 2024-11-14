@@ -130,7 +130,7 @@ class Trade_page(ft.UserControl):#1
                 self.strategy_now = strategy
         # ЕСЛИ В ИСТОРИЧЕСКОЙ ТОРГОВЛЕ НА БОЛЬШОМ СЕТЕ ------------------------------------------------------------------------------------------------------------------
         elif self.regime_trade_page == 'historical':
-            # self.table_result = Table_result(self.reptint_table_result,self.print_page_one_trade_oura_set)
+            self.table_result = Table_result(self.reptint_table_result,self.print_page_one_trade_oura_set)
             # получаем кол-во настроек в сете
             # Достаем количество дней торговли
             config = configparser.ConfigParser()  
@@ -174,9 +174,9 @@ class Trade_page(ft.UserControl):#1
                 self.content.scroll_to(key=str(number_trade), duration=1000)
                 self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end,number_trade), args=(), daemon=True)
                 self.myThread.start()
-            # self.controls[0].content.content.content.controls.append(self.table_result.print_page(self.update_component,'basa',len(os.listdir(path_save_trade))))
-            # self.content.scroll_to(key="table_result", duration=1000)
-            # self.update()
+            self.controls[0].content.content.content.controls.append(self.table_result.print_page(self.update_component,'basa',len(os.listdir(path_save_trade))))
+            self.content.scroll_to(key="table_result", duration=1000)
+            self.update()
             # # Сохраянем сеты настроек в папку торговли11
             # shutil.copy(
             #    os.path.join(path_appdata, 'general_set.ini'),
@@ -187,7 +187,7 @@ class Trade_page(ft.UserControl):#1
             #            os.path.join(path_appdata, f'{i}_set.ini'),
             #            os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}') # путь сохранения логов в папке трейда)
             #     )
-            # self.strategy_now = strategy
+            self.strategy_now = strategy
                     
                     
 
@@ -212,10 +212,11 @@ class Trade_page(ft.UserControl):#1
         
     # открыть страницу с трейдом из таблицы результатов торговли по сету настроек
     def print_page_one_trade_oura_set(self,number_trade):
+        # print(number_trade)
+        # print('!!!!!!!!!')
         # self.our_frame = self.controls.copy()
         self.our_frame = list(self.controls)
         self.controls[:] = []
-        # print(f'Внутри trade_page 2, стратегия = {self.strategy_now} !!!!!!!!!!!!!!!!!!!!!!')
         self.controls.append(Result_trqade_page(self.return_old_data,number_trade,self.strategy_now,'None',len(os.listdir(path_save_trade)),self.change_page))
         self.update()
     

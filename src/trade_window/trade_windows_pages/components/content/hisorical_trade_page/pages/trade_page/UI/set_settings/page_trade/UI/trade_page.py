@@ -51,10 +51,11 @@ class Trade_page(ft.UserControl):
         # print(f'{number_graph}|{print_trade}')
         # готовим объект графика1
         # cl_graph_trade = Graph_trade(self.number_folder,self.number_trade)
-        self.state_graph_print = {
-            'graph_1': self.cl_graph_trade.print_page(self.number_trade),
-            'graph_2': self.cl_graph_trade.print_page(self.number_trade,'min'),
-        }
+        # снизу закоментировал, ни где не вызывалось, только ошибку давало. Если графики встанут, смотреть сюда. Может не нужно было убирать
+        # self.state_graph_print = {
+        #     'graph_1': self.cl_graph_trade.print_page(self.number_trade),
+        #     'graph_2': self.cl_graph_trade.print_page(self.number_trade,'min'),
+        # }
         self.state_graph_btn = number_graph
         if print_trade!='':
             if number_graph == 'graph_1':
