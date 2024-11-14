@@ -105,12 +105,28 @@ class HisTrade_Svoboda_OneSettings():
         "Во сколько часов начать торговлю"
         self.time_off_work = config.get('param_trade_historical_trade_svobodniy_freym', 'time_off_work') # Во сколько часов выключить торговлю
         "Во сколько часов выключить торговлю"
-        if config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost') == 'True':
-            self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')) # номер папки с датафеймами в хранилище
-            "номер папки с датафеймами в хранилище"
-        else:
-            self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade')) # номер папки с датафеймами в хранилище
-            "номер папки с датафеймами в хранилище"
+        
+        self.regime_trade_page = config.get('param_trade_historical_trade_svobodniy_freym', 'regime_trade_page')
+        if self.regime_trade_page == 'svoboda':
+            self.use_last_sost = config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost')
+            if config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost') == 'True':
+                self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')) # номер папки с датафеймами в хранилище
+                self.use_last_number = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')) # номер папки с датафеймами в хранилище
+                "номер папки с датафеймами в хранилище"
+            else:
+                self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade')) # номер папки с датафеймами в хранилище
+                "номер папки с датафеймами в хранилище"
+        elif self.regime_trade_page == 'historical':
+            self.use_last_sost = config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost_historical')
+            if config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost_historical') == 'True':
+                self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number_historical')) # номер папки с датафеймами в хранилище
+                self.use_last_number = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number_historical')) # номер папки с датафеймами в хранилище
+                "номер папки с датафеймами в хранилище"
+            else:
+                self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade_historical')) # номер папки с датафеймами в хранилище
+                "номер папки с датафеймами в хранилище"
+        
+        
             
         
         # Сохраняем общие настройки в папку с трейдом
@@ -127,9 +143,12 @@ class HisTrade_Svoboda_OneSettings():
                    config.get('param_trade_historical_trade_svobodniy_freym', 'dlitelnost')+'&'+
                    config.get('param_trade_historical_trade_svobodniy_freym', 'how_mach_money')+'&'+
                    config.get('param_trade_historical_trade_svobodniy_freym', 'coins_trade')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')+'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost')+'&'+
+                   str(self.number_trade)+'&'+
+                #    config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade')+'&'+
+                   str(self.use_last_number)+'&'+
+                #    config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')+'&'+
+                   str(self.use_last_sost)+'&'+
+                #    config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost')+'&'+
                    config.get('param_trade_historical_trade_svobodniy_freym', 'regim_tp')+'&'+
                    config.get('param_trade_historical_trade_svobodniy_freym', 'regim_sl')+'&'+
                    config.get('param_trade_historical_trade_svobodniy_freym', 'regim_volume_min')+'&'+

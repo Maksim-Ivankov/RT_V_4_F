@@ -293,7 +293,7 @@ class Historical_trade_page(ft.UserControl):
             self.change_how_mach_time = config.get('param_trade_historical_trade_svobodniy_freym', 'dlitelnost')
             self.number_trade = config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade_historical')
             self.use_last_sost = config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost_historical')
-            self.use_last_number = config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')
+            self.use_last_number = config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number_historical')
             self.coins_trade = config.get('param_trade_historical_trade_svobodniy_freym', 'coins_trade').split('|')
             self.strat_coin_text_celka = config.get('param_trade_historical_trade_svobodniy_freym', 'strategi_coin_historical')
             self.strat_coin_text = self.text_for_button_slov[config.get('param_trade_historical_trade_svobodniy_freym', 'strategi_coin_historical')]

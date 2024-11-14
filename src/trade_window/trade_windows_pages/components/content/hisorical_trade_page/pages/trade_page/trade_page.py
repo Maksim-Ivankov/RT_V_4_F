@@ -84,6 +84,7 @@ class Trade_page(ft.UserControl):#1
                 config_set = configparser.ConfigParser()  
                 config_set.read(path_ini_general_set)
                 count_set_trade = len(config_set.sections())
+                # print(f"==>> count_set_trade: {count_set_trade}")
                 self.controls[0].content.content.content.controls.append(self.flex_card.print_page(count_set_trade))
                 self.controls[0].content.content.content.height=600
                 self.update()
@@ -94,8 +95,10 @@ class Trade_page(ft.UserControl):#1
                 core_trade_ob = Core_trade(regime,strategy)
                 for number_trade in range(1,count_set_trade+1):
                     self.number_trade_in_set_settings = number_trade
+                    # print(f"==>> self.number_trade_in_set_settings: {self.number_trade_in_set_settings}")
                     # Получаем карточку, с которой будем работать на текущем шаге
                     count_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls) # [Row(), Row()]
+                    # print(f"==>> count_td: {count_td}")
                     if float(self.number_trade_in_set_settings/count_td)<1.00001:
                         self.count_element_tr = 0
                         if self.number_trade_in_set_settings%count_td == 0:
@@ -138,6 +141,7 @@ class Trade_page(ft.UserControl):#1
             a = datetime.strptime(str(date_start).split(' ')[0], date_format_bin)
             b = datetime.strptime(str(date_end).split(' ')[0], date_format_bin)
             count_set_trade = (b - a).days
+            # print(f"==>> count_set_trade: {count_set_trade}")
             self.controls[0].content.content.content.controls.append(self.flex_card.print_page(count_set_trade))
             self.controls[0].content.content.content.height=600
             self.update()
@@ -148,17 +152,22 @@ class Trade_page(ft.UserControl):#1
             core_trade_ob = Core_trade(regime,strategy)
             for number_trade in range(1,count_set_trade+1):
                 self.number_trade_in_set_settings = number_trade
+                # print(f"==>> self.number_trade_in_set_settings: {self.number_trade_in_set_settings}")
                 # Получаем карточку, с которой будем работать на текущем шаге
-                count_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls) # [Row(), Row()]
+                count_td = self.flex_card.stolb # [Row(), Row()]
+                # count_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls) # [Row(), Row()]
+                # print(f"==>> count_td: {count_td}")
                 if float(self.number_trade_in_set_settings/count_td)<1.00001:
                     self.count_element_tr = 0
                     if self.number_trade_in_set_settings%count_td == 0:
-                        self.count_element_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)-1 # заходим в первый row и получаем длину ряда
+                        self.count_element_td = count_td-1 # заходим в первый row и получаем длину ряда
+                        # self.count_element_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)-1 # заходим в первый row и получаем длину ряда
                     else:self.count_element_td = int(self.number_trade_in_set_settings)-1
                 else: 
                     self.count_element_tr = int((int(self.number_trade_in_set_settings)-1)/count_td)
                     if self.number_trade_in_set_settings%count_td == 0:
-                        self.count_element_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)-1 # заходим в первый row и получаем длину ряда
+                        self.count_element_td = count_td-1 # заходим в первый row и получаем длину ряда
+                        # self.count_element_td = len(self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[0].controls)-1 # заходим в первый row и получаем длину ряда
                     else:self.count_element_td = int(self.number_trade_in_set_settings%count_td)-1
                 self.treyd_polosa = []
                 self.treyd_polosa[:] = []
@@ -214,27 +223,29 @@ class Trade_page(ft.UserControl):#1
     def change_pb(self,procent,data={}):
         if self.regime=='one_set':
             self.output_info_trade.pb.value = procent
-        elif self.regime=='much_set':
-            # print(procent)
-            
+        if self.regime=='much_set' or self.regime_trade_page == 'historical':
+            if self.regime_trade_page == 'historical': number_controls_component = 3
+            if self.regime=='much_set': number_controls_component = 4
             if data!={}:
                 if data['result'] == '+':
                     self.treyd_polosa.append(ft.Container(ft.Text(data['data'],color=c_blue,text_align='CENTER',size=12),bgcolor=c_green,width=150,height=20))
                 else:
                     self.treyd_polosa.append(ft.Container(ft.Text(data['data'],color=c_white,text_align='CENTER',size=12),bgcolor=c_red,width=150,height=20))
                 self.treyd_polosa = list(reversed(self.treyd_polosa))
-            self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.bgcolor=c_blue
-            self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.padding=10
-            self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content = ft.Column(controls=[
+            # print(self.controls[0].content.content.content.controls)
+            # print('11111111')
+            self.controls[0].content.content.content.controls[number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.bgcolor=c_blue
+            self.controls[0].content.content.content.controls[number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.padding=10
+            self.controls[0].content.content.content.controls[number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content = ft.Column(controls=[
                 ft.Container(ft.Column(controls=self.treyd_polosa,scroll=ft.ScrollMode.ALWAYS),height=150),
                 ft.Container(ft.ProgressBar(width=150,bgcolor=c_blue,color=c_yelow,value=procent))
             ])
             if procent>0.99:
-                self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content.controls.pop()
+                self.controls[0].content.content.content.controls[number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content.controls.pop()
                 if len(self.treyd_polosa) == 0:
-                    self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content = ft.Container(ft.Container(ft.Text('Нет сделок',color=c_white,text_align='CENTER'),bgcolor=c_blue_binance,padding=ft.padding.only(top=90)),width=170,height=200,margin=-10)
+                    self.controls[0].content.content.content.controls[number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].content.controls[1].content.content = ft.Container(ft.Container(ft.Text('Нет сделок',color=c_white,text_align='CENTER'),bgcolor=c_blue_binance,padding=ft.padding.only(top=90)),width=170,height=200,margin=-10)
                     
-            self.controls[0].content.content.content.controls[4].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].update()
+            self.controls[0].content.content.content.controls[number_controls_component].content.controls[0].content.controls[self.count_element_tr].controls[self.count_element_td].update()
             
         
             
