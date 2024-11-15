@@ -25,16 +25,22 @@ class Graph_trade(ft.UserControl):
 
     def print_page(self,number_trade,form_graph='max'):
         self.number_trade = int(number_trade)
+        # print(f"==>> self.number_trade: {self.number_trade}")
         self.form_graph = form_graph
-        # print(f'Рисуем график - {number_trade} | {form_graph}')
-        # print(f'Номер папки = {self.number_folder}| Номер трейда = {self.number_trade}')
-        # print('1111')
-        # print(self.form_graph)
+        # print(self.regime_set)
         # штука ниже вытаскивает из файла с трейдом все данные и делает статистику1
-        if self.regime_set == 'none':
-            self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\trade.txt' # путь сохранения логов в папке трейда
-        if self.regime_set == 'set' or self.regime_trade_page == 'historical':
-            self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\folder_trade\\{self.number_trade_folder}\\trade.txt' # путь сохранения логов в папке трейдаc
+        if self.regime_trade_page == 'historical':
+            if self.regime_set == 'none':
+                self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\trade.txt' # путь сохранения логов в папке трейда
+                # print(f"==>> self.path_save_trade_log: {self.path_save_trade_log}")
+            if self.regime_set == 'set':
+                self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\folder_trade\\{self.number_trade_folder}\\trade.txt' # путь сохранения логов в папке трейдаc
+        if self.regime_trade_page == 'svoboda':
+            if self.regime_set == 'none':
+                self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\trade.txt' # путь сохранения логов в папке трейда
+                # print(f"==>> self.path_save_trade_log: {self.path_save_trade_log}")
+            if self.regime_set == 'set':
+                self.path_save_trade_log = f'{path_save_trade}\\{self.number_folder}\\folder_trade\\{self.number_trade_folder}\\trade.txt' # путь сохранения логов в папке трейдаc
         if os.path.isfile(self.path_save_trade_log):
             with open(self.path_save_trade_log) as file:
                 self.array_data_row = [row.strip() for row in file]

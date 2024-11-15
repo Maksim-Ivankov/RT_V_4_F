@@ -172,10 +172,12 @@ class Change_strategy_trade_page(ft.UserControl):
     def build(self):
         self.changed_strategys = []
         for i in self.flags_this.keys():
+            if i=='general': continue
             if self.flags_this[i] == True:
                 self.changed_strategys.append(i)
         item_strategy = []
         for i in self.strategy_translate.keys():
+            if i=='general': continue
             item_strategy.append(
                 ft.Container(ft.Row(
                     controls=[

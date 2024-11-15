@@ -37,9 +37,12 @@ class Table_trade(ft.UserControl):
         if e.control.key != 'Сет настроек':
             self.controls[:] = []
             self.controls.append(Trade_page(e.control.data,self.change_page))
-        elif e.control.key == 'Сет настроек':
+        if e.control.key == 'Сет настроек':
             self.controls[:] = []
             self.controls.append(Trade_page_set(e.control.data,self.change_page))
+        if e.control.key == 'Историческая':
+            self.controls[:] = []
+            self.controls.append(Trade_page_set(e.control.data,self.change_page,'Историческая'))
         self.update()
     
     def hover_str(self,e):
@@ -96,17 +99,23 @@ class Table_trade(ft.UserControl):
 
             # вытаскиваем название стратегии
             folder_strat = os.listdir(f'{path_save_trade}\\{i}')
-            # print(folder_strat)
-            for file in folder_strat:
-                if file!='log_trade.txt' and file!='settings_our.txt' and file!='trade.txt':
-                    strat_mas.append(file.rstrip('.txt'))
-                if file == 'folder_trade':
-                    strategy_trade = 'Сет настроек'
-                    # print(f'{i} - Сет настроек')
-            if strategy_trade == '':
-                # print(f'{i} - одна настройка')
-                if len(strat_mas) == 1: strategy_trade = self.strategys[strat_mas[0]]
-                else: strategy_trade = 'Несколько'
+            # print(f"==>> {path_save_trade}\\{i}: {folder_strat}")
+            if os.path.isfile(f'{path_save_trade}\\{i}\\settings_our.txt'):
+                with open(f'{path_save_trade}\\{i}\\settings_our.txt') as file:
+                    self.array_for_his_qestion = [row.strip() for row in file] # сюда сохраняем, что в ней лежит 
+            if self.array_for_his_qestion[0].split('&')[26] == 'historical':
+                strategy_trade = 'Историческая'
+            else:
+                for file in folder_strat:
+                    # print(file)
+                    if file!='log_trade.txt' and file!='settings_our.txt' and file!='trade.txt':
+                        strat_mas.append(file.rstrip('.txt'))
+                    if file == 'folder_trade':
+                        strategy_trade = 'Сет настроек'
+                if strategy_trade == '':
+                    # print(f'{i} - одна настройка')
+                    if len(strat_mas) == 1: strategy_trade = self.strategys[strat_mas[0]]
+                    else: strategy_trade = 'Несколько'
             # print(strategy_trade)
 
             # добываем монеты
@@ -117,7 +126,7 @@ class Table_trade(ft.UserControl):
                     count_coin = len(self.array_data_row[0].split('&')[5].split('|'))
 
             self.path_save_trade_log = f'{path_save_trade}\\{i}\\trade.txt' # по очереди проходимся по каждой папке
-            if strategy_trade != 'Сет настроек':
+            if strategy_trade != 'Сет настроек' and strategy_trade != 'Историческая':
                 if os.path.isfile(self.path_save_trade_log):
                     with open(self.path_save_trade_log) as file:
                         self.array_data_row = [row.strip() for row in file] # сюда сохраняем, что в ней лежит
@@ -178,8 +187,7 @@ class Table_trade(ft.UserControl):
                                 # margin=ft.margin.only(top=-10,bottom=-10)
                             )
                         )
-            if strategy_trade == 'Сет настроек':
-                mas_max_trade.clear()
+            if strategy_trade == 'Сет настроек' or strategy_trade == 'Историческая':
                 folder_strat = os.listdir(f'{path_save_trade}\\{i}\\folder_trade')
                 for file_trade in folder_strat:
                     self.path_trade_set = f'{path_save_trade}\\{i}\\folder_trade\\{file_trade}\\trade.txt' # по очереди проходимся по каждой папке

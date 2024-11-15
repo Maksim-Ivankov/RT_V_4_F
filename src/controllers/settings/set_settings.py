@@ -162,7 +162,8 @@ class HisTrade_Svoboda_OneSettings():
                    config.get('param_trade_historical_trade_svobodniy_freym', 'strategys') +'&'+            # 22                                                                                                      
                    config.get('param_trade_historical_trade_svobodniy_freym', 'change_time_settings') +'&'+ # 23                                                                                                                 
                    config.get('param_trade_historical_trade_svobodniy_freym', 'time_on_work') +'&'+         # 24                                                                                                         
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'time_off_work')              # 25                                                                                                    
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'time_off_work') +'&'+        # 25                                                                                                    
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'regime_trade_page')          # 26                                                                                                   
         )
         file.close()
         self.strategys = literal_eval(config.get('param_trade_historical_trade_svobodniy_freym', 'strategys'))
@@ -309,7 +310,8 @@ class HisTrade_Svoboda_SetSettings():
                    config.get('param_trade_historical_trade_svobodniy_freym', 'strategys') +'&'+
                    config.get('param_trade_historical_trade_svobodniy_freym', 'change_time_settings') +'&'+
                    config.get('param_trade_historical_trade_svobodniy_freym', 'time_on_work') +'&'+
-                   config.get('param_trade_historical_trade_svobodniy_freym', 'time_off_work')
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'time_off_work') +'&'+
+                   config.get('param_trade_historical_trade_svobodniy_freym', 'regime_trade_page')          # 26  
         )
         file.close()
             

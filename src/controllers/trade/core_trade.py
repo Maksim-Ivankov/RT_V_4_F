@@ -40,7 +40,7 @@ class Core_trade():
             self.path_save_log = f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\log_trade.txt' # путь сохранения логов в папке трейда
             self.path_save_trade_log = f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\trade.txt' # путь сохранения логов в папке трейда
             self.DEPOSIT_GLOBAL = self.var.DEPOSIT
-            print(f"==>> self.DEPOSIT_GLOBAL: {self.DEPOSIT_GLOBAL}")
+            # print(f"==>> self.DEPOSIT_GLOBAL: {self.DEPOSIT_GLOBAL}")
             self.trend_mas = []
 
             self.trade_param = {

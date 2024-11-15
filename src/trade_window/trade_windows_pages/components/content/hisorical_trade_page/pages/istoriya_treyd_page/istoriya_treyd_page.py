@@ -4,10 +4,12 @@ from variable import *
 from imports import *
 
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.istoriya_treyd_page.UI.table_trade.table_trade import Table_trade
+from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
 
 class Istoriya_treyd_page(ft.UserControl):
     def __init__(self,change_page,data=''):
         super().__init__()
+        Save_config('param_trade_historical_trade_svobodniy_freym',{'regime_trade_page':'svoboda'})
         self.change_page = change_page
         self.data = data
 

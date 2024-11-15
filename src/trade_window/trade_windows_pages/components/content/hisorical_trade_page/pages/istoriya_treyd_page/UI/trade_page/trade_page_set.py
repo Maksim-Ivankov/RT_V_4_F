@@ -6,9 +6,10 @@ from imports import *
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.UI.card_default import Card_default
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.UI.table_result import Table_result
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.trade_page.UI.set_settings.page_trade.result_trqade_page import Result_trqade_page
+from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
 
 class Trade_page_set(ft.UserControl):
-    def __init__(self,number_trade,change_page):
+    def __init__(self,number_trade,change_page,regime=''):
         super().__init__()
         self.change_page = change_page
         self.number_trade = number_trade
@@ -18,6 +19,7 @@ class Trade_page_set(ft.UserControl):
         self.mas_card = [] # массив всех карточек
         self.card_default = Card_default()
         self.number_card = 1
+        if regime=='Историческая': Save_config('param_trade_historical_trade_svobodniy_freym',{'regime_trade_page':'historical'})
         
     # создает наполнение карточками
     def create_mas_card(self):
