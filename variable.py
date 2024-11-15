@@ -131,27 +131,27 @@ strategys_our = {
     'one':'Канал, тренд, локаль, объём',
     'MA':'Скользящие средние',
     'BBANDS':'Полосы Боллинджера',
-    'EMA':'Эксп скользящая средняя',
-    'DEMA':'Двойная эксп скользящая средняя',
-    'KAMA':'Адаптивная скользящая Кауфмана',
-    'MAVP':'Сколь средняя с пер периодом',
-    'SAR':'Параболический SAR',
-    'TEMA':'Тройная эксп сколь средняя',
-    'TRIMA':'Треугольная скользящая средняя',
-    'WMA':'Взвешенная скользящая средняя',
-    'CDL2CROWS':'Две вороны',
-    'CDL3BLACKCROWS':'Три черных ворона',
+    'EMA':'Эксп скользящая средняя',                  # ноль показывают
+    'DEMA':'Двойная эксп скользящая средняя',                 # ноль показывают
+    'KAMA':'Адаптивная скользящая Кауфмана',                  # ноль показывают
+    'MAVP':'Сколь средняя с пер периодом',                    # ноль показывают
+    'SAR':'Параболический SAR',                   # ноль показывают
+    'TEMA':'Тройная эксп сколь средняя',                  # ноль показывают
+    'TRIMA':'Треугольная скользящая средняя',                 # ноль показывают
+    'WMA':'Взвешенная скользящая средняя',                    # ноль показывают
+    'CDL2CROWS':'Две вороны',                 # ноль показывают
+    'CDL3BLACKCROWS':'Три черных ворона',                 # ноль показывают
     'CDL3INSIDE':'Три внутри Вверх / вниз',
     'CDL3LINESTRIKE':'Трехстрочный удар',
     'CDL3OUTSIDE':'Три внешних элемента Вверх / вниз',
-    'CDL3STARSINSOUTH':'Три звезды на юге',
-    'CDL3WHITESOLDIERS':'Трое наступающих белых солдат',
-    'CDLABANDONEDBABY':'Брошенный ребенок',
+    'CDL3STARSINSOUTH':'Три звезды на юге',                   # ноль показывают
+    'CDL3WHITESOLDIERS':'Трое наступающих белых солдат',                  # ноль показывают
+    'CDLABANDONEDBABY':'Брошенный ребенок',                   # ноль показывают
     'CDLADVANCEBLOCK':'Предварительный блок',
     'CDLBELTHOLD':'Удержание за ремень',
     'CDLCLOSINGMARUBOZU':'Marubozu',
-    'CDLCOUNTERATTACK':'Контратака',
-    'CDLDARKCLOUDCOVER':'Темный облачный покров',
+    'CDLCOUNTERATTACK':'Контратака',                  # ноль показывают
+    'CDLDARKCLOUDCOVER':'Темный облачный покров',                 # ноль показывают
     'CDLENGULFING':'шаблон поглощения',
     'CDLEVENINGDOJISTAR':'Вечерняя звезда Доджи',
     'CDLGRAVESTONEDOJI':'Надгробный камень Доджи',
@@ -159,15 +159,15 @@ strategys_our = {
     'CDLHANGINGMAN':'Висельник',
     'CDLHARAMI':'шаблон Харами',
     'CDLHARAMICROSS':'Шаблон пересечения Харами',
-    'CDLHOMINGPIGEON':'Почтовый голубь',
+    'CDLHOMINGPIGEON':'Почтовый голубь',                  # ноль показывают
     'CDLINVERTEDHAMMER':'Перевернутый молоток',
-    'CDLLADDERBOTTOM':'Основание лестницы',
+    'CDLLADDERBOTTOM':'Основание лестницы',                   # ноль показывают
     'CDLLONGLEGGEDDOJI':'Длинноногий доджи',
     'CDLMATCHINGLOW':'низкий уровень соответствия',
     'CDLMORNINGSTAR':'Утренняя звезда',
     'CDLRICKSHAWMAN':'рикша',
     'CDLSPINNINGTOP':'Волчок',
-    'CDLTASUKIGAP':'разрыв Тасуки',   
+    'CDLTASUKIGAP':'разрыв Тасуки',                       # ноль показывают
 }
 mas_name_strategys = ['one','MA','BBANDS','EMA','DEMA','KAMA','MAVP','SAR','TEMA','TRIMA','WMA','CDL2CROWS','CDL3BLACKCROWS','CDL3INSIDE','CDL3LINESTRIKE','CDL3OUTSIDE','CDL3STARSINSOUTH','CDL3WHITESOLDIERS','CDLABANDONEDBABY','CDLADVANCEBLOCK','CDLBELTHOLD','CDLCLOSINGMARUBOZU','CDLCOUNTERATTACK','CDLDARKCLOUDCOVER','CDLENGULFING','CDLEVENINGDOJISTAR','CDLGRAVESTONEDOJI','CDLHAMMER','CDLHANGINGMAN','CDLHARAMI','CDLHARAMICROSS','CDLHOMINGPIGEON','CDLINVERTEDHAMMER','CDLLADDERBOTTOM','CDLLONGLEGGEDDOJI','CDLMATCHINGLOW','CDLMORNINGSTAR','CDLRICKSHAWMAN','CDLSPINNINGTOP','CDLTASUKIGAP'
 ]
@@ -176,26 +176,26 @@ strategys_parametry_rus = {
     'one':['Верх канала','Низ канала','Угол тренда лонг','Угол тренда шорт'],
     'MA':['Коэф. быстрой скольз. средней','Коэф. медленной скольз. средней','Кол-во совпадений в прошлом','Прижатие к верху коридора','Прижатие к низу коридора'],
     'BBANDS':['Отклонение для установки верхней полосы','Временной промежуток','Отклонение для установки нижней полосы','Тип движущейся средней'],
-    'EMA':['Временной промежуток'],
-    'DEMA':['Временной промежуток'],
-    'KAMA':['Временной промежуток'],
-    'MAVP':['Минимальный период','Максимальный период','Тип скользящей средней'],
-    'SAR':['Ускорение','Максимум'],
-    'TEMA':['Временной промежуток'],
-    'TRIMA':['Временной промежуток'],
-    'WMA':['Временной промежуток'],
-    'CDL2CROWS':['Временной промежуток','Временной промежуток'],
-    'CDL3BLACKCROWS':['Временной промежуток','Временной промежуток'],
+    'EMA':['Временной промежуток'],                   # ноль показывают
+    'DEMA':['Временной промежуток'],                  # ноль показывают
+    'KAMA':['Временной промежуток'],                  # ноль показывают
+    'MAVP':['Минимальный период','Максимальный период','Тип скользящей средней'],                 # ноль показывают
+    'SAR':['Ускорение','Максимум'],                   # ноль показывают
+    'TEMA':['Временной промежуток'],                  # ноль показывают
+    'TRIMA':['Временной промежуток'],                 # ноль показывают
+    'WMA':['Временной промежуток'],                   # ноль показывают
+    'CDL2CROWS':['Временной промежуток','Временной промежуток'],                  # ноль показывают
+    'CDL3BLACKCROWS':['Временной промежуток','Временной промежуток'],                 # ноль показывают
     'CDL3INSIDE':['Временной промежуток','Временной промежуток'],
     'CDL3LINESTRIKE':['Временной промежуток','Временной промежуток'],
     'CDL3OUTSIDE':['Временной промежуток','Временной промежуток'],
-    'CDL3STARSINSOUTH':['Временной промежуток','Временной промежуток'],
-    'CDL3WHITESOLDIERS':['Временной промежуток','Временной промежуток'],
-    'CDLABANDONEDBABY':['Процент проникновения одной свечи внутри другой свечи','Процент сигнала в лонг','Процент сигнала в шорт'],
+    'CDL3STARSINSOUTH':['Временной промежуток','Временной промежуток'],                   # ноль показывают
+    'CDL3WHITESOLDIERS':['Временной промежуток','Временной промежуток'],                  # ноль показывают
+    'CDLABANDONEDBABY':['Процент проникновения одной свечи внутри другой свечи','Процент сигнала в лонг','Процент сигнала в шорт'],                   # ноль показывают
     'CDLADVANCEBLOCK':['Процент сигнала в лонг','Процент сигнала в шорт'],
     'CDLBELTHOLD':['Процент сигнала в лонг','Процент сигнала в шорт'],
     'CDLCLOSINGMARUBOZU':['Процент сигнала в лонг','Процент сигнала в шорт'],
-    'CDLCOUNTERATTACK':['Процент сигнала в лонг','Процент сигнала в шорт'],
+    'CDLCOUNTERATTACK':['Процент сигнала в лонг','Процент сигнала в шорт'],                   # ноль показывают
     'CDLDARKCLOUDCOVER':['Процент проникновения одной свечи внутри другой свечи','Процент сигнала в лонг','Процент сигнала в шорт'],
     'CDLENGULFING':['Процент сигнала в лонг','Процент сигнала в шорт'],
     'CDLEVENINGDOJISTAR':['Процент проникновения одной свечи внутри другой свечи','Процент сигнала в лонг','Процент сигнала в шорт'],
@@ -204,42 +204,42 @@ strategys_parametry_rus = {
     'CDLHANGINGMAN':['Процент сигнала в лонг','Процент сигнала в шорт'],
     'CDLHARAMI':['Процент сигнала в лонг','Процент сигнала в шорт'],
     'CDLHARAMICROSS':['Процент сигнала в лонг','Процент сигнала в шорт'],
-    'CDLHOMINGPIGEON':['Процент сигнала в лонг','Процент сигнала в шорт'],
+    'CDLHOMINGPIGEON':['Процент сигнала в лонг','Процент сигнала в шорт'],                    # ноль показывают
     'CDLINVERTEDHAMMER':['Процент сигнала в лонг','Процент сигнала в шорт'],
-    'CDLLADDERBOTTOM':['Процент сигнала в лонг','Процент сигнала в шорт'],
+    'CDLLADDERBOTTOM':['Процент сигнала в лонг','Процент сигнала в шорт'],                    # ноль показывают
     'CDLLONGLEGGEDDOJI':['Процент сигнала в лонг','Процент сигнала в шорт'],
     'CDLMATCHINGLOW':['Процент сигнала в лонг','Процент сигнала в шорт'],
     'CDLMORNINGSTAR':['Процент проникновения одной свечи внутри другой свечи','Процент сигнала в лонг','Процент сигнала в шорт'],
     'CDLRICKSHAWMAN':['Процент сигнала в лонг','Процент сигнала в шорт'],
     'CDLSPINNINGTOP':['Процент сигнала в лонг','Процент сигнала в шорт'],
-    'CDLTASUKIGAP':['Процент сигнала в лонг','Процент сигнала в шорт'],
+    'CDLTASUKIGAP':['Процент сигнала в лонг','Процент сигнала в шорт'],                   # ноль показывают
 }
 
 strategys_parametry_for_section = {
     'one':['up_chanal','down_chanal','corner_long','corner_short'],
     'MA':['koef_bistro','koef_medleno','sovpad_last','up_chanal','down_chanal'],
     'BBANDS':['timeperiod','nbdevup','nbdevdn','matype'],
-    'EMA':['timeperiod'],
-    'DEMA':['timeperiod'],
-    'KAMA':['timeperiod'],
-    'MAVP':['minperiod','maxperiod','matype'],
-    'SAR':['acceleration','maximum'],
-    'TEMA':['timeperiod'],
-    'TRIMA':['timeperiod'],
-    'WMA':['timeperiod'],
-    'CDL2CROWS':['long','short'],
-    'CDL3BLACKCROWS':['long','short'],
+    'EMA':['timeperiod'],                 # ноль показывают
+    'DEMA':['timeperiod'],                    # ноль показывают
+    'KAMA':['timeperiod'],                    # ноль показывают
+    'MAVP':['minperiod','maxperiod','matype'],                    # ноль показывают
+    'SAR':['acceleration','maximum'],                 # ноль показывают
+    'TEMA':['timeperiod'],                    # ноль показывают
+    'TRIMA':['timeperiod'],                   # ноль показывают
+    'WMA':['timeperiod'],                 # ноль показывают
+    'CDL2CROWS':['long','short'],                 # ноль показывают
+    'CDL3BLACKCROWS':['long','short'],                    # ноль показывают
     'CDL3INSIDE':['long','short'],
     'CDL3LINESTRIKE':['long','short'],
     'CDL3OUTSIDE':['long','short'],
-    'CDL3STARSINSOUTH':['long','short'],
-    'CDL3WHITESOLDIERS':['long','short'],
-    'CDLABANDONEDBABY':['penetration','long','short'],
+    'CDL3STARSINSOUTH':['long','short'],                  # ноль показывают
+    'CDL3WHITESOLDIERS':['long','short'],                 # ноль показывают
+    'CDLABANDONEDBABY':['penetration','long','short'],                    # ноль показывают
     'CDLADVANCEBLOCK':['long','short'],
     'CDLBELTHOLD':['long','short'],
     'CDLCLOSINGMARUBOZU':['long','short'],
-    'CDLCOUNTERATTACK':['long','short'],
-    'CDLDARKCLOUDCOVER':['penetration','long','short'],
+    'CDLCOUNTERATTACK':['long','short'],                  # ноль показывают
+    'CDLDARKCLOUDCOVER':['penetration','long','short'],                   # ноль показывают
     'CDLENGULFING':['long','short'],
     'CDLEVENINGDOJISTAR':['penetration','long','short'],
     'CDLGRAVESTONEDOJI':['long','short'],
@@ -247,15 +247,15 @@ strategys_parametry_for_section = {
     'CDLHANGINGMAN':['long','short'],
     'CDLHARAMI':['long','short'],
     'CDLHARAMICROSS':['long','short'],
-    'CDLHOMINGPIGEON':['long','short'],
+    'CDLHOMINGPIGEON':['long','short'],                   # ноль показывают
     'CDLINVERTEDHAMMER':['long','short'],
-    'CDLLADDERBOTTOM':['long','short'],
+    'CDLLADDERBOTTOM':['long','short'],                   # ноль показывают
     'CDLLONGLEGGEDDOJI':['long','short'],
     'CDLMATCHINGLOW':['long','short'],
     'CDLMORNINGSTAR':['penetration','long','short'],
     'CDLRICKSHAWMAN':['long','short'],
     'CDLSPINNINGTOP':['long','short'],
-    'CDLTASUKIGAP':['long','short'],
+    'CDLTASUKIGAP':['long','short'],                  # ноль показывают
 }
 
 

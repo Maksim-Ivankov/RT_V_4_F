@@ -22,10 +22,13 @@ class Print_graph(ft.UserControl):
 
         # вытаскиваем датафрейм слежения
         path_df_see = self.set['path_df'].split('\\')
-        if self.regime_trade_page == 'historical':
-            path_df_see[-3] = 'see'
-        if self.regime_trade_page == 'svoboda':
-            path_df_see[-2] = 'see'
+        if path_df_see[-3] == 'work': path_df_see[-3] = 'see'
+        if path_df_see[-2] == 'work': path_df_see[-2] = 'see'
+        
+        # if self.regime_trade_page == 'historical':
+        #     path_df_see[-3] = 'see'
+        # if self.regime_trade_page == 'svoboda':
+        #     path_df_see[-2] = 'see'
         self.df_see = pd.read_csv('\\'.join(path_df_see))
 
         # определяем индекс входа и выхода

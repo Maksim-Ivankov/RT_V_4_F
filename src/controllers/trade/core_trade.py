@@ -40,6 +40,7 @@ class Core_trade():
             self.path_save_log = f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\log_trade.txt' # путь сохранения логов в папке трейда
             self.path_save_trade_log = f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\trade.txt' # путь сохранения логов в папке трейда
             self.DEPOSIT_GLOBAL = self.var.DEPOSIT
+            self.deposit_start_day = self.var.DEPOSIT
             # print(f"==>> self.DEPOSIT_GLOBAL: {self.DEPOSIT_GLOBAL}")
             self.trend_mas = []
 
@@ -279,6 +280,8 @@ class Core_trade():
             P1_var = -100
             P2_var = -100
             if self.regime == 'Историческая торговля|Историческая торговля':
+                self.deposit_start_day = self.DEPOSIT_GLOBAL
+                # print(f"{number_trade} ==>> self.deposit_start_day: {self.deposit_start_day}")
                 time_on_work_this = self.var.time_on_work
                 time_off_work = self.var.time_off_work
             elif self.regime == 'Историческая торговля|Свободный фрейм|Сет настроек':
@@ -468,7 +471,7 @@ class Core_trade():
             if self.regime == 'Историческая торговля|Свободный фрейм|Сет настроек':
                 self.print_file_log(f'{self.trade_param['trend']}|{self.var.data_set[str(self.number_trade_now)]['depo']}|{self.DEPOSIT_GLOBAL}|{round(self.profit,2)}|{round(self.comission,2)}|{round(self.local_profit,2)}|{self.trade_param['coin']}|{self.trade_param['take_profit_price']}|{self.trade_param['stop_loss_price']}|{self.trade_param['price_treyd']}|{self.trade_param['open_time_trade']}|{self.trade_param['close_time_trade']}|{self.trade_param['path_df']}|{self.trade_param['index_entry']}|{self.trade_param['index_exit']}\n',self.path_save_trade_log)
             elif self.regime == 'Историческая торговля|Историческая торговля':
-                self.print_file_log(f'{self.trade_param['trend']}|{self.var.DEPOSIT}|{self.DEPOSIT_GLOBAL}|{round(self.profit,2)}|{round(self.comission,2)}|{round(self.local_profit,2)}|{self.trade_param['coin']}|{self.trade_param['take_profit_price']}|{self.trade_param['stop_loss_price']}|{self.trade_param['price_treyd']}|{self.trade_param['open_time_trade']}|{self.trade_param['close_time_trade']}|{self.trade_param['path_df']}|{self.trade_param['index_entry']}|{self.trade_param['index_exit']}\n',self.path_save_trade_log)
+                self.print_file_log(f'{self.trade_param['trend']}|{self.deposit_start_day}|{self.DEPOSIT_GLOBAL}|{round(self.profit,2)}|{round(self.comission,2)}|{round(self.local_profit,2)}|{self.trade_param['coin']}|{self.trade_param['take_profit_price']}|{self.trade_param['stop_loss_price']}|{self.trade_param['price_treyd']}|{self.trade_param['open_time_trade']}|{self.trade_param['close_time_trade']}|{self.trade_param['path_df']}|{self.trade_param['index_entry']}|{self.trade_param['index_exit']}\n',self.path_save_trade_log)
             if self.profit>0: 
                 # self.add_trade_table({'result':'+','data':f'{self.trade_param['coin']}| {self.trade_param['trend']} | Депозит: {round(self.DEPOSIT_GLOBAL,2)} | Профит: {round(self.local_profit,2)}'})
                 self.logger_and_progress_bar(int(self.trade_param['index_trade'])/self.var.VOLUME,{

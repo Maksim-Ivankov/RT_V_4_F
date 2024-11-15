@@ -156,10 +156,21 @@ class Add_to_favorites_page(ft.UserControl):
 
     def save_to_favorites(self,e):
         self.flag_dublicate = 0
+        mas_count_favorites = os.listdir(path_favorites)
+        mas_count_favorites = [int(item) for item in mas_count_favorites]
+        # print(f"==>> mas_count_favorites: {mas_count_favorites}")
+        # print(sorted(mas_count_favorites))
+        mas_count_favorites = sorted(mas_count_favorites)
         if len(os.listdir(path_favorites)) == 0:
             self.path_folder_favorites = f'{path_favorites}\\1'
         else:
-            self.path_folder_favorites = f'{path_favorites}\\{int(os.listdir(path_favorites)[-1])+1}'
+            self.path_folder_favorites = f'{path_favorites}\\{int(mas_count_favorites[-1])+1}'
+            # print(os.listdir(path_favorites))
+            # print(os.listdir(path_favorites).sort())
+            # print(int(os.listdir(path_favorites)[-1]))
+            # print(f'{path_favorites}\\{int(os.listdir(path_favorites)[-1])+1}')
+            # print(f"==>> self.path_folder_favorites: {self.path_folder_favorites}")
+            # print('1111')
         if len(self.folder_trade) == 1: # если в массиве одно число, значит торговля на одной настройке
             # блок поиска дубликатов тсратегий
             #--------------------------------

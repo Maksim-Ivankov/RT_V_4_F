@@ -220,15 +220,18 @@ class Isbrannoe_page(ft.UserControl):
 # use_last_sost
 # use_last_number
 # number_trade
-# + там же сохранить настройки стратегии
+# + там же сохранить настройки стратегии1
 
     def build(self):
         
+        mas_count_favorites = os.listdir(path_favorites)
+        mas_count_favorites = [int(item) for item in mas_count_favorites]
+        mas_count_favorites = sorted(mas_count_favorites)
         
         if len(os.listdir(path_favorites))==0:
             data_print_favorites = ft.Container(ft.Text('Добавьте избранные стратегии для отображения',text_align='center'),padding=ft.padding.only(top=220),width=850)
         else:
-            for i in os.listdir(path_favorites): # итерируемся по папкам с сохранененными стратегиями
+            for i in mas_count_favorites: # итерируемся по папкам с сохранененными стратегиями
                 if os.path.isfile(f'{path_favorites}\\{i}\\property.txt'):
                     with open(f'{path_favorites}\\{i}\\property.txt') as file: # открываем настройки стратегии, которую хотим сохранить
                         array_data_1 = [row.strip() for row in file]

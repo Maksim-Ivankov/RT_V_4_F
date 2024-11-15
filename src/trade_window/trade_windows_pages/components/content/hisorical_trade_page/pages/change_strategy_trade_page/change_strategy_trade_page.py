@@ -2,7 +2,7 @@
 import flet as ft
 from variable import *
 from imports import *
-#12
+#121
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_strategy_trade_page.UI.component_info_strat import Component_info_strat
 from src.trade_window.trade_windows_pages.components.content.hisorical_trade_page.pages.change_strategy_trade_page.UI.print_info_strategy_component import Print_info_strategy_component
 from src.trade_window.trade_windows_pages.components.content.controllers.save_config import Save_config
@@ -23,26 +23,26 @@ class Change_strategy_trade_page(ft.UserControl):
         self.ref_one = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_MA = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_BBANDS = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_DEMA = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_EMA = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_KAMA = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_MAVP = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_SAR = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_TEMA = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_TRIMA = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_WMA = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDL2CROWS = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDL3BLACKCROWS = ft.Ref[ft.CupertinoCheckbox]()
+        self.ref_DEMA = ft.Ref[ft.CupertinoCheckbox]()            # даёт ноль
+        self.ref_EMA = ft.Ref[ft.CupertinoCheckbox]()         # даёт ноль
+        self.ref_KAMA = ft.Ref[ft.CupertinoCheckbox]()            # даёт ноль
+        self.ref_MAVP = ft.Ref[ft.CupertinoCheckbox]()            # даёт ноль
+        self.ref_SAR = ft.Ref[ft.CupertinoCheckbox]()         # даёт ноль
+        self.ref_TEMA = ft.Ref[ft.CupertinoCheckbox]()            # даёт ноль
+        self.ref_TRIMA = ft.Ref[ft.CupertinoCheckbox]()           # даёт ноль
+        self.ref_WMA = ft.Ref[ft.CupertinoCheckbox]()         # даёт ноль
+        self.ref_CDL2CROWS = ft.Ref[ft.CupertinoCheckbox]()           # даёт ноль
+        self.ref_CDL3BLACKCROWS = ft.Ref[ft.CupertinoCheckbox]()          # даёт ноль
         self.ref_CDL3INSIDE = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDL3LINESTRIKE = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDL3OUTSIDE = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDL3STARSINSOUTH = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDL3WHITESOLDIERS = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLABANDONEDBABY = ft.Ref[ft.CupertinoCheckbox]()
+        self.ref_CDL3STARSINSOUTH = ft.Ref[ft.CupertinoCheckbox]()            # даёт ноль
+        self.ref_CDL3WHITESOLDIERS = ft.Ref[ft.CupertinoCheckbox]()           # даёт ноль
+        self.ref_CDLABANDONEDBABY = ft.Ref[ft.CupertinoCheckbox]()            # даёт ноль
         self.ref_CDLADVANCEBLOCK = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLBELTHOLD = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLCLOSINGMARUBOZU = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLCOUNTERATTACK = ft.Ref[ft.CupertinoCheckbox]()
+        self.ref_CDLCOUNTERATTACK = ft.Ref[ft.CupertinoCheckbox]()            # даёт ноль
         self.ref_CDLDARKCLOUDCOVER = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLENGULFING = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLEVENINGDOJISTAR = ft.Ref[ft.CupertinoCheckbox]()
@@ -51,39 +51,39 @@ class Change_strategy_trade_page(ft.UserControl):
         self.ref_CDLHANGINGMAN = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLHARAMI = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLHARAMICROSS = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLHOMINGPIGEON = ft.Ref[ft.CupertinoCheckbox]()
+        self.ref_CDLHOMINGPIGEON = ft.Ref[ft.CupertinoCheckbox]()         # даёт ноль
         self.ref_CDLINVERTEDHAMMER = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLLADDERBOTTOM = ft.Ref[ft.CupertinoCheckbox]()
+        self.ref_CDLLADDERBOTTOM = ft.Ref[ft.CupertinoCheckbox]()         # даёт ноль
         self.ref_CDLLONGLEGGEDDOJI = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLMATCHINGLOW = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLMORNINGSTAR = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLRICKSHAWMAN = ft.Ref[ft.CupertinoCheckbox]()
         self.ref_CDLSPINNINGTOP = ft.Ref[ft.CupertinoCheckbox]()
-        self.ref_CDLTASUKIGAP = ft.Ref[ft.CupertinoCheckbox]()
+        self.ref_CDLTASUKIGAP = ft.Ref[ft.CupertinoCheckbox]()            # даёт ноль
         self.refs_this = {
             'one':self.ref_one,
             'MA':self.ref_MA,
             'BBANDS':self.ref_BBANDS,
-            'EMA':self.ref_EMA,
-            'DEMA':self.ref_DEMA,
-            'KAMA':self.ref_KAMA,
-            'MAVP':self.ref_MAVP,
-            'SAR':self.ref_SAR,
-            'TEMA':self.ref_TEMA,
-            'TRIMA':self.ref_TRIMA,
-            'WMA':self.ref_WMA,
-            'CDL2CROWS':self.ref_CDL2CROWS,
-            'CDL3BLACKCROWS':self.ref_CDL3BLACKCROWS,
+            'EMA':self.ref_EMA,           # даёт ноль
+            'DEMA':self.ref_DEMA,         # даёт ноль
+            'KAMA':self.ref_KAMA,         # даёт ноль
+            'MAVP':self.ref_MAVP,         # даёт ноль
+            'SAR':self.ref_SAR,           # даёт ноль
+            'TEMA':self.ref_TEMA,         # даёт ноль
+            'TRIMA':self.ref_TRIMA,           # даёт ноль
+            'WMA':self.ref_WMA,           # даёт ноль
+            'CDL2CROWS':self.ref_CDL2CROWS,           # даёт ноль
+            'CDL3BLACKCROWS':self.ref_CDL3BLACKCROWS,         # даёт ноль
             'CDL3INSIDE':self.ref_CDL3INSIDE,
             'CDL3LINESTRIKE':self.ref_CDL3LINESTRIKE,
             'CDL3OUTSIDE':self.ref_CDL3OUTSIDE,
-            'CDL3STARSINSOUTH':self.ref_CDL3STARSINSOUTH,
-            'CDL3WHITESOLDIERS':self.ref_CDL3WHITESOLDIERS,
-            'CDLABANDONEDBABY':self.ref_CDLABANDONEDBABY,
+            'CDL3STARSINSOUTH':self.ref_CDL3STARSINSOUTH,         # даёт ноль
+            'CDL3WHITESOLDIERS':self.ref_CDL3WHITESOLDIERS,           # даёт ноль
+            'CDLABANDONEDBABY':self.ref_CDLABANDONEDBABY,         # даёт ноль
             'CDLADVANCEBLOCK':self.ref_CDLADVANCEBLOCK,
             'CDLBELTHOLD':self.ref_CDLBELTHOLD,
             'CDLCLOSINGMARUBOZU':self.ref_CDLCLOSINGMARUBOZU,
-            'CDLCOUNTERATTACK':self.ref_CDLCOUNTERATTACK,
+            'CDLCOUNTERATTACK':self.ref_CDLCOUNTERATTACK,         # даёт ноль
             'CDLDARKCLOUDCOVER':self.ref_CDLDARKCLOUDCOVER,
             'CDLENGULFING':self.ref_CDLENGULFING,
             'CDLEVENINGDOJISTAR':self.ref_CDLEVENINGDOJISTAR,
@@ -92,15 +92,15 @@ class Change_strategy_trade_page(ft.UserControl):
             'CDLHANGINGMAN':self.ref_CDLHANGINGMAN,
             'CDLHARAMI':self.ref_CDLHARAMI,
             'CDLHARAMICROSS':self.ref_CDLHARAMICROSS,
-            'CDLHOMINGPIGEON':self.ref_CDLHOMINGPIGEON,
+            'CDLHOMINGPIGEON':self.ref_CDLHOMINGPIGEON,           # даёт ноль
             'CDLINVERTEDHAMMER':self.ref_CDLINVERTEDHAMMER,
-            'CDLLADDERBOTTOM':self.ref_CDLLADDERBOTTOM,
+            'CDLLADDERBOTTOM':self.ref_CDLLADDERBOTTOM,           # даёт ноль
             'CDLLONGLEGGEDDOJI':self.ref_CDLLONGLEGGEDDOJI,
             'CDLMATCHINGLOW':self.ref_CDLMATCHINGLOW,
             'CDLMORNINGSTAR':self.ref_CDLMORNINGSTAR,
             'CDLRICKSHAWMAN':self.ref_CDLRICKSHAWMAN,
             'CDLSPINNINGTOP':self.ref_CDLSPINNINGTOP,
-            'CDLTASUKIGAP':self.ref_CDLTASUKIGAP,
+            'CDLTASUKIGAP':self.ref_CDLTASUKIGAP,         # даёт ноль
         }
         self.print_info_strategy_component = Print_info_strategy_component()
 

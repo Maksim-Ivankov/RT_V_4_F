@@ -27,6 +27,7 @@ class Trade_page(ft.UserControl):#1
         self.count_trade_now = 0
         self.our_frame = []
         self.data_class = data
+        # print(f"==>> self.data_class: {self.data_class}")
         self.stop_trade = False
         config = configparser.ConfigParser()         
         config.read(path_imports_config)
@@ -50,7 +51,9 @@ class Trade_page(ft.UserControl):#1
 
     # КЛИК ПО КНОПКЕ - НАЧАЛО ТОРГОВЛИ
     def start_trade(self,e):
+        # если торгуем из аздела свободы
         if self.regime_trade_page == 'svoboda':
+            # торгуем на одной настрйойке
             if self.regime=='one_set':
                 regime = 'Историческая торговля|Свободный фрейм|Ода настройка'
                 config = configparser.ConfigParser()  
@@ -79,7 +82,7 @@ class Trade_page(ft.UserControl):#1
                             os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}', 'trade.txt'),
                             os.path.join(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade\\{len(os.listdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade'))}') # путь сохранения 
                         )
-
+            # торгуем на сете
             elif self.regime=='much_set':
                 self.table_result = Table_result(self.reptint_table_result,self.print_page_one_trade_oura_set)
                 # получаем кол-во настроек в сете
@@ -175,6 +178,20 @@ class Trade_page(ft.UserControl):#1
                     self.content.scroll_to(key=str(number_trade), duration=1000)
                     self.myThread = threading.Thread(target=core_trade_ob.start_trade(self.change_pb,self.add_logi_table,self.add_trade_table,self.print_trade_end,number_trade), args=(), daemon=True)
                     self.myThread.start()
+                    # если торгуем избранной стратегией
+                    if self.data_class!='':
+                        # копируем данные трейда
+                        os.mkdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade\\{len(os.listdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade'))+1}')
+                        shutil.copy(
+                            os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\folder_trade\\{number_trade}', 'log_trade.txt'),
+                            os.path.join(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade\\{len(os.listdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade'))}') # путь сохранения 
+                        )
+                        if os.path.isfile(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\folder_trade\\{number_trade}\\trade.txt'):
+                            print('ДАААА')
+                            shutil.copy(
+                                os.path.join(f'{path_save_trade}\\{len(os.listdir(path_save_trade))}\\folder_trade\\{number_trade}', 'trade.txt'),
+                                os.path.join(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade\\{len(os.listdir(f'{path_favorites}\\{self.data_class['number_favorite']}\\folder_trade'))}') # путь сохранения 
+                            )
                 else:
                     # self.regime=='much_set'
                     # self.change_pb(self,1)
