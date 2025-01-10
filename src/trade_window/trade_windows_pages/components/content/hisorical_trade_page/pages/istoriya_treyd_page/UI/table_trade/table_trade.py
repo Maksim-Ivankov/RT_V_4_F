@@ -100,185 +100,186 @@ class Table_trade(ft.UserControl):
             # вытаскиваем название стратегии
             folder_strat = os.listdir(f'{path_save_trade}\\{i}')
             # print(f"==>> {path_save_trade}\\{i}: {folder_strat}")
-            if os.path.isfile(f'{path_save_trade}\\{i}\\settings_our.txt'):
-                with open(f'{path_save_trade}\\{i}\\settings_our.txt') as file:
-                    self.array_for_his_qestion = [row.strip() for row in file] # сюда сохраняем, что в ней лежит 
-            if self.array_for_his_qestion[0].split('&')[26] == 'historical':
-                strategy_trade = 'Историческая'
-            else:
-                for file in folder_strat:
-                    # print(file)
-                    if file!='log_trade.txt' and file!='settings_our.txt' and file!='trade.txt':
-                        strat_mas.append(file.rstrip('.txt'))
-                    if file == 'folder_trade':
-                        strategy_trade = 'Сет настроек'
-                if strategy_trade == '':
-                    # print(f'{i} - одна настройка')
-                    if len(strat_mas) == 1: strategy_trade = self.strategys[strat_mas[0]]
-                    else: strategy_trade = 'Несколько'
-            # print(strategy_trade)
-
-            # добываем монеты
-            path_settings = f'{path_save_trade}\\{i}\\settings_our.txt'
-            if os.path.isfile(path_settings):
-                with open(path_settings) as file:
-                    self.array_data_row = [row.strip() for row in file]
-                    count_coin = len(self.array_data_row[0].split('&')[5].split('|'))
-
-            self.path_save_trade_log = f'{path_save_trade}\\{i}\\trade.txt' # по очереди проходимся по каждой папке
-            if strategy_trade != 'Сет настроек' and strategy_trade != 'Историческая':
-                if os.path.isfile(self.path_save_trade_log):
-                    with open(self.path_save_trade_log) as file:
-                        self.array_data_row = [row.strip() for row in file] # сюда сохраняем, что в ней лежит
-                        # long|100|86.0|-14.0|6.0|-8.0|RIFUSDT|0.08438508|0.08288712000000001|0.08322|1727936100000|1727936700000|C:\Users\МИН\AppData\Roaming\RoboTrade\svoboda_freym\23\work\RIFUSDT.csv|42|43
-                        count_trade_plus = 0
-                        count_trade_minus = 0
-                        money_trade_plus = 0
-                        money_trade_minus = 0
-                        comission = 0
-
-                        for data in self.array_data_row:
-                            result_trade = float(data.split('|')[2])
-                            depo_trade = float(data.split('|')[1])
-                            if float(data.split('|')[3])>0:
-                                count_trade_plus+=1
-                                money_trade_plus+=float(data.split('|')[5])
-                            else: 
-                                count_trade_minus+=1
-                                money_trade_minus+=float(data.split('|')[5])
-                            comission+=float(data.split('|')[4])
-                        count_trade = len(self.array_data_row)
-
-                        self.mas_trade.append(
-                            ft.Container(
-                                ft.Row(controls=[self.palka_table,
-                                    ft.Container(ft.Text(i,text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                    ft.Container(ft.Text('Дата',text_align='CENTER',color=c_white),width=50,),self.palka_table,
-                                    ft.Container(ft.Text(f'{round(result_trade,2)}$  {round(((result_trade-depo_trade)/depo_trade)*100,2)}%',text_align='CENTER',color=c_white),width=160,),self.palka_table,
-                                    ft.Container(ft.Text(count_trade,text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                                    ft.Container(ft.Text(f'{count_trade_plus}',text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                    ft.Container(ft.Text(f'{round(money_trade_plus,2)}$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
-                                    ft.Container(ft.Text(f'{count_trade_minus}',text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                    ft.Container(ft.Text(f'{round(money_trade_minus,2)}$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
-                                    ft.Container(ft.Text(f'{round(comission,2)}$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
-                                    ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
-                                    ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                                ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade,
-                                # margin=ft.margin.only(top=-10,bottom=-10)
-                            )
-                        )
-                        # self.mas_trade.append(self.palka_horizont_table)
+            if os.path.isfile(f'{path_save_trade}\\{i}\\settings_our.txt') and os.path.isfile(f'{path_save_trade}\\{i}\\trade.txt') and os.path.isfile(f'{path_save_trade}\\{i}\\log_trade.txt'):
+                if os.path.isfile(f'{path_save_trade}\\{i}\\settings_our.txt'):
+                    with open(f'{path_save_trade}\\{i}\\settings_our.txt') as file:
+                        self.array_for_his_qestion = [row.strip() for row in file] # сюда сохраняем, что в ней лежит 
+                if self.array_for_his_qestion[0].split('&')[26] == 'historical':
+                    strategy_trade = 'Историческая'
                 else:
-                    self.mas_trade.append(
-                            ft.Container(
-                                ft.Row(controls=[self.palka_table,
-                                    ft.Container(ft.Text(i,text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                    ft.Container(ft.Text('Дата',text_align='CENTER',color=c_white),width=50,),self.palka_table,
-                                    ft.Container(ft.Text(f'0$  0%',text_align='CENTER',color=c_white),width=160,),self.palka_table,
-                                    ft.Container(ft.Text('0',text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                                    ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                    ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
-                                    ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                    ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
-                                    ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
-                                    ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
-                                    ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                                ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade
-                                # margin=ft.margin.only(top=-10,bottom=-10)
-                            )
-                        )
-            if strategy_trade == 'Сет настроек' or strategy_trade == 'Историческая':
-                if os.path.exists(f'{path_save_trade}\\{i}\\folder_trade'):
-                    folder_strat = os.listdir(f'{path_save_trade}\\{i}\\folder_trade')
-                    for file_trade in folder_strat:
-                        self.path_trade_set = f'{path_save_trade}\\{i}\\folder_trade\\{file_trade}\\trade.txt' # по очереди проходимся по каждой папке
-                        if os.path.isfile(self.path_trade_set):
-                            with open(self.path_trade_set) as file:
-                                self.array_data_row_set = [row.strip() for row in file] # сюда сохраняем, что в ней лежит
-                                mas_max_trade[file_trade] = float(self.array_data_row_set[-1].split('|')[2])
-                        else:
-                            mas_max_trade[file_trade] = 0
-                    if len(mas_max_trade)!=0:
-                        # max_index, max_value = max(enumerate(mas_max_trade), key=lambda pair: pair[1])
-                        max_index = int((max(mas_max_trade, key=(mas_max_trade.get))))
-                        self.path_trade_set = f'{path_save_trade}\\{i}\\folder_trade\\{max_index}\\trade.txt' # по очереди проходимся по каждой папке
-                        if os.path.isfile(self.path_trade_set):
-                            with open(self.path_trade_set) as file:
-                                self.array_data_row = [row.strip() for row in file] # сюда сохраняем, что в ней лежит
-                                count_trade_plus = 0
-                                count_trade_minus = 0
-                                money_trade_plus = 0
-                                money_trade_minus = 0
-                                comission = 0
+                    for file in folder_strat:
+                        # print(file)
+                        if file!='log_trade.txt' and file!='settings_our.txt' and file!='trade.txt':
+                            strat_mas.append(file.rstrip('.txt'))
+                        if file == 'folder_trade':
+                            strategy_trade = 'Сет настроек'
+                    if strategy_trade == '':
+                        # print(f'{i} - одна настройка')
+                        if len(strat_mas) == 1: strategy_trade = self.strategys[strat_mas[0]]
+                        else: strategy_trade = 'Несколько'
+                # print(strategy_trade)
 
-                                for data in self.array_data_row:
-                                    result_trade = float(data.split('|')[2])
-                                    depo_trade = float(data.split('|')[1])
-                                    if float(data.split('|')[3])>0:
-                                        count_trade_plus+=1
-                                        money_trade_plus+=float(data.split('|')[5])
-                                    else: 
-                                        count_trade_minus+=1
-                                        money_trade_minus+=float(data.split('|')[5])
-                                    comission+=float(data.split('|')[4])
-                                count_trade = len(self.array_data_row)
+                # добываем монеты
+                path_settings = f'{path_save_trade}\\{i}\\settings_our.txt'
+                if os.path.isfile(path_settings):
+                    with open(path_settings) as file:
+                        self.array_data_row = [row.strip() for row in file]
+                        count_coin = len(self.array_data_row[0].split('&')[5].split('|'))
 
-                                self.mas_trade.append(
-                                    ft.Container(
-                                        ft.Row(controls=[self.palka_table,
-                                            ft.Container(ft.Text(i,text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                            ft.Container(ft.Text('Дата',text_align='CENTER',color=c_white),width=50,),self.palka_table,
-                                            ft.Container(ft.Text(f'{round(result_trade,2)}$  {round(((result_trade-depo_trade)/depo_trade)*100,2)}%',text_align='CENTER',color=c_white),width=160,),self.palka_table,
-                                            ft.Container(ft.Text(count_trade,text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                                            ft.Container(ft.Text(f'{count_trade_plus}',text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                            ft.Container(ft.Text(f'{round(money_trade_plus,2)}$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
-                                            ft.Container(ft.Text(f'{count_trade_minus}',text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                            ft.Container(ft.Text(f'{round(money_trade_minus,2)}$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
-                                            ft.Container(ft.Text(f'{round(comission,2)}$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
-                                            ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
-                                            ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                                        ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade
-                                        # margin=ft.margin.only(top=-10,bottom=-10)
-                                    )
-                                )
-                        else:#1
+                self.path_save_trade_log = f'{path_save_trade}\\{i}\\trade.txt' # по очереди проходимся по каждой папке
+                if strategy_trade != 'Сет настроек' and strategy_trade != 'Историческая':
+                    if os.path.isfile(self.path_save_trade_log):
+                        with open(self.path_save_trade_log) as file:
+                            self.array_data_row = [row.strip() for row in file] # сюда сохраняем, что в ней лежит
+                            # long|100|86.0|-14.0|6.0|-8.0|RIFUSDT|0.08438508|0.08288712000000001|0.08322|1727936100000|1727936700000|C:\Users\МИН\AppData\Roaming\RoboTrade\svoboda_freym\23\work\RIFUSDT.csv|42|43
+                            count_trade_plus = 0
+                            count_trade_minus = 0
+                            money_trade_plus = 0
+                            money_trade_minus = 0
+                            comission = 0
+
+                            for data in self.array_data_row:
+                                result_trade = float(data.split('|')[2])
+                                depo_trade = float(data.split('|')[1])
+                                if float(data.split('|')[3])>0:
+                                    count_trade_plus+=1
+                                    money_trade_plus+=float(data.split('|')[5])
+                                else: 
+                                    count_trade_minus+=1
+                                    money_trade_minus+=float(data.split('|')[5])
+                                comission+=float(data.split('|')[4])
+                            count_trade = len(self.array_data_row)
+
                             self.mas_trade.append(
-                            ft.Container(
-                                ft.Row(controls=[self.palka_table,
-                                    ft.Container(ft.Text(i,text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                    ft.Container(ft.Text('Дата',text_align='CENTER',color=c_white),width=50,),self.palka_table,
-                                    ft.Container(ft.Text(f'0$  0%',text_align='CENTER',color=c_white),width=160,),self.palka_table,
-                                    ft.Container(ft.Text('0',text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                                    ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                    ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
-                                    ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                    ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
-                                    ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
-                                    ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
-                                    ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                                ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade
-                                # margin=ft.margin.only(top=-10,bottom=-10)
+                                ft.Container(
+                                    ft.Row(controls=[self.palka_table,
+                                        ft.Container(ft.Text(i,text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                        ft.Container(ft.Text('Дата',text_align='CENTER',color=c_white),width=50,),self.palka_table,
+                                        ft.Container(ft.Text(f'{round(result_trade,2)}$  {round(((result_trade-depo_trade)/depo_trade)*100,2)}%',text_align='CENTER',color=c_white),width=160,),self.palka_table,
+                                        ft.Container(ft.Text(count_trade,text_align='CENTER',color=c_white),width=56,),self.palka_table,
+                                        ft.Container(ft.Text(f'{count_trade_plus}',text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                        ft.Container(ft.Text(f'{round(money_trade_plus,2)}$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
+                                        ft.Container(ft.Text(f'{count_trade_minus}',text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                        ft.Container(ft.Text(f'{round(money_trade_minus,2)}$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
+                                        ft.Container(ft.Text(f'{round(comission,2)}$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
+                                        ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
+                                        ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
+                                    ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade,
+                                    # margin=ft.margin.only(top=-10,bottom=-10)
+                                )
                             )
-                        )
+                            # self.mas_trade.append(self.palka_horizont_table)
                     else:
                         self.mas_trade.append(
-                            ft.Container(
-                                ft.Row(controls=[self.palka_table,
-                                    ft.Container(ft.Text(i,text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                    ft.Container(ft.Text('Дата',text_align='CENTER',color=c_white),width=50,),self.palka_table,
-                                    ft.Container(ft.Text(f'0$  0%',text_align='CENTER',color=c_white),width=160,),self.palka_table,
-                                    ft.Container(ft.Text('0',text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                                    ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                    ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
-                                    ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
-                                    ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
-                                    ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
-                                    ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
-                                    ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
-                                ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade
-                                # margin=ft.margin.only(top=-10,bottom=-10)
+                                ft.Container(
+                                    ft.Row(controls=[self.palka_table,
+                                        ft.Container(ft.Text(i,text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                        ft.Container(ft.Text('Дата',text_align='CENTER',color=c_white),width=50,),self.palka_table,
+                                        ft.Container(ft.Text(f'0$  0%',text_align='CENTER',color=c_white),width=160,),self.palka_table,
+                                        ft.Container(ft.Text('0',text_align='CENTER',color=c_white),width=56,),self.palka_table,
+                                        ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                        ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
+                                        ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                        ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
+                                        ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
+                                        ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
+                                        ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
+                                    ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade
+                                    # margin=ft.margin.only(top=-10,bottom=-10)
+                                )
                             )
-                        )
+                if strategy_trade == 'Сет настроек' or strategy_trade == 'Историческая':
+                    if os.path.exists(f'{path_save_trade}\\{i}\\folder_trade'):
+                        folder_strat = os.listdir(f'{path_save_trade}\\{i}\\folder_trade')
+                        for file_trade in folder_strat:
+                            self.path_trade_set = f'{path_save_trade}\\{i}\\folder_trade\\{file_trade}\\trade.txt' # по очереди проходимся по каждой папке
+                            if os.path.isfile(self.path_trade_set):
+                                with open(self.path_trade_set) as file:
+                                    self.array_data_row_set = [row.strip() for row in file] # сюда сохраняем, что в ней лежит
+                                    mas_max_trade[file_trade] = float(self.array_data_row_set[-1].split('|')[2])
+                            else:
+                                mas_max_trade[file_trade] = 0
+                        if len(mas_max_trade)!=0:
+                            # max_index, max_value = max(enumerate(mas_max_trade), key=lambda pair: pair[1])
+                            max_index = int((max(mas_max_trade, key=(mas_max_trade.get))))
+                            self.path_trade_set = f'{path_save_trade}\\{i}\\folder_trade\\{max_index}\\trade.txt' # по очереди проходимся по каждой папке
+                            if os.path.isfile(self.path_trade_set):
+                                with open(self.path_trade_set) as file:
+                                    self.array_data_row = [row.strip() for row in file] # сюда сохраняем, что в ней лежит
+                                    count_trade_plus = 0
+                                    count_trade_minus = 0
+                                    money_trade_plus = 0
+                                    money_trade_minus = 0
+                                    comission = 0
+
+                                    for data in self.array_data_row:
+                                        result_trade = float(data.split('|')[2])
+                                        depo_trade = float(data.split('|')[1])
+                                        if float(data.split('|')[3])>0:
+                                            count_trade_plus+=1
+                                            money_trade_plus+=float(data.split('|')[5])
+                                        else: 
+                                            count_trade_minus+=1
+                                            money_trade_minus+=float(data.split('|')[5])
+                                        comission+=float(data.split('|')[4])
+                                    count_trade = len(self.array_data_row)
+
+                                    self.mas_trade.append(
+                                        ft.Container(
+                                            ft.Row(controls=[self.palka_table,
+                                                ft.Container(ft.Text(i,text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                                ft.Container(ft.Text('Дата',text_align='CENTER',color=c_white),width=50,),self.palka_table,
+                                                ft.Container(ft.Text(f'{round(result_trade,2)}$  {round(((result_trade-depo_trade)/depo_trade)*100,2)}%',text_align='CENTER',color=c_white),width=160,),self.palka_table,
+                                                ft.Container(ft.Text(count_trade,text_align='CENTER',color=c_white),width=56,),self.palka_table,
+                                                ft.Container(ft.Text(f'{count_trade_plus}',text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                                ft.Container(ft.Text(f'{round(money_trade_plus,2)}$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
+                                                ft.Container(ft.Text(f'{count_trade_minus}',text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                                ft.Container(ft.Text(f'{round(money_trade_minus,2)}$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
+                                                ft.Container(ft.Text(f'{round(comission,2)}$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
+                                                ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
+                                                ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
+                                            ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade
+                                            # margin=ft.margin.only(top=-10,bottom=-10)
+                                        )
+                                    )
+                            else:#1
+                                self.mas_trade.append(
+                                ft.Container(
+                                    ft.Row(controls=[self.palka_table,
+                                        ft.Container(ft.Text(i,text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                        ft.Container(ft.Text('Дата',text_align='CENTER',color=c_white),width=50,),self.palka_table,
+                                        ft.Container(ft.Text(f'0$  0%',text_align='CENTER',color=c_white),width=160,),self.palka_table,
+                                        ft.Container(ft.Text('0',text_align='CENTER',color=c_white),width=56,),self.palka_table,
+                                        ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                        ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
+                                        ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                        ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
+                                        ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
+                                        ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
+                                        ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
+                                    ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade
+                                    # margin=ft.margin.only(top=-10,bottom=-10)
+                                )
+                            )
+                        else:
+                            self.mas_trade.append(
+                                ft.Container(
+                                    ft.Row(controls=[self.palka_table,
+                                        ft.Container(ft.Text(i,text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                        ft.Container(ft.Text('Дата',text_align='CENTER',color=c_white),width=50,),self.palka_table,
+                                        ft.Container(ft.Text(f'0$  0%',text_align='CENTER',color=c_white),width=160,),self.palka_table,
+                                        ft.Container(ft.Text('0',text_align='CENTER',color=c_white),width=56,),self.palka_table,
+                                        ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                        ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
+                                        ft.Container(ft.Text(f'0',text_align='CENTER',color=c_white),width=36,),self.palka_table,
+                                        ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=60,),self.palka_table,
+                                        ft.Container(ft.Text(f'0$',text_align='CENTER',color=c_white),width=68,),self.palka_table,
+                                        ft.Container(ft.Text(strategy_trade,text_align='CENTER',color=c_white),width=220,),self.palka_table,
+                                        ft.Container(ft.Text(count_coin,text_align='CENTER',color=c_white),width=56,),self.palka_table,
+                                    ],spacing=0,run_spacing=0),on_hover=self.hover_str,bgcolor=c_blue,margin=ft.margin.only(top=-5,bottom=-5),height=20,on_click=self.open_page_trade,data=i,key=strategy_trade
+                                    # margin=ft.margin.only(top=-10,bottom=-10)
+                                )
+                            )
                             
             
         

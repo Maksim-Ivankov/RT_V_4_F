@@ -1,24 +1,25 @@
 import flet as ft
 
 
-def main(page):
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    def handle_date_change(e: ft.ControlEvent):
-        page.add(ft.Text(f"Date changed: {e.control.value.strftime('%Y-%m-%d %H:%M %p')}"))
-    cupertino_date_picker = ft.CupertinoDatePicker(
-        date_picker_mode=ft.CupertinoDatePickerMode.DATE_AND_TIME,
-        on_change=handle_date_change,
-    )
-    page.add(
-        ft.CupertinoFilledButton(
-            "Open CupertinoDatePicker",
-            on_click=lambda e: page.open(
-                ft.CupertinoBottomSheet(
-                    cupertino_date_picker,
-                    height=216,
-                    padding=ft.padding.only(top=6),
-                )
-            ),
-        )
-    )
-ft.app(main)
+
+class Main:
+    def __init__(self):
+        None
+
+    def run(self, page):
+        self.page: ft.Page = page
+        self.page.title = "RoboTrade"
+        self.page.window_height, self.page.window_width = 1000, 400
+        self.page.theme_mode = "dark" 
+        
+        
+        
+        
+        self.page.add(ft.Text('123123'))
+
+
+
+
+if __name__ == '__main__':
+    main = Main()
+    ft.app(target=Main().run, assets_dir="assets")

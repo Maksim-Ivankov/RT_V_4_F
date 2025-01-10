@@ -109,25 +109,27 @@ class HisTrade_Svoboda_OneSettings():
         self.regime_trade_page = config.get('param_trade_historical_trade_svobodniy_freym', 'regime_trade_page')
         if self.regime_trade_page == 'svoboda':
             self.use_last_sost = config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost')
-            if config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost') == 'True':
+            if self.use_last_sost == 'True':
                 self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')) # номер папки с датафеймами в хранилище
                 self.use_last_number = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')) # номер папки с датафеймами в хранилище
                 "номер папки с датафеймами в хранилище"
             else:
                 self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade')) # номер папки с датафеймами в хранилище
                 "номер папки с датафеймами в хранилище"
+                self.use_last_number = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number')) # номер папки с датафеймами в хранилище
         elif self.regime_trade_page == 'historical':
             self.use_last_sost = config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost_historical')
-            if config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_sost_historical') == 'True':
+            if self.use_last_sost == 'True':
                 self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number_historical')) # номер папки с датафеймами в хранилище
                 self.use_last_number = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number_historical')) # номер папки с датафеймами в хранилище
                 "номер папки с датафеймами в хранилище"
             else:
                 self.number_trade = int(config.get('param_trade_historical_trade_svobodniy_freym', 'number_trade_historical')) # номер папки с датафеймами в хранилище
                 "номер папки с датафеймами в хранилище"
+                self.use_last_number = int(config.get('param_trade_historical_trade_svobodniy_freym', 'use_last_number_historical')) # номер папки с датафеймами в хранилище
         
         
-            
+        # print(f'use_last_number = {self.use_last_number}')
         
         # Сохраняем общие настройки в папку с трейдом
         if len(os.listdir(path_save_trade)) == 0:

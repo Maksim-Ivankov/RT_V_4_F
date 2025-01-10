@@ -13,7 +13,7 @@ class Component_table(ft.UserControl):
         self.changed_sorted = 'По изменению' 
         self.mas_result_coin = []
 
-    # получить монеты с биржи
+    # получить монеты с биржи1
     def get_coin(self):
         client = UMFutures(key=key_bin, secret=secret_bin)
         data = client.ticker_24hr_price_change()

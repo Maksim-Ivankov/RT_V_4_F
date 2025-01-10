@@ -111,6 +111,14 @@ class Svoboda_freym_page(ft.UserControl):
     # получить массив монет - топ движения
     def get_mas_coin(self,strat,count):
         # получаем данные из файла
+        
+        # вначале получаем движение монет
+        client = UMFutures(key=key_bin, secret=secret_bin)
+        data = client.ticker_24hr_price_change()
+        with open(path_data_map_coin, 'w', encoding="utf-8") as outfile:
+            json.dump(data, outfile, ensure_ascii=False)
+        # print('Данные лежат')
+        
         with open(path_data_map_coin, encoding='utf-8') as json_file:
             data = json.load(json_file)
         if strat == 'Топ движения':
